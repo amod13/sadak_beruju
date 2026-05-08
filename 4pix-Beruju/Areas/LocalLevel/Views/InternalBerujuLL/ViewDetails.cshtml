@@ -1,0 +1,245 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+@{
+    ViewBag.Title = "ViewDetails";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+<style>
+    .btn-toolbar {
+        display: inline !important;
+    }
+</style>
+<style>
+    .fake_fieldset {
+        border: 2px groove ButtonFace;
+        border-top-width: 0;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: .35em .625em .75em;
+        margin-top: 1em;
+        position: relative;
+    }
+
+    .fake_legend {
+        margin-top: -1em;
+    }
+
+        .fake_legend.test1::before {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 0.5em;
+        }
+
+        .fake_legend.test1::after {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 40%;
+        }
+</style>
+
+
+
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">विवरण</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="clearfix"></div>
+                <hr />
+
+
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        @*<h4 style="color:#0991f3;">
+                                <i class="fa fa-check"></i>
+                                विवरण
+                            </h4>
+                            <br />*@
+                        <a href="@Url.Action("Index","InternalBerujuLL", new { @id=Model.KoshTypeId})" , class="btn btn-sm btn-success">
+                            <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                        </a>
+
+                    </div>
+                    <div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-body">
+                        <div class="fake_fieldset test1">
+                            <div class="fake_legend test1">विवरण:</div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>आर्थिक वर्ष :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</div>
+
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>वजेट उपशिर्षक :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(Model.BudgetSubTitle)</div>
+
+                                <div class="col-lg-2 col-md-3 form-group"><b> खर्च शिर्षक :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(Model.KoshTypeTitleListId)</div>
+                            </div>
+
+
+                            @*@if (Model.OfficeManagerId > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 form-group"><b>कार्यलय प्रमुखको नाम :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.OfficeManagerName</div>
+
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b>कार्य अवधि देखि :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.FromDateStr</div>
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b> कार्य अवधि सम्म :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.ToDateStr</div>
+                                    </div>
+
+                                }*@
+
+
+
+                            @*@if (Model.AccountantId > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 form-group"><b>लेखा प्रमुखको नाम :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AccountantName</div>
+
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b>कार्य अवधि देखि :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AccountantFromDateStr</div>
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b> कार्य अवधि सम्म :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AccountantToDateStr</div>
+                                    </div>
+
+                                }*@
+
+
+
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>गोश्वारा भौचर नम्बर :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.JVNUMBER</div>
+
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>भौचर मिति :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.VoucharDateStr</div>
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>बेरुजु रकम :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.VoucharAmunt</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको संप्क्षित विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Model.BerujuShorDesc</div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको पूर्ण विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Model.BerujuDetails</div>
+
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>बेरूजुको प्रकार :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetBerujuTypeFromId(Model.BerujuTypeId)</div>
+
+
+                                <div class="col-lg-2 col-md-4 form-group"><b>बेरूजुको उपप्रकार:</b></div>
+                                <div class="col-lg-3 col-md-8 form-group">@_4pix_Beruju.Utilities.GetBerujuSubtitleNameFromId(Model.BerujuSubTitleId)</div>
+                               
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 form-group"><b>कोष:</b></div>
+                                <div class="col-lg-2 col-md-4 form-group">@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshTypeId)</div>
+
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>सम्बन्धित :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.ToWhomTypeById(Model.ToWhomID)</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>सम्बन्धितको विवरण :</b></div>
+                                @*<div class="col-lg-3 col-md-9 form-group">@Model.ToWhomName</div>*@
+
+
+                                @*@if (Model.AuditorId > 0)
+                                    {
+                                        <div class="col-lg-3 col-md-3 form-group"><b>लेखा परिक्षण अधिकारिको नाम :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AuditorName</div>
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b>लेखा परिक्षण अधिकारिको पद :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AuditorPost</div>
+
+                                    }*@
+
+
+
+
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <table class="table table-bordered table-responsive-sm">
+
+                                        <thead>
+                                            <tr>
+                                                <th>नाम</th>
+                                                <th>प्यान नं</th>
+                                                <th>मोबाईल नं</th>
+                                                <th>रकम</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model.ToWhomDetailListVMList)
+                                        {
+                                            <tr>
+                                                <td>@item.EmployeeName</td>
+                                                <td>@item.PanNumber</td>
+                                                <td>@item.MobielNumber</td>
+                                                <td>@item.AmountDetail</td>
+
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+

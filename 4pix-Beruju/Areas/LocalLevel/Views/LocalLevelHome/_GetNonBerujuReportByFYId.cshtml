@@ -1,0 +1,41 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+@{
+
+}
+<div id="DetailsReportsID">
+    <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+        <thead>
+            <tr>
+                <th>आर्थिक वर्ष</th>
+                <th>कार्यलयको नाम</th>
+                <th>कार्यलयको कोड</th>
+                <th>जम्मा बेरूजु नभएको</th>
+                <th></th>
+
+
+            </tr>
+        </thead>
+        @foreach (var item in Model.SaidantikCountOfficeWiseViewModelList)
+        {
+
+
+        <tr>
+            <td>@item.FiscalYearTitle</td>
+            <td>@item.OFficeName</td>
+            <td>@item.OfficeCode</td>
+            <td>@item.Total</td>
+            <td>
+                @Html.ActionLink(" ", "ViewNoneBerujuDetailByOfficeId", "LocalLevelHome", new { @id = item.OfficeDetailId, @id1 = Model.FiscalYearId }, new { @class = "edits fa fa-eye" })
+            </td>
+
+        </tr>
+
+        }
+
+
+
+    </table>
+</div>
+

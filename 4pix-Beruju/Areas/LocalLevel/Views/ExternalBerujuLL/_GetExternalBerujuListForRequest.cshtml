@@ -1,0 +1,85 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    int i = 1;
+    decimal? remainingAmount = 0m;
+}
+<style>
+    .btnfixed {
+        width: 90px !important;
+    }
+</style>
+
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-hover table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>वजेट उपशिर्षक</th>
+                <th>बेरूजु दफा नं</th>
+                <th>गो.भैा.न.</th>
+                <th>खर्च शिर्षक</th>
+                <th>बेरूजु रकम</th>
+                <th>फर्छयौट रकम</th>
+                <th>सम्परीक्षण रकम</th>
+                <th>बाँकी रकम</th>
+                <th>सम्परीक्षण अनुरोध</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ExternalBerujuList)
+            {
+                decimal? berujuAmount = Utilities.GetTotalBerujuAmountForRequest(item.ExternalBerujuId);
+                decimal? RequestAmount = Utilities.GetTotalRequestedAmountForRequest(item.ExternalBerujuId, item.FiscalYearId);
+                int alreadyRequest = Utilities.IsAreadySamparikshadRequest(item.ExternalBerujuId);
+
+                //if (alreadyRequest < 1)
+                //{
+
+                decimal? samAmount = Utilities.GetTotalRevisedAmountForRequest(item.ExternalBerujuId);
+                remainingAmount = item.VoucharAmunt - samAmount;
+
+                if (remainingAmount > 0)
+                {
+                        <tr>
+                            <td scope="row">@i</td>
+                            <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+
+                            <td>@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(item.BudgetSubTitle)</td>
+
+
+                            <td style="width:10% !important;">
+                                <a href="@Url.Action("ViewDetailsNB","ExternalBerujuLL", new { @id=item.ExternalBerujuId})" , class="btn btn-sm btn-success btnfixed" target="_blank">
+                                    @item.BerujuNumber &nbsp;<i class="fa fa-forward"></i>
+                                </a>
+                            </td>
+
+                            <td>@item.JVNUMBER</td>
+                            <td>@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(item.KoshTypeTitleListId)</td>
+                            <td>@item.VoucharAmunt</td>
+                            <td>@RequestAmount</td>
+                            <td>@Utilities.GetTotalRevisedAmountForRequest(item.ExternalBerujuId)</td>
+                            <td>@remainingAmount</td>
+                            <td>
+                                <a href="~/LocalLevel/ExternalBerujuLL/MakeSamparikshadRequestForm?id=@item.ExternalBerujuId" id="deleteBtn" class="edits"><i class="edits fa fa-list-ol"></i></a>
+                            </td>
+
+                        </tr>
+                        ++i;
+                    }
+
+
+                @*}*@
+
+
+
+
+            }
+
+
+        </tbody>
+    </table>
+</div>
+

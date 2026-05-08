@@ -1,0 +1,117 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "ViewMinistryDtl";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+        <div class="grey-bg container-fluid">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    @using (Ajax.BeginForm("GetReportByFYIdForMinistry", "LocalLevelHome", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "DetailsReportsID", LoadingElementId = "loader" }))
+                    {
+                        @Html.HiddenFor(m => m.UserTypeId)
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4" style="margin-bottom:20px;">
+                                <label>आर्थिक वर्ष</label>
+                                @Html.DropDownListFor(model => model.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDD(), new { @class = "form-control form-control-sm", id = "dll_FYID" })
+
+                            </div>
+                            <div class="col-md-2 col-sm-4" style="margin-bottom:20px;">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="form-control form-control-sm btn btn-warning"><i class="fa fa-eye">&nbsp;</i>देखाउनुहोस्</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <hr />
+                <br />
+
+                <div class="col-lg-12" id="">
+
+                    <div id="loader" class=" aletr" style="display:none">
+                        Loading...
+                        <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                    </div>
+                    @*<div class="box-header with-border">
+                            <h5 class="box-title custom-heading" style="text-align:center;">अन्तिम बेरूजु</h5>
+                        </div>*@
+
+                    <div id="DetailsReportsID">
+                        <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+                            <thead>
+                                <tr>
+                                    <th>आर्थिक वर्ष</th>
+                                    <th>कार्यलयको नाम</th>
+                                    <th>नियमित गर्नुपर्ने</th>
+                                    <th>सम्परीक्षण</th>
+                                    <th>असुल उपर गर्नुपर्ने</th>
+                                    <th>सम्परीक्षण</th>
+                                    <th>पेस्की</th>
+                                    <th>सम्परीक्षण</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.DashboardOfficesGetSumBerujuTypeWiseViewModelList)
+                            {
+                                <tr>
+                                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</td>
+                                    <td>@item.OFficeName</td>
+                                    <td>@item.Niyamit</td>
+                                    <td>@item.NiyamitTotalSamparikshad</td>
+
+                                    <td>@item.AshulUpar</td>
+                                    <td>@item.AshulUparTotalSamparikshad</td>
+
+                                    <td>@item.Peski</td>
+                                    <td>@item.PeskiTotalSamparikshad</td>
+                                </tr>
+
+                            }
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function GetOfficeDataByFiscalYearID() {
+        var value = $("#dll_FYID option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetDashboardreportByFiscalYearId", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                $("#dll_nirdesh").html(items);
+            }
+        })
+    };
+
+
+</script>

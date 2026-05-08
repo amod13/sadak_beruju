@@ -1,0 +1,190 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "Maker Dashboard";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+
+        <!-- Overall Totals -->
+        <div class="row mb-4">
+            <!-- Total Beruju -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body text-center">
+                        <h6>Total Beruju (Data Entry)</h6>
+                        <h3>@Model.ObjDashboardMakerDashboardViewModel.TotalEntered</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Verified -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body text-center">
+                        <h6>Total Verified (Beruju Data)</h6>
+                        <h3>@Model.ObjDashboardMakerDashboardViewModel.TotalVerified</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Unverified -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <div class="card text-white bg-danger h-100">
+                    <div class="card-body text-center">
+                        <h6>Total Unverified (Beruju Data)</h6>
+                        <h3>@(Model.ObjDashboardMakerDashboardViewModel.TotalEntered - Model.ObjDashboardMakerDashboardViewModel.TotalVerified)</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entered Today -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body text-center">
+                        <h6>Data Entry Today</h6>
+                        <h3>@Model.ObjDashboardMakerDashboardViewModel.EnteredToday</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verified Today -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body text-center">
+                        <h6>Data Verified Today</h6>
+                        <h3>@Model.ObjDashboardMakerDashboardViewModel.VerifiedToday</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unverified Today -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <div class="card text-white bg-warning h-100">
+                    <div class="card-body text-center">
+                        <h6>Data Unverified Today</h6>
+                        <h3>@(Model.ObjDashboardMakerDashboardViewModel.EnteredToday - Model.ObjDashboardMakerDashboardViewModel.VerifiedToday)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Kosh-wise Breakdown -->
+        <h5 class="mb-3">विभिन्न शिर्षक अनुसारको बेरुजु ईन्ट्री भएको कुल डाटा</h5>
+        <div class="row">
+
+            <!-- Biniyojan -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <a href="/LocalLevel/Checker/OfficeWiseBerujuEntry/0" class="text-decoration-none" style="display:block;">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6>विनियोजन</h6>
+                            <h4>@Model.ObjDashboardMakerDashboardViewModel.TotalBiniyojanBeruju</h4>
+                            <small class="text-success">Verified: @Model.ObjDashboardMakerDashboardViewModel.TotalBiniyojanBerujuVerified</small><br />
+                            <small class="text-info">Entered Today: @Model.ObjDashboardMakerDashboardViewModel.EnteredTodayBiniyojan</small><br />
+                            <small class="text-primary">Verified Today: @Model.ObjDashboardMakerDashboardViewModel.VerifiedTodayBiniyojan</small>
+                        </div>
+                    </div>
+                    </a>
+            </div>
+
+            <!-- Rajaswo -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <a href="/LocalLevel/Checker/OfficeWiseBerujuEntry/0" class="text-decoration-none" style="display:block;">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6>राजस्व</h6>
+                            <h4>@Model.ObjDashboardMakerDashboardViewModel.TotalRajaswoBeuju</h4>
+                            <small class="text-success">Verified: @Model.ObjDashboardMakerDashboardViewModel.TotalRajaswoBeujuVerified</small><br />
+                            <small class="text-info">Entered Today: @Model.ObjDashboardMakerDashboardViewModel.EnteredTodayRajaswo</small><br />
+                            <small class="text-primary">Verified Today: @Model.ObjDashboardMakerDashboardViewModel.VerifiedTodayRajaswo</small>
+                        </div>
+                    </div>
+                    </a>
+            </div>
+
+            <!-- Dharauti -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <a href="/LocalLevel/Checker/OfficeWiseBerujuEntry/0" class="text-decoration-none" style="display:block;">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6>धरौटी</h6>
+                            <h4>@Model.ObjDashboardMakerDashboardViewModel.TotalDharautiBeruju</h4>
+                            <small class="text-success">Verified: @Model.ObjDashboardMakerDashboardViewModel.TotalDharautiBerujuVerified</small><br />
+                            <small class="text-info">Entered Today: @Model.ObjDashboardMakerDashboardViewModel.EnteredTodayDharauti</small><br />
+                            <small class="text-primary">Verified Today: @Model.ObjDashboardMakerDashboardViewModel.VerifiedTodayDharauti</small>
+                        </div>
+                    </div>
+                    </a>
+            </div>
+
+            <!-- Saidantik -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <a href="/LocalLevel/Checker/OfficeWiseSaidantikBerujuEntry/0" class="text-decoration-none" style="display:block;">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6>सैदान्तिक</h6>
+                            <h4>@Model.ObjDashboardMakerDashboardViewModel.TotalSaidantikBeruju</h4>
+                            <small class="text-success">
+                                Verified: @Model.ObjDashboardMakerDashboardViewModel.TotalSaidantikBerujuVerified
+                            </small><br />
+                            <small class="text-info">
+                                Entered Today: @Model.ObjDashboardMakerDashboardViewModel.EnteredTodaySaidantik
+                            </small><br />
+                            <small class="text-primary">
+                                Verified Today: @Model.ObjDashboardMakerDashboardViewModel.VerifiedTodaySadantik
+                            </small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+            <!-- Anye Kosh -->
+            <div class="col-xl-2 col-sm-6 col-12 mb-3">
+                <a href="/LocalLevel/Checker/OfficeWiseBerujuEntry/0" class="text-decoration-none" style="display:block;">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6>अन्य कोष</h6>
+                            <h4>@Model.ObjDashboardMakerDashboardViewModel.TotalAnyeKoshBeruju</h4>
+                            <small class="text-success">Verified: @Model.ObjDashboardMakerDashboardViewModel.TotalAnyeKoshBerujuVerified</small><br />
+                            <small class="text-info">Entered Today: @Model.ObjDashboardMakerDashboardViewModel.EnteredTodayAnyeKosh</small><br />
+                            <small class="text-primary">Verified Today: @Model.ObjDashboardMakerDashboardViewModel.VerifiedTodayAnyeKosh</small>
+                        </div>
+                    </div>
+                    </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .card h6 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .card h3, .card h4 {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+    }
+
+
+    a {
+        text-decoration: none !important;
+    }
+
+        a:hover {
+            text-decoration: none !important;
+        }
+</style>

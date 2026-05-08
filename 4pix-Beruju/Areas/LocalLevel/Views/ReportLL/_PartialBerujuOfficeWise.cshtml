@@ -1,0 +1,253 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+
+@{
+    /**/
+
+    int i = 1;
+    decimal? TotalSumBeruju = 0;
+    int CurrentIVal = 0;
+    int CurrentFYIDVal = 0;
+
+    decimal? BerujuTypeOneTotal = 0;
+    decimal? BerujuTypeTwoTotal = 0;
+    decimal? BerujuTypeThreeTotal = 0;
+    decimal? BerujuTypeFourTotal = 0;
+
+    decimal? SumOne = 0;
+    decimal? SumTwo = 0;
+    decimal? SumThree = 0;
+    decimal? SumFour = 0;
+
+
+
+}
+<style>
+    @@media print {
+        #header, #footer, #nav {
+            display: none !important;
+        }
+        /*@@page {margin:0 -6cm}
+        html {margin:0 6cm}*/
+        .myDivToPrintsdfsdfs {
+            z-index: 100 !important;
+            visibility: visible !important;
+            position: relative !important;
+            display: block !important;
+            background-color: lightgray !important;
+            height: 297mm !important;
+            width: 211mm !important;
+            position: relative !important;
+            padding: 0px;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 0 !important;
+            orphans: 0 !important;
+            widows: 0 !important;
+            overflow: visible !important;
+            page-break-after: always;
+        }
+
+        #double-scroll {
+            width: 1200px !important;
+            overflow: hidden !important;
+        }
+
+        .doubleScroll-scroll-wrapper {
+            overflow: hidden !important;
+        }
+    }
+</style>
+<style>
+
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+<div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:20px !important;">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="logoImg">
+                <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+
+            </div>
+        </div>
+        <div id="Headtitle" class="col-md-8" style="text-align:center;">
+            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+            @if (Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+        </div>
+        <div class="col-md-2 text-right" style="text-align:right;">
+            <p>म.ले.प.फारम नं: ८०२</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div id="rptTitle" class="col-md-4" style="text-align:center; margin-top:20px;margin-bottom:20px;">
+            <p>
+                बेरुजुको कार्यालयगत प्रतिवेदन
+            </p>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="table-responsive">
+
+        <table class="table table-bordered my-table" id="exporttopdf" style="font-size:12px;">
+            <thead>
+                <tr>
+                    <th>क्रम</th>
+                    <th>आ.व.</th>
+                    <th>बेरूजुको किसिम</th>
+                    <th>बिनियोजन</th>
+                    <th>राजस्व</th>
+                    <th>धरौटी</th>
+                    <th>अन्य कोष</th>
+                    <th>कैफियत</th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+
+
+                @foreach (var item in Model.FYListViewModellist.OrderBy(m => m.FiscalYearTitle))
+                {
+                    CurrentFYIDVal = item.FiscalYearId;
+                    //CurrentIVal = item.FiscalYearId;
+                    foreach (var bitem in Model.BerujuTypeViewModelList)
+                    {
+                        decimal? type1Totl = _4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 1);
+                        decimal? type2Totl = _4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 3);
+                        decimal? type3Totl = _4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 4);
+                        decimal? type4Totl = _4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 5);
+
+
+
+
+                        BerujuTypeOneTotal += type1Totl;
+                        BerujuTypeTwoTotal += type2Totl;
+                        BerujuTypeThreeTotal += type3Totl;
+                        BerujuTypeFourTotal += type4Totl;
+
+
+                        SumOne += type1Totl;
+                        SumTwo += type2Totl;
+                        SumThree += type3Totl;
+                        SumFour += type4Totl;
+
+
+                        <tr>
+
+                            @if (CurrentFYIDVal == item.FiscalYearId)
+                            {
+                                <th>@i</th>
+                            }
+                            else
+                            {
+                                <th></th>
+                            }
+                            @if (CurrentFYIDVal == item.FiscalYearId)
+                            {
+                                <th>@item.FiscalYearTitle</th>
+                            }
+                            else
+                            {
+                                <th></th>
+                            }
+
+
+                            <th>@bitem.TypeName</th>
+                            <th>@_4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 1)</th>
+                            <th>@_4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 3)</th>
+                            <th>@_4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 4)</th>
+                            <th>@_4pix_Beruju.ReportUtilities.GetOfficeWiseKoshTypeWiseAmount(Model.OfficeIdForReportHeader, bitem.BerujuTypeId, item.FiscalYearId, 5)</th>
+                            <th></th>
+                        </tr>
+
+                        CurrentFYIDVal++;
+
+                    }
+
+                    <tr>
+                        <th colspan="3">जम्मा</th>
+                        <th>@BerujuTypeOneTotal</th>
+                        <th>@BerujuTypeTwoTotal</th>
+                        <th>@BerujuTypeThreeTotal</th>
+                        <th>@BerujuTypeFourTotal</th>
+                        <th></th>
+                    </tr>
+
+                    i++;
+                    BerujuTypeOneTotal = 0;
+                    BerujuTypeTwoTotal = 0;
+                    BerujuTypeThreeTotal = 0;
+                    BerujuTypeFourTotal = 0;
+
+
+                }
+                <tr>
+                    @*@{
+                            SumOne = _4pix_Beruju.ReportUtilities.GetSumTotalByKoshTypeId(Model.OfficeId, 1, 1);
+                            SumTwo = _4pix_Beruju.ReportUtilities.GetSumTotalByKoshTypeId(Model.OfficeId, 2, 3);
+                            SumThree = _4pix_Beruju.ReportUtilities.GetSumTotalByKoshTypeId(Model.OfficeId, 3, 4);
+                            SumFour = _4pix_Beruju.ReportUtilities.GetSumTotalByKoshTypeId(Model.OfficeId, 4, 5);
+                        }*@
+                    <th colspan="3">जम्मा</th>
+                    <th>@SumOne</th>
+                    <th>@SumTwo</th>
+                    <th>@SumThree</th>
+                    <th>@SumFour</th>
+                    <th></th>
+                </tr>
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

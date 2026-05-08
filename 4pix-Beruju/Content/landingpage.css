@@ -1,0 +1,411 @@
+﻿div#block-text-resize-0 {
+    margin-top: -45px;
+}
+
+.region.region-newsticker .view-content {
+    display: -webkit-inline-box;
+    font-size: medium;
+}
+
+.region.region-newsticker .views-row {
+    margin-right: 35px !important;
+    background: unset !important;
+    padding: 0px !important;
+    border-bottom: 0px !important;
+}
+
+.region.region-newsticker .view-content a {
+    color: white;
+    font-size: 1em;
+}
+
+.region.region-content {
+    text-align: justify;
+    font-size: medium;
+    padding: 1px 15px 15px 15px;
+    word-break: break-word;
+}
+
+
+.region.region-sidebar-third {
+    padding: 15px;
+    padding-top: 0 !important;
+    border-left: 2px solid beige;
+}
+
+section.introduction .views-field.views-field-title {
+    font-size: 1.3em;
+}
+
+
+.views-row {
+    border-bottom: 1px solid #DADDD8;
+}
+
+.content .views-row {
+    padding: 15px 0px;
+    margin-bottom: 6px !important;
+}
+
+.item-list ul li {
+    margin: 0 0 0.25em 0.5em !important;
+}
+
+
+.pp-img img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 50%;
+}
+
+    .pp-img img:hover {
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    }
+
+.node h2 {
+    font-size: 17px !important;
+}
+
+.node-article {
+    /*padding: 20px;*/
+}
+
+
+.node h2 a {
+    position: relative;
+    font-size: 1.3em;
+    /*font-weight: 600;*/
+    line-height: 1.3em;
+    margin: 4px 0 16px;
+}
+
+
+.quicktabs_main.quicktabs-style-basic, .quicktabs_main, .tab-content {
+    background: inherit !important;
+    /*padding-left: 20px;*/
+    padding-top: 6px;
+    padding-bottom: 15px;
+    margin-top: 15px;
+    /*margin-left: 10px;*/
+    border-left: 2px solid #234a83;
+    border-right: none !important;
+    border-bottom: none !important;
+}
+
+.grid-field-col img {
+    margin: 14px;
+}
+
+tr.even, tr.odd {
+    background: none !important;
+}
+
+a.pdf-reader-download-link {
+    margin: 35%;
+}
+
+.field.field-name-field-supporting-documents.field-type-file.field-label-above .field-items {
+    /*text-align: center;*/
+}
+
+.sidebar .block {
+    background-color: #f6f6f2;
+    /*border-color: #f9f9f9;*/
+}
+
+.sidebar .block {
+    padding: 15px 20px;
+    margin: 0 0 20px;
+}
+
+.sidebar h3 {
+    margin: 0 0 0.5em;
+    border-bottom: 1px solid #d6d6d6;
+    padding-bottom: 5px;
+    padding: 5px 10px;
+    text-shadow: 0 1px 0 #fff;
+    font-size: 19px;
+    line-height: 1.2;
+    color: #376fc2;
+    font-weight: 800;
+}
+
+#workflow .content li {
+    border-bottom: 1px solid #ccc;
+}
+
+footer h3 {
+    font-weight: 800;
+    font-size: 22px;
+}
+
+
+/******************* Accordion Demo - 9 *****************/
+#accordion9 .panel {
+    border-radius: 0;
+    margin-bottom: 15px;
+}
+
+#accordion9 .panel-heading {
+    padding: 0;
+}
+
+#accordion9 .panel-title {
+    position: relative;
+}
+
+    #accordion9 .panel-title:before {
+        content: "";
+        border-bottom: 25px solid rgba(0, 0, 0, 0);
+        border-left: 15px solid #ccc;
+        border-top: 23px solid rgba(0, 0, 0, 0);
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 0;
+        left: 34px;
+    }
+
+    #accordion9 .panel-title a {
+        color: #fff;
+        background: #c41a28;
+        display: block;
+        font-size: 16px;
+        line-height: 21px;
+        font-weight: 500;
+        text-transform: uppercase;
+        padding: 13px 10px 13px 65px;
+    }
+
+        #accordion9 .panel-title a.collapsed {
+            color: #5b5656;
+            background: #fff;
+        }
+
+            #accordion9 .panel-title a:before,
+            #accordion9 .panel-title a.collapsed:before {
+                content: "\f068";
+                font-family: "Font Awesome 6 free";
+                font-weight: 900;
+                position: absolute;
+                top: 0;
+                left: 0px;
+                padding: 14px 10px;
+                color: #e63c22;
+                background: #ccc;
+            }
+
+            #accordion9 .panel-title a.collapsed:before {
+                content: "\f067";
+            }
+
+#accordion9 .panel-body {
+    color: #828282;
+    font-size: 14px;
+    line-height: 26px;
+}
+
+
+ul.language-switcher-locale-url li {
+    display: inline;
+}
+
+    ul.language-switcher-locale-url li:after {
+        content: " | ";
+    }
+
+    ul.language-switcher-locale-url li:last-child:after {
+        content: "";
+    }
+
+.sewa img {
+    padding: 0px 5px 0 0;
+    width: 28px;
+    vertical-align: sub;
+    margin-right: 10px;
+}
+
+.sewa ul {
+    padding: 0;
+    list-style: square;
+    margin-left: 54px;
+    line-height: 27px;
+}
+
+@media (max-width: 1023px) {
+    form#search-block-form {
+        display: none;
+    }
+
+    .slides img {
+        /*height:200px;*/
+    }
+
+    .slider-detail p {
+        font-size: 12px;
+        line-height: 20px;
+        text-align: left;
+    }
+
+    .notice h4 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .region.region-newsticker .view-content a {
+        font-size: 14px;
+    }
+
+    a.slider-link {
+        display: none;
+    }
+
+    .hero-slide .slick-dots {
+        bottom: -17px !important;
+    }
+
+    .hero-slide .slick-prev {
+        top: 70px;
+    }
+
+    .hero-slide .slick-next {
+        top: 70px;
+    }
+
+    .slider-detail {
+        padding: 3px 0px 2px 18px !important;
+    }
+
+    .custom-card figure {
+        width: 34% !important;
+    }
+}
+
+.region.region-search-box {
+    margin-top: 15px;
+}
+
+
+
+.region.region-sidebar-third a {
+    font-size: 1em;
+    line-height: 1.3em;
+    color: #000;
+}
+
+.block h3 {
+    position: relative;
+    font-weight: 600;
+    line-height: 23px;
+}
+
+.region-sidebar-third .block h3 {
+    padding-bottom: 15px;
+    padding-bottom: 15px;
+    font-size: 22px;
+    position: relative;
+    color: #234a83;
+    font-weight: 600;
+    line-height: 23px;
+}
+
+.tab-default li a {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-right: 2px;
+    padding: 8px 20px 5px;
+    border: none;
+    border-radius: 0;
+    background-color: #c2c4c6;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-align: center;
+}
+
+    .tab-default li a:after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        border-top: 6px solid transparent;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+
+.region.region-sidebar-node h3 {
+    position: relative;
+    color: #376fc2;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 23px;
+    margin: 7px 14px 11px;
+    padding: 10px;
+}
+
+.region.region-sidebar-node {
+    border: 1px solid aliceblue;
+}
+
+
+.item-list .pager li {
+    padding: 0.3em !important;
+}
+
+div.tab-content .item-list ul li {
+    padding: 10px 0px;
+}
+
+
+.quicktabs_main a, .tab-content a {
+    color: #000;
+    font-size: 1.2em;
+}
+
+
+.field-item.even, .field-item.odd {
+    display: inline-block;
+    padding: 5px;
+}
+
+a {
+    color: #234a83;
+}
+
+body.front .node-promoted h2 a {
+    color: #000;
+}
+
+div.region-services h3.section-title {
+    padding: 25px 0 0 45px;
+}
+
+
+div#block-views-elected-officials-block-1 img, div#block-views-elected-officials-block-3 img {
+    border-radius: 5px;
+}
+
+div#block-views-elected-officials-block-1 div.views-field-title a, div#block-views-elected-officials-block-3 div.views-field-title a, div.region-sidebar-second .views-field.views-field-title, div.region-sidebar-second .views-field.views-field-title strong {
+    line-height: 30px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #c41a28 !important;
+}
+
+div#block-views-elected-officials-block-1 div.views-field, div#block-views-elected-officials-block-3 div.views-field {
+    margin: 0;
+    color: #707070;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px;
+}
+
+
+.field .field-label {
+    font-weight: 500 !important;
+}

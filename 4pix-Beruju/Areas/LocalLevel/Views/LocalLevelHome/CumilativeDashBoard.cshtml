@@ -1,0 +1,571 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "ProvinceAdminDashBoard";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    decimal TotalSumBeruju = 0;
+    decimal RemainingAmount = 0;
+}
+<link href="~/AdminResources/css/DashboardBootstrap.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+    .card .fa {
+        color: blue;
+    }
+</style>
+<style>
+    .card .fa {
+        color: blue;
+    }
+    /*.card:hover {
+        background-color: #ffffff;
+        color: #000;
+        cursor: pointer;
+        font-weight:100;
+        transform: scale(1.02);
+        transition: all 1s ease;
+    }*/
+    .card {
+        box-shadow: 10px 10px 5px lightblue;
+    }
+
+    .card-viewDetails {
+        width: 100%;
+        border-radius: 4px;
+        background-color: #88bf46;
+        text-align: center;
+        align-content: center;
+        align-items: center;
+    }
+
+        .card-viewDetails li {
+            text-decoration: none;
+            color: white;
+        }
+
+        .card-viewDetails a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .card-viewDetails .fa {
+            color: white;
+        }
+
+    .faRedColor .fa {
+        color: #beb5ea;
+    }
+
+    .pull-right span {
+        font-size: 12px;
+        padding: 5px;
+    }
+</style>
+
+
+
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+        @if (ViewBag.UserType < 5)
+        {
+            <div class="col-sm-12" style="margin-bottom:20px;">
+
+
+                <a href="/LocalLevel/LocalLevelHome/OfficeWiseDashBoard" ,="" class="btn btn-sm btn-warning">
+                    <i class="fa fa-backward"></i>&nbsp;कार्यालयगत ड्यासबोर्ड हेर्नुहोस
+                </a>
+
+
+            </div>
+
+        }
+       
+
+        @if (ViewBag.UserType < 4)
+        {
+            using (Html.BeginForm("", "", FormMethod.Post, new { id = "officeFilterForm" }))
+            {
+                <div class="row">
+
+                    @*<div class="col-sm-12" style="margin-bottom:20px;">
+
+
+                        <a href="/LocalLevel/LocalLevelHome/OfficeWiseDashBoard" ,="" class="btn btn-sm btn-warning">
+                            <i class="fa fa-backward"></i>&nbsp;कार्यालयगत ड्यासबोर्ड हेर्नुहोस
+                        </a>
+
+
+                    </div>*@
+
+                    <div class="col-md-2 col-sm-6 form-group">
+                        <label>कार्यालय तह छन्नुहोस्</label>
+                        @Html.DropDownListFor(m => m.OfficeTypeSearchId, Utilities.GetOfficeTypeDDWithDefaultForCumulative(), new { @class = "form-control form-control sm", @id = "dll_OfficeType" })
+                        @Html.ValidationMessageFor(m => m.OfficeTypeSearchId)
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 form-group" id="Div_Ministry">
+                        <label>मन्त्रालय</label>
+                        @Html.DropDownListFor(m => m.MininstrySearchId, Utilities.GetMinistryListWithDefaultForProvinceAdmin(0, 2), new { @class = "form-control form-control sm", @id = "dll_ministry" })
+
+                    </div>
+                    <div class="col-md-2 col-sm-6 form-group" id="Div_Bivag">
+                        <label>विभाग</label>
+                        @Html.DropDownListFor(m => m.BivagSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_bivag" })
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 form-group" id="Div_Nirdesha">
+                        <label>निर्देशनालय</label>
+                        @Html.DropDownListFor(m => m.NirdeshnalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_nirdesh" })
+
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="col-md-2 col-sm-6 form-group" style="margin-top:25px;">
+                        <button type="button" id="btnSubmit" class="btn btn-primary btn-sm mt-1 ">
+                            <i class="fa fa-search"></i> हेर्नुहोस्
+                        </button>
+                    </div>
+
+                </div>
+            }
+        }
+
+        <div class="grey-bg container-fluid" id="dashboardContainer">
+            <section id="minimal-statistics">
+
+
+
+                <div class="row">
+
+                    @{
+                        // Calculate totals
+                        decimal grandTotal = Model.DashboardBerujuTypewiseTableList.Sum(x => x.TotalExternalBerujuAmount);
+
+                        decimal samparikshanTotal = 0;
+                        var firstItem = Model.DashboardBerujuTypewiseTableList.FirstOrDefault();
+                        if (firstItem != null)
+                        {
+                            samparikshanTotal = firstItem.TotalSamparikshanAmount;
+                        }
+
+                        decimal bakiBeruju = grandTotal - samparikshanTotal;
+
+                        int totalTypes = Model.DashboardBerujuTypewiseTableList.Count;
+
+                        // Define icons per BerujuTypeId
+                        Func<int, string> getIcon = typeId =>
+                        {
+                            switch (typeId)
+                            {
+                                case 1: return "fa-check-circle";   // Niyemit
+                                case 2: return "fa-arrow-circle-up"; // Asul
+                                case 3: return "fa-file-text";      // Peski
+                                default: return "fa-money";
+                            }
+                        };
+
+                        // Optional card colors per type
+                        Func<int, string> getCardClass = typeId =>
+                        {
+                            switch (typeId)
+                            {
+                                case 1: return "border-left-success";
+                                case 2: return "border-left-danger";
+                                case 3: return "border-left-warning";
+                                default: return "border-left-primary";
+                            }
+                        };
+                    }
+
+                    <!-- Typewise ExternalBeruju Cards -->
+                    @foreach (var item in Model.DashboardBerujuTypewiseTableList)
+                    {
+                        string icon = getIcon(item.BerujuTypeId);
+                        string cardClass = getCardClass(item.BerujuTypeId);
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card @cardClass">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="align-self-center">
+                                                <i class="fa @icon fa-2x"></i>
+                                            </div>
+                                            <div class="media-body text-right">
+                                                <h5><strong>@item.TotalExternalBerujuAmount.ToString("N2")</strong>                                            </h5>
+
+                                                <span>@item.BerujuTypeNepali</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Grand Total Card -->
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card bg-primary text-white">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-calculator fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5>@grandTotal.ToString("N2")</h5>                                          </h5>
+
+                                            <span>जम्मा कुल बेरुजु</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <!-- Samparikshan Card -->
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card border-left-info">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-clipboard fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5><strong>@samparikshanTotal.ToString("N2")</strong>                                            </h5>
+                                            <span>सम्परीक्षण</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("SamparikhasadAmountByType", "LocalLevelHome", new { id = "3" })">
+                                        <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Baki Beruju Card -->
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card border-left-warning">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h5><strong>@bakiBeruju.ToString("N2")</strong>                                            </h5>
+
+
+                                            <span>बाँकी बेरुजु</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-sticky-note fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="card-viewDetails">
+                                        <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "2" })">
+                                            <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    @if (ViewBag.UserType != 5)
+                    {
+                        @* ===== MINISTRY LOGIN ===== *@
+                        if (ViewBag.UserType == 2)
+                        {
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="media d-flex faRedColor">
+                                                <div class="media-body text-left">
+                                                    <h3 class="danger">@Model.DashboardOfficeCountVM.MinistryCount</h3>
+                                                    <span>मन्त्रालय</span>
+                                                </div>
+                                                <div class="align-self-center">
+                                                    <i class="fa fa-home fa-4x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-viewDetails">
+                                            <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "2" })">
+                                                <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @* ===== MINISTRY & BIVAG LOGIN ===== *@
+                        if (ViewBag.UserType == 2 || ViewBag.UserType == 3)
+                        {
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="media d-flex faRedColor">
+                                                <div class="media-body text-left">
+                                                    <h3 class="success">@Model.DashboardOfficeCountVM.BivagCount</h3>
+                                                    <span>विभाग</span>
+                                                </div>
+                                                <div class="align-self-center">
+                                                    <i class="fa fa-sitemap fa-4x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-viewDetails">
+                                            <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "3" })">
+                                                <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @* ===== MINISTRY, BIVAG & NIRDESHAN LOGIN ===== *@
+                        if (ViewBag.UserType == 2 || ViewBag.UserType == 3 || ViewBag.UserType == 4)
+                        {
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="media d-flex faRedColor">
+                                                <div class="media-body text-left">
+                                                    <h3 class="warning">@Model.DashboardOfficeCountVM.NirdeshanCount</h3>
+                                                    <span>निर्देशनालय</span>
+                                                </div>
+                                                <div class="align-self-center">
+                                                    <i class="fa fa-building fa-4x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-viewDetails">
+                                            <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "4" })">
+                                                <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @* ===== ALL LOGIN LEVELS ===== *@
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex faRedColor">
+                                            <div class="media-body text-left">
+                                                <h3 class="warning">@Model.DashboardOfficeCountVM.OfficeCount</h3>
+                                                <span>कार्यालय / अन्य</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="fa fa-university fa-4x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-viewDetails">
+                                        <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "5" })">
+                                            <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    </div>
+
+
+
+            </section>
+
+
+
+            <div class="row">
+                <div class="col-lg-6">
+
+                    @Html.Partial("_ColumnChart")
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    @Html.Partial("_PieChart")
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    @*@Html.Partial("_GrantChart")*@
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="box-header with-border">
+                        <h5 class="box-title custom-heading" style="text-align:center;">अन्तिम बेरूजु</h5>
+                    </div>
+                    @{
+                        decimal totalBiniyojan = 0;
+                        decimal totalRajaswo = 0;
+                        decimal totalDharauti = 0;
+                        decimal totalAnyakosh = 0;
+                        decimal totalJamma = 0;
+                        decimal totalSamparikshad = 0;
+                        decimal totalBaaki = 0;
+                    }
+
+                    <table class="table table-sm table-bordered border-primary" style="background:white;">
+                        <thead>
+                            <tr>
+                                <th>आर्थिक वर्ष</th>
+                                <th>विनियोजन</th>
+                                <th>राजस्व</th>
+                                <th>धरौटी</th>
+                                <th>अन्य कोष</th>
+                                <th>जम्मा</th>
+                                <th>समपरिक्षण</th>
+                                <th>बाँकी</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.DashboardkoshwiseTableList)
+                            {
+                                var totalSumBeruju = item.Biniyojan + item.Rajaswo + item.Dharauti + item.Anyakosh;
+                                var remainingAmount = totalSumBeruju - item.TotalSamparikshad;
+
+                                // Accumulate totals
+                                totalBiniyojan += item.Biniyojan;
+                                totalRajaswo += item.Rajaswo;
+                                totalDharauti += item.Dharauti;
+                                totalAnyakosh += item.Anyakosh;
+                                totalJamma += totalSumBeruju;
+                                totalSamparikshad += item.TotalSamparikshad;
+                                totalBaaki += remainingAmount;
+
+                                <tr>
+                                    <td>@item.FiscalYearTitle</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Biniyojan.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Rajaswo.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Dharauti.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Anyakosh.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalSumBeruju.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.TotalSamparikshad.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(remainingAmount.ToString())</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                        <tfoot>
+                            <tr class="fw-bold table-secondary">
+                                <td>जम्मा</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalBiniyojan.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalRajaswo.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalDharauti.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalAnyakosh.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalJamma.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalSamparikshad.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalBaaki.ToString())</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/dropdown_helper.js"></script>
+
+<script>
+    const url_bivag = '@Url.Action("GetBivagFromMinistryDD", "AjaxRequest", new { area = "admin" })';
+    const url_nirdesh = '@Url.Action("GetNirdeshanalayaList", "AjaxRequest", new { area = "admin" })';
+    const url_office = '@Url.Action("GetOfficesList", "AjaxRequest", new { area = "admin" })';
+</script>
+
+
+
+
+<script>
+
+
+
+
+
+    jQuery(document).ready(function ($) {
+
+    $("#btnSubmit").on("click", function () {
+
+        $.ajax({
+            url: '@Url.Action("CumilativeDashBoard", "LocalLevelHome")',
+            type: 'POST',
+            data: $("#officeFilterForm").serialize(),
+            success: function (result) {
+                $("#dashboardContainer").html(result);
+            },
+            error: function () {
+                alert("डेटा लोड गर्न समस्या आयो ।");
+            }
+        });
+
+    });
+
+
+    });
+
+</script>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- html2canvas (required for html2pdf.js) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+    document.getElementById("btnExportPdf").addEventListener("click", function () {
+        // Select the section to export
+        var element = document.querySelector(".dashboard-counts.section-padding");
+
+        // PDF options
+        var opt = {
+            margin: 0.5,
+            filename: 'Dashboard.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 0.5 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'landspape' }
+        };
+
+        // Export to PDF
+        html2pdf().set(opt).from(element).save();
+    });
+</script>
+
+

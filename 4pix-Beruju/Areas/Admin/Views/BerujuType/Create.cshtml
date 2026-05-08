@@ -1,0 +1,134 @@
+﻿@model _4pix_Beruju.Models.BerujuType
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<!-- Select2 -->
+<link href="~/AdminResources/plugins/select2/css/select2.min.css" rel="stylesheet" />
+@*<link href="~/AdminResources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />*@
+<style>
+
+    .select2 {
+        width: 100% !important;
+    }
+    
+</style>
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">बेरूजु प्रकार</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        @*<header>
+                <h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>
+            </header>*@
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        @*<h4>form</h4>*@
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("Create", "BerujuType", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+
+                            @Html.ValidationSummary(true)
+                            <fieldset>
+                                @Html.Partial("_CreateEdit")
+
+
+
+
+
+                                <!-- /.card-header -->
+                                <div class="clearfix"></div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Minimal</label>
+                                                @Html.DropDownListFor(m => m.BerujuTypeId, _4pix_Beruju.Utilities.GetDistrictByStateIdDD(1), new { @class = "form-control select2" })
+                                                @*<select class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected">Alabama</option>
+                                                        <option>Alaska</option>
+                                                        <option>California</option>
+                                                        <option>Delaware</option>
+                                                        <option>Tennessee</option>
+                                                        <option>Texas</option>
+                                                        <option>Washington</option>
+                                                    </select>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Minimal</label>
+                                                <select class="form-control select2" style="width: 100%;">
+                                                    <option selected="selected">Alabama</option>
+                                                    <option>Alaska</option>
+                                                    <option>California</option>
+                                                    <option>Delaware</option>
+                                                    <option>Tennessee</option>
+                                                    <option>Texas</option>
+                                                    <option>Washington</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+
+
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्छित गर्नुहोस</button>
+                                    <a href="@Url.Action("Index","BerujuType")" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>
+
+
+
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+        $j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('#MaskDate').inputmask('99/99/9999', { 'placeholder': 'dd/mm/yyyy' })
+    });
+
+</script>

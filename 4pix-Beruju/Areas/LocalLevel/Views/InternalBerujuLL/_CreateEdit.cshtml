@@ -1,0 +1,206 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+<div class="row">
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>प्रकार</label>
+            @Html.DropDownListFor(m => m.KoshTypeId, _4pix_Beruju.Areas.Admin.functions.GetKoshTypeDD(), new { @id = "KoshTypeIdDD", @class = "form-control form-control-sm", @required = "required", @onChange = "GetTypeListDD()" })
+        </div>*@
+
+    <div class="col-md-3 col-sm-3 form-group">
+        <label>आर्थिक वर्ष</label>
+        @Html.DropDownListFor(m => m.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithNull(), new { @id = "DDFYID", @class = "form-control form-control-sm", @onChange = "GetBudgetSubTitleByFYID()" })
+
+    </div>
+
+
+
+    @if (Model.KoshTypeId == 1)
+    {
+        if (ViewBag.Mode == "Create")
+        {
+            <div class="col-md-4 col-sm-4 form-group">
+                <label>ब.उ.शि.नं.</label>
+                @Html.DropDownListFor(m => m.BudgetSubTitle, _4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleWithNull(), new { @id = "BSTID", @class = "form-control form-control-sm ", @required = "required" })
+            </div>
+        }
+
+
+        else
+        {
+            <div class="col-md-4 col-sm-4 form-group">
+                <label>ब.उ.शि.नं.</label>
+                @Html.DropDownListFor(m => m.BudgetSubTitle, _4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleDDByOfficeIdAndFYID(Model.FiscalYearId), new { @id = "BSTID", @class = "form-control form-control-sm ", @required = "required" })
+            </div>
+        }
+
+
+        @*<div class="col-md-4 col-sm-4 form-group">
+                <label>ब.उ.शि.नं.</label>
+                @Html.DropDownListFor(m => m.BudgetSubTitle, _4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleDD(), new { @id = "BSTID", @class = "form-control form-control-sm ", @required = "required" })
+            </div>*@
+
+
+    }
+
+
+    <div class="col-md-3 col-sm-3 form-group">
+        <label>बेरूजु दफा नं.</label>
+        @Html.TextBoxFor(m => m.BerujuNumber, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+    @*<div class="col-sm-2">
+            <div class="checkbox">
+
+                @Html.CheckBoxFor(model => model.IsSaidantikBeruju)
+                @Html.Label("सैदान्तिक हो?")
+            </div>
+        </div>*@
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>रकम</label>
+            @Html.TextBoxFor(m => m.BerujuAmount, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>*@
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>सैदान्तिक हो ?</label>
+            @Html.CheckBoxFor(m => m.IsSaidantikBeruju, new { @class = "form-control form-control-sm" })
+        </div>*@
+
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>कार्यलय प्रमुखको नाम</label>
+            @Html.TextBoxFor(m => m.OfficeManagerName, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>कार्य अवधि देखि</label>
+            @Html.TextBoxFor(m => m.FromDateStr, new { @class = "form-control form-control-sm MaskDate", @required = "required" })
+        </div>
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>कार्य अवधि सम्म</label>
+            @Html.TextBoxFor(m => m.ToDateStr, new { @class = "form-control form-control-sm MaskDate", @required = "required" })
+        </div>*@
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>लेखा प्रमुखको नाम</label>
+            @Html.TextBoxFor(m => m.AccountantName, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>कार्य अवधि देखि</label>
+            @Html.TextBoxFor(m => m.AccountantFromDateStr, new { @class = "form-control form-control-sm MaskDate", @required = "required" })
+        </div>
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>कार्य अवधि सम्म</label>
+            @Html.TextBoxFor(m => m.AccountantToDateStr, new { @class = "form-control form-control-sm MaskDate", @required = "required" })
+        </div>*@
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>भौचर नम्बर</label>
+        @Html.TextBoxFor(m => m.JVNUMBER, new { @class = "form-control form-control sm", @required = "required" })
+    </div>
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>मिति</label>
+        @Html.TextBoxFor(m => m.VoucharDateStr, new { @class = "form-control form-control-sm MaskDate", @required = "required", @id = "VoucharDateNeplai", @onblur = "GetEmployeeName()" })
+    </div>
+    <div class="col-md-12 col-sm-12 form-group">
+        <label>बेरूजुको संक्षिप्त व्यहोरा</label>
+        @Html.TextAreaFor(m => m.BerujuShorDesc, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+    <div class="col-md-12 col-sm-12 form-group">
+        <label>बेरूजुको पूर्ण व्यहोरा</label>
+        @Html.TextAreaFor(m => m.BerujuDetails, new { @id = "FullDescription", @class = "form-control form-control-sm", @required = "required", @cols = 40, @rows = 10 })
+    </div>
+    <script>
+        CKEDITOR.replace("FullDescription");
+    </script>
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>बेरूजु रकम</label>
+            @Html.TextBoxFor(m => m.VoucharAmunt, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>*@
+
+
+    @if (Model.KoshTypeId == 1)
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>चालु/पूँजीगत</label>
+            @Html.DropDownListFor(m => m.ChaluOrPujigatId, _4pix_Beruju.Areas.Admin.functions.ChaluOrPujigatDD(), new { @id = "ChaluOrPujiDD", @class = "form-control form-control-sm", @onChange = "GetTypeListDD()" })
+        </div>
+        if (ViewBag.Mode == "Create")
+        {
+            <div class="col-md-4 col-sm-4 form-group">
+                <label>शीर्षक</label>
+                @Html.DropDownListFor(m => m.KoshTypeTitleListId, _4pix_Beruju.Areas.Admin.functions.KoshTypeListTitleDefaultDD(), new { @id = "KoshTypeListTitleDD", @class = "form-control form-control-sm", @required = "required" })
+            </div>
+
+        }
+        else
+        {
+            <div class="col-md-4 col-sm-4 form-group">
+                <label>शीर्षक</label>
+                @Html.DropDownListFor(m => m.KoshTypeTitleListId, _4pix_Beruju.Areas.Admin.functions.KoshTypeListTitleDD(Model.KoshTypeId), new { @id = "KoshTypeListTitleDD", @class = "form-control form-control-sm", @required = "required" })
+            </div>
+
+
+        }
+
+    }
+
+    else
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>शीर्षक</label>
+            @Html.DropDownListFor(m => m.KoshTypeTitleListId, _4pix_Beruju.Areas.Admin.functions.KoshTypeListTitleDD(Model.KoshTypeId), new { @id = "KoshTypeListTitleDD", @class = "form-control form-control-sm", @required = "required" })
+        </div>
+
+    }
+
+
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>शिर्षक</label>
+            @Html.DropDownListFor(m => m.ExpenseTItle, _4pix_Beruju.Areas.Admin.functions.GetBudgetExpenseDD(), new { @class = "form-control form-control-sm", @required = "required" })
+        </div>*@
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>बेरूजुको प्रकार</label>
+        @Html.DropDownListFor(m => m.BerujuTypeId, _4pix_Beruju.Areas.Admin.functions.GetBerujuTypeDefaultDD(), new { @id = "BerujuTypeIdDD", @class = "form-control form-control-sm", @required = "required", @onChange = "GetBerujuSubTitleDD()" })
+    </div>
+
+
+    @if (ViewBag.Mode == "Edit")
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>बेरूजुको उपप्रकार</label>
+            @Html.DropDownListFor(m => m.BerujuSubTitleId, _4pix_Beruju.Utilities.GetBerujuSubtitleDD(Model.BerujuTypeId), new { @Id = "Berujusubtitleiddiv", @class = "form-control form-control-sm", @required = "required" })
+        </div>
+    }
+    else
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>बेरूजुको उपप्रकार</label>
+            @Html.DropDownListFor(m => m.BerujuSubTitleId, _4pix_Beruju.Utilities.GetBerujuSubtitleDefaultDD(), new { @Id = "Berujusubtitleiddiv", @class = "form-control form-control-sm", @required = "required" })
+        </div>
+    }
+
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>सम्बन्धित</label>
+        @Html.DropDownListFor(m => m.ToWhomID, _4pix_Beruju.Areas.Admin.functions.GetToWhomTypeDD(), new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>सम्बन्धितको नाम</label>
+            @Html.TextBoxFor(m => m.ToWhomName, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>*@
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>लेखा परिक्षण अधिकारिको नाम</label>
+            @Html.TextBoxFor(m => m.AuditorName, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>लेखा परिक्षण अधिकारिको पद</label>
+            @Html.TextBoxFor(m => m.AuditorPost, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>*@
+
+    <div class="clearfix"></div>
+</div>

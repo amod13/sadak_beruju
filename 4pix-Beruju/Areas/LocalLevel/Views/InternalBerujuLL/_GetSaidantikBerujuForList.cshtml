@@ -1,0 +1,47 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+@{ 
+    int i = 1;
+}
+
+
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-hover table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>बेरूजु दफा नं</th>
+                <th>सच्चाउनुहोस</th>
+                <th>विवरण</th>
+                <th>हटाउनुहोस</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.SaidantikBerujuList)
+            {
+
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+                    <td>@item.BerujuDafaNumber</td>
+                    <td>
+                        @Html.ActionLink(" ", "Edit", "SaidantikBeruju", new { @id = item.SaidantikBerujuId, @id1 = 1 }, new { @class = "edits fa fa-edit" })
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(" ", "ViewDetails", "SaidantikBeruju", new { @id = item.SaidantikBerujuId, @id1 =1 }, new { @class = "edits fa fa-eye" })
+                    </td>
+                    <td>
+                        @Html.ActionLink(" ", "Delete", "SaidantikBeruju", new { @id = item.SaidantikBerujuId, @id1 = 1 }, new { @class = "edits fa fa-trash" })
+                    </td>
+
+                </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,438 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+
+@{
+    ViewBag.Title = "BerujuLagatKhata";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">प्रतिवेदनहरू</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">बेरुजु लगत खाता</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Ajax.BeginForm("BerujuLagatKhata", "ReportLL", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "DetailsReportsID",
+                            LoadingElementId = "loader"
+                        }))
+                        {
+                            <fieldset>
+
+                                @if (Model.CurrentLoginUserTypeviewModel == 2 || Model.CurrentLoginUserTypeviewModel == 8 || Model.CurrentLoginUserTypeviewModel == 9 || Model.CurrentLoginUserTypeviewModel == 12)
+                                {
+                                    <div class="row">
+
+
+                                        <div class="col-md-3 col-sm-6 form-group">
+                                            <label>कार्यालय प्रकार</label>
+                                            @Html.DropDownListFor(m => m.OfficeTypeSearchId, Utilities.GetOfficeTypeDDWithDefaultForSuperAdmin(), new { @class = "form-control form-control sm", @id = "dll_OfficeType" })
+                                            @Html.ValidationMessageFor(m => m.OfficeTypeSearchId)
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 form-group" id="Div_Ministry">
+                                            <label>मन्त्रालय</label>
+                                            @Html.DropDownListFor(m => m.MininstrySearchId, Utilities.GetMinistryListWithDefaultForProvinceAdmin(0, 2), new { @class = "form-control form-control sm", @id = "dll_ministry", @onchange = "GetBivagList()" })
+
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 form-group" id="Div_Bivag">
+                                            <label>विभाग</label>
+                                            @Html.DropDownListFor(m => m.BivagSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_bivag", @onchange = "GetNirdeshanalayaList()" })
+
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 form-group" id="Div_Nirdesha">
+                                            <label>निर्देशनालय</label>
+                                            @Html.DropDownListFor(m => m.NirdeshnalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_nirdesh", @onchange = "GetOfficesList()" })
+
+                                        </div>
+
+
+                                        <div class="col-md-3 col-sm-6 form-group" id="Div_Office">
+                                            <label>कार्यालय/अन्य</label>
+                                            @Html.DropDownListFor(model => model.KaryalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                                        </div>
+
+
+
+
+                                    </div>
+                                }
+
+
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>आर्थिक वर्ष</label>
+                                        @Html.DropDownListFor(model => model.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDD(), new { @class = "form-control form-control-sm", id = "dll_FYID", @onchange = "resetAllDropDown()" })
+
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>कोष </label>
+                                        @Html.DropDownListFor(model => model.KoshID, _4pix_Beruju.Areas.Admin.functions.GetKoshTypeWithDefault(), new { @class = "form-control form-control-sm", id = "dll_Kosh", @onchange = "GetBaushiNumberFromFiscalYearId()" })
+
+                                    </div>
+
+
+                                    <div class="col-md-3 col-sm-4 form-group" id="BaushinumberDIV">
+                                        <label>ब.उ.शि.नम्बर</label>
+                                        @Html.DropDownListFor(model => model.BaushiNumberId, _4pix_Beruju.Areas.Admin.functions.GetBaushiNumberNoListDD(), new { @class = "form-control form-control-sm", id = "dll_BaushiNumber" })
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>खोज्नुहोस</button>
+                            </fieldset>
+                        }
+
+                        <div id="loader" class=" aletr" style="display:none">
+                            Loading...
+                            <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                        </div>
+
+                        <div id="DetailsReportsID"></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+       function GetBivagList() {
+       var value = $("#dll_ministry option:selected").val();
+       $.ajax({
+           url: "@Url.Action("GetBivagFromMinistryDD", "AjaxRequest", new { @area="admin"})",
+           data: { id: value },
+           dataType: "json",
+           type: "POST",
+           error: function () {
+               alert("An error occurred.");
+           },
+           success: function (data) {
+               var items = "";
+               $.each(data, function (i, item) {
+                   items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+               });
+
+               $("#dll_bivag").html(items);
+
+               $("#dll_office").html("<option value='0'>--छान्नुहोस--</option>");
+           }
+       })
+   };
+
+    function GetNirdeshanalayaList() {
+        var value = $("#dll_bivag option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetNirdeshanalayaList", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_nirdesh").html(items);
+                $("#dll_office").html("<option value='0'>--छान्नुहोस--</option>");
+            }
+        })
+    };
+
+    function GetOfficesList() {
+        var value = $("#dll_nirdesh option:selected").val();
+        $.ajax({
+            @*url: "@Url.Action("GetVDCMUNDDByDistrictId", "AjaxRequest", new { @area="admin"})",*@
+            url: "@Url.Action("GetOfficesList", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                GetVDCMUNDDByDistrictId
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_office").html(items);
+            }
+        })
+    };
+
+    function GetBaushiNumberFromFiscalYearId() {
+
+        $("#BaushinumberDIV").hide();
+        var value = $("#dll_FYID option:selected").val();
+        var KoshTypeVal = $("#dll_Kosh option:selected").val();
+
+
+        if (KoshTypeVal == 1) {
+            $("#BaushinumberDIV").show();
+        }
+        else {
+            $("#BaushinumberDIV").hide();
+        }
+
+
+
+        var OfficeId = 0;
+        var officeTypeval = $("#dll_OfficeType option:selected").val();
+
+        if (officeTypeval== 5) {
+            OfficeId = $("#dll_office option:selected").val();
+        }
+
+        if (officeTypeval== 2) {
+            OfficeId = $("#dll_ministry option:selected").val();
+        }
+        if (officeTypeval == 3) {
+            OfficeId = $("#dll_bivag option:selected").val();
+        }
+        if (officeTypeval == 4) {
+            OfficeId = $("#dll_nirdesh option:selected").val();
+        }
+        if (officeTypeval == 6) {
+            OfficeId = $("#dll_aayog option:selected").val();
+        }
+
+
+
+        $.ajax({
+
+            url: "@Url.Action("GetBaushiNumberFromFYID", "AjaxRequest", new { @area="admin"})",
+            data: { id: value, id1: OfficeId },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_BaushiNumber").html(items);
+            }
+        })
+    };
+
+    function resetAllDropDown() {
+        $("#BaushinumberDIV").hide();
+        $('#dll_Kosh').prop('selectedIndex', 0);
+    };
+
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#Div_Ministry").hide();
+
+        tte("#Div_Bivag").hide();
+        tte("#Div_Nirdesha").hide();
+        tte("#Div_Office").hide();
+        tte("#Div_Aayog").hide();
+        tte("#Div_Local").hide();
+
+        tte("#dll_OfficeType").change(function () {
+            var OfficeId = tte(this).val();
+            if (OfficeId != null) {
+
+                if (OfficeId == 2) {
+                    tte("#Div_Ministry").show();
+
+                    tte("#Div_Bivag").hide();
+                    tte("#Div_Nirdesha").hide();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 3) {
+                    tte("#Div_Ministry").show();
+
+                    tte("#Div_Bivag").show();
+                    tte("#Div_Nirdesha").hide();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 4) {
+                    tte("#Div_Ministry").show();
+                    tte("#Div_Bivag").show();
+                    tte("#Div_Nirdesha").show();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 5) {
+                    tte("#Div_Ministry").show();
+                    tte("#Div_Bivag").show();
+                    tte("#Div_Nirdesha").show();
+                    tte("#Div_Office").show();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+
+                else if (OfficeId == 6) {
+                    tte("#Div_Ministry").hide();
+                    tte("#Div_Nirdesha").hide();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").show();
+
+                }
+            }
+
+        });
+
+
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "BerujuLagatKhata.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var divToPrint = document.getElementById('DetailsReportsID');
+        htmlToPrint = '' +
+            '<style type="text/css">' +
+            '.my-table{' +
+            'width:100% !important;' +
+            'table-layout:fixed;' +
+            'overflow-wrap:break-word;' +
+            'border-spacing: 0px !important;' +
+
+            '}' +
+
+            'table th, table td {' +
+            'border:0.5px solid #000 !important;' +
+            'border-collapse: collapse !important;' +
+            'padding: 10px !important;' +
+            'border-spacing: 0px !important;' +
+
+            '}' +
+
+            '#header, #footer, #nav {' +
+            'display:none!important;' +
+            '}' +
+            '.logoImg {' +
+            'float:left !important;' +
+            '}' +
+
+            '#HeadTitle {' +
+            'margin-bottom:30px !important;' +
+            'margin-top:30px !important;' +
+            '}' +
+            ' @@page {' +
+            'margin-left: 0.5in;' +
+            'margin-right: 0.5in;' +
+            'margin-top: 0;' +
+            'margin-bottom: 0;' +
+            '}' +
+            '</style>';
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+
+    };
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="~/Scripts/pdfmake-unicode.js"></script>
+
+
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#DetailsReportsID").css("width", "1500px");
+        $("#DetailsReportsID").css("text-align", "left");
+        $("#Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#DetailsReportsID')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+                $("#DetailsReportsID").css("width", "auto");
+
+            }
+        });
+    });
+</script>
+
+

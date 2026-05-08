@@ -1,0 +1,81 @@
+﻿@model _4pix_Beruju.Areas.Admin.Models.OfficeSetup
+
+<div class="row">
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>कार्यालयको नाम</label>
+        @Html.TextBoxFor(m => m.OFficeName, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>कार्यालयको कोड</label>
+        @Html.TextBoxFor(m => m.OfficeCode, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>ठेगाना</label>
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>सम्पर्क व्याक्तिको नाम</label>
+        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control form-control-sm" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>सम्पर्क व्याक्तिको मोबाईल न.</label>
+        @Html.TextBoxFor(m => m.ContactPersonMobile, new { @class = "form-control form-control-sm" })
+        @Html.ValidationMessageFor(model => model.ContactPersonMobile, "", new { @class = "text-danger" })
+    </div>
+
+
+
+
+    @if (ViewBag.EditMode == "True")
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>ईमेल (प्रयोगकर्ता)</label>
+            @Html.TextBoxFor(m => m.OfficeEmail, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+        </div>
+
+    }
+    else
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>ईमेल (प्रयोगकर्ता)</label>
+            @Html.TextBoxFor(m => m.OfficeEmail, new { @class = "form-control form-control-sm", @required = "required", @type = "email" })
+        </div>
+    }
+
+
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>प्रदेश</label>
+        @Html.DropDownListFor(m => m.ProvinceId, _4pix_Beruju.Utilities.GetProvincesDD(), new { @class = "form-control form-control-sm", @onchange = "GetDistrictListDD()", @required = "required", @id = "dll_ProvinceId" })
+    </div>
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>जिल्ला</label>
+        @Html.DropDownListFor(m => m.DistrictId, _4pix_Beruju.Utilities.GetDistrictByStateIdDDForOfficeSetup(Model.ProvinceId), new { @class = "form-control form-control-sm", @required = "required", @id = "dll_district", @onchange = "GetVDCMUNListDD()" })
+    </div>
+
+    @if (ViewBag.EditMode == "True")
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>गापा/नपा</label>
+            @Html.DropDownListFor(m => m.VDCMUNID, _4pix_Beruju.Utilities.GetRuralMunicipalitybyDistrictDD(Model.DistrictId), new { @class = "form-control form-control-sm", @required = "required", id = "dll_vdcmun" })
+        </div>
+    }
+    else
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>गापा/नपा</label>
+            @Html.DropDownListFor(m => m.VDCMUNID, _4pix_Beruju.Utilities.GetRuralMunicipalitybyDistrictDD(0), new { @class = "form-control form-control-sm", @required = "required", id = "dll_vdcmun" })
+        </div>
+
+    }
+
+
+
+</div>

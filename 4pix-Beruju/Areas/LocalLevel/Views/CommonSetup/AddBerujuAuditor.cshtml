@@ -1,0 +1,82 @@
+﻿@model _4pix_Beruju.Models.Setups.EmployeeAuditor
+
+@{
+    ViewBag.Title = "AddBerujuOfficeManager";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">लेखापरीक्षण अधिकारी</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display">लेखापरीक्षण अधिकारी</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <h4>@ViewBag.ErrorMessage</h4>
+                        }
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("AddBerujuAuditor", "CommonSetup", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+
+                            @Html.ValidationSummary(true)
+                            <fieldset>
+                                @Html.Partial("_CreateEditForAuditor")
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्षित गर्नुहोस</button>
+                                    <a href="@Url.Action("ListBerujuAuditor","CommonSetup")" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@*<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+        //$j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('.MaskDate').inputmask('9999/99/99', { 'placeholder': 'yyyy/mm/dd' })
+    });
+
+</script>
+
+
+
+
+
+
+

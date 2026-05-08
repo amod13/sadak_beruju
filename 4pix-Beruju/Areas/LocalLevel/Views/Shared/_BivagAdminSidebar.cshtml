@@ -1,0 +1,277 @@
+﻿
+@{
+
+    var AdViewModel = new _4pix_Beruju.Models.Setups.ApplicationDetail();
+    AdViewModel = Utilities.GetApplicationDetails();
+
+    int CurrentLoginUserType = _4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserType();
+
+
+    int CurrentLoginUserOFficeType = _4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserOfficeTypeId();
+
+    string CName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string AName = HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString();
+
+    var parameterID = ViewContext.RouteData.Values["id"];
+
+    string ShowHideOfficeDeitails = "collapse list-unstyled";
+    string MinistrySetupClass = string.Empty;
+    string NirdeshanalayasetupClass = string.Empty;
+    string KaryalayaSetupClass = string.Empty;
+    string LocalLevelSetupClass = string.Empty;
+    string AayogSetupClass = string.Empty;
+    string ChangePasswordClass = string.Empty;
+    string ReportDivShowHide = "collapse list-unstyled";
+    string BerujuLagatClass = string.Empty;
+    string BerujuOfficeWiseAdminClass = string.Empty;
+    string CentralOfficeWiseAdminClass = string.Empty;
+    string OfficialWiseCentralReportAdminClass = string.Empty;
+    string SamparikshadVoucharLedgerAdminClass = string.Empty;
+
+    string AnyaPratibedanShowHideDiv = "collapse list-unstyled";
+    string ExternalReportTypeWiseAdminClass = string.Empty;
+    string AntimBerujuDetailRptAdminClass = string.Empty;
+    string FinalBerujuDetailByTowhomTypeRptAdminClass = string.Empty;
+    string FinalBerujuDetailByChiefWiseRptAdminClass = string.Empty;
+    string FinalBerujuDetailByAccountChiefWiseRptAdminClass = string.Empty;
+    string ViewSaidantikPageClass = string.Empty;
+    string ViewNoneBerujuPageClassClass = string.Empty;
+    string ViewSamparikshadPageClass = string.Empty;
+
+
+    string AnusuchiRptShowHideDiv = "collapse list-unstyled";
+    string Anusuchi12Class = string.Empty;
+    string Anusuchi13Class = string.Empty;
+    string Anusuchi14Class = string.Empty;
+    string Anusuchi16Class = string.Empty;
+
+    if (CName == "OfficeSetupLL" && (AName == "AddProvincesMinistry" || AName == "ProvincesMinistry" || AName == "EditProvincesMinistry" || AName == "ViewDetails"))
+    {
+        ShowHideOfficeDeitails = "collapse show";
+        MinistrySetupClass = "SelectedHighlightColor";
+    }
+    if (CName == "OfficeSetupLL" && (AName == "AddProvinceNirdeshnalaya" || AName == "ProvinceNirdeshnalaya" || AName == "EditProvinceNirdeshnalaya" || AName == "ViewDetails"))
+    {
+        ShowHideOfficeDeitails = "collapse show";
+        NirdeshanalayasetupClass = "SelectedHighlightColor";
+    }
+    if (CName == "OfficeSetupLL" && (AName == "AddProvinceOffices" || AName == "ProvinceOffices" || AName == "EditProvinceOffices" || AName == "ViewDetails"))
+    {
+        ShowHideOfficeDeitails = "collapse show";
+        KaryalayaSetupClass = "SelectedHighlightColor";
+    }
+    if (CName == "OfficeSetupLL" && (AName == "ListLocalLevel" || AName == "AddLocalLevel" || AName == "EditLocalLevel" || AName == "ViewDetails"))
+    {
+        ShowHideOfficeDeitails = "collapse show";
+        LocalLevelSetupClass = "SelectedHighlightColor";
+    }
+
+    if (CName == "OfficeSetupLL" && (AName == "ListAayog" || AName == "AddAayog" || AName == "EditAayog" || AName == "ViewDetails"))
+    {
+        ShowHideOfficeDeitails = "collapse show";
+        AayogSetupClass = "SelectedHighlightColor";
+    }
+    if (CName == "LocalLevelHome" && (AName == "ChangePassword"))
+    {
+        ChangePasswordClass = "SelectedHighlightColor";
+        ShowHideOfficeDeitails = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "BerujuLagatKhataAdmin"))
+    {
+        BerujuLagatClass = "SelectedHighlightColor";
+        ReportDivShowHide = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "BerujuOfficeWiseAdmin"))
+    {
+        BerujuOfficeWiseAdminClass = "SelectedHighlightColor";
+        ReportDivShowHide = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "CentralOfficeWiseAdmin"))
+    {
+        CentralOfficeWiseAdminClass = "SelectedHighlightColor";
+        ReportDivShowHide = "collapse show";
+
+    }
+
+    if (CName == "ReportLL" && (AName == "OfficialWiseCentralReportAdmin"))
+    {
+        OfficialWiseCentralReportAdminClass = "SelectedHighlightColor";
+        ReportDivShowHide = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "SamparikshadVoucharLedgerAdmin"))
+    {
+        SamparikshadVoucharLedgerAdminClass = "SelectedHighlightColor";
+        ReportDivShowHide = "collapse show";
+
+    }
+
+    if (CName == "ReportLL" && (AName == "ExternalReportTypeWiseAdmin"))
+    {
+        ExternalReportTypeWiseAdminClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "AntimBerujuDetailRptAdmin"))
+    {
+        AntimBerujuDetailRptAdminClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "FinalBerujuDetailByTowhomTypeRptAdmin"))
+    {
+        FinalBerujuDetailByTowhomTypeRptAdminClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "FinalBerujuDetailByChiefWiseRptAdmin"))
+    {
+        FinalBerujuDetailByChiefWiseRptAdminClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "FinalBerujuDetailByAccountChiefWiseRptAdmin"))
+    {
+        FinalBerujuDetailByAccountChiefWiseRptAdminClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "LocalLevelHome" && (AName == "ViewSaidantikPage"))
+    {
+        ViewSaidantikPageClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "LocalLevelHome" && (AName == "ViewNoneBerujuPage"))
+    {
+        ViewNoneBerujuPageClassClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+    if (CName == "LocalLevelHome" && (AName == "ViewSamparikshadPage"))
+    {
+        ViewSamparikshadPageClass = "SelectedHighlightColor";
+        AnyaPratibedanShowHideDiv = "collapse show";
+
+    }
+
+    if (CName == "ReportLL" && (AName == "Anusuchi12"))
+    {
+        Anusuchi12Class = "SelectedHighlightColor";
+        AnusuchiRptShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "Anusuchi13"))
+    {
+        Anusuchi13Class = "SelectedHighlightColor";
+        AnusuchiRptShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "Anusuchi14"))
+    {
+        Anusuchi14Class = "SelectedHighlightColor";
+        AnusuchiRptShowHideDiv = "collapse show";
+
+    }
+    if (CName == "ReportLL" && (AName == "Anusuchi16"))
+    {
+        Anusuchi16Class = "SelectedHighlightColor";
+        AnusuchiRptShowHideDiv = "collapse show";
+
+    }
+
+
+}
+<style>
+    .SelectedHighlightColor {
+        background: orange;
+    }
+</style>
+
+
+<nav class="side-navbar">
+    <div class="side-navbar-wrapper">
+        <!-- Sidebar Header    -->
+        <div class="sidenav-header d-flex align-items-center justify-content-center">
+            <!-- User Info-->
+            <div class="sidenav-header-inner text-center">
+
+            
+                    <a href="~/LocalLevel/LocalLevelHome/BivagAdminDashboard">
+                        <img src="~/AdminResources/img/photos/250px-Emblem_of_Nepal.svg.png" alt="Logo" class="img-fluid">
+                    </a>
+            
+
+                <h6 class="h-75" style="color:black;margin-top:3px;margin-bottom:-7px;">@_4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserOfficeNameAndCode(1)</h6>
+                <span>@_4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserOfficeNameAndCode(2)</span>
+
+
+            </div>
+            <!-- Small Brand information, appears on minimized sidebar-->
+            <div class="sidenav-header-logo"><a href="#" class="brand-small text-center"> <strong></strong><strong class="text-primary"></strong></a></div>
+        </div>
+        <!-- Sidebar Navigation Menus-->
+        <div class="main-menu">
+            <!--<h5 class="sidenav-heading">Main</h5>-->
+            <ul id="side-main-menu" class="side-menu list-unstyled">
+
+           
+                    <li><a href="~/LocalLevel/LocalLevelHome/BivagAdminDashboard"><i class="icon-home"></i>गृह पृष्ठ</a></li>
+               
+
+
+
+                <li>
+                    <a href="#ReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>प्रतिवेदन</a>
+                    <ul id="ReportLists" class="@ReportDivShowHide ">
+
+                        <li class="@BerujuLagatClass">@Html.ActionLink("बेरूजु लगत खाता", "BerujuLagatKhataAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@BerujuOfficeWiseAdminClass">@Html.ActionLink("कार्यालयगत प्रतिवेदन", "BerujuOfficeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@CentralOfficeWiseAdminClass">@Html.ActionLink("केन्द्रीय कार्यालयगत लगत", "CentralOfficeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@OfficialWiseCentralReportAdminClass">@Html.ActionLink("कार्यालयगत केन्द्रीय प्रतिवेदन", "OfficialWiseCentralReportAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@SamparikshadVoucharLedgerAdminClass">@Html.ActionLink("सम्परीक्षण गोश्वारा अभिलेख खाता", "SamparikshadVoucharLedgerAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("सम्परीक्षण नियमितताका लागि आएका बेरुजु", "GetSamparikshadRequestFromOffice", "externalBerujuLL", new { @area = "LocalLevel" }, null)</li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#ExtraReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>अन्य प्रतिवेदन</a>
+                    <ul id="ExtraReportLists" class="@AnyaPratibedanShowHideDiv ">
+                        <li class="@ExternalReportTypeWiseAdminClass">@Html.ActionLink("अन्तिम बेरुजु-प्रकार अनुसार", "ExternalReportTypeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@AntimBerujuDetailRptAdminClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन", "AntimBerujuDetailRptAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@FinalBerujuDetailByTowhomTypeRptAdminClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-सम्बन्धित अनुसार", "FinalBerujuDetailByTowhomTypeRptAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@FinalBerujuDetailByChiefWiseRptAdminClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-कार्यलय प्रमुख अनुसार", "FinalBerujuDetailByChiefWiseRptAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@FinalBerujuDetailByAccountChiefWiseRptAdminClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-लेखा प्रमुख अनुसार", "FinalBerujuDetailByAccountChiefWiseRptAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@ViewSaidantikPageClass">@Html.ActionLink("जम्मा सैदान्तिक बेरूजु", "ViewSaidantikPage", "LocalLevelHome", new { @id = 2 }, new { @area = "LocalLevel" })</li>
+                        <li class="@ViewNoneBerujuPageClassClass">@Html.ActionLink("बेरुजु नभएको निकायको विवरण", "ViewNoneBerujuPage", "LocalLevelHome", new { @id = 2 }, new { @area = "LocalLevel" })</li>
+                        <li class="@ViewSamparikshadPageClass">@Html.ActionLink("सम्परीक्षण विवरण", "ViewSamparikshadPage", "LocalLevelHome", new { @id = 2, @id1 = 2 }, new { @area = "LocalLevel" })</li>
+                        <li class="">@Html.ActionLink("बेरूजु फस्यैाट तथा सम्परीक्षणको अधावधिक विवरण", "BerujuDetailsTillDate", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#AnusuchiReports" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>अनुसूची-प्रतिवेदनहरू</a>
+                    <ul id="AnusuchiReports" class="@AnusuchiRptShowHideDiv">
+
+                        <li class="@Anusuchi12Class">@Html.ActionLink("अनुसूची-१२", "Anusuchi12", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@Anusuchi13Class">@Html.ActionLink("अनुसूची-१३", "Anusuchi13", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@Anusuchi14Class">@Html.ActionLink("अनुसूची-१४", "Anusuchi14", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@Anusuchi16Class">@Html.ActionLink("अनुसूची-१६", "Anusuchi16", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+
+                    </ul>
+                </li>
+
+
+
+            </ul>
+
+        </div>
+
+
+    </div>
+</nav>

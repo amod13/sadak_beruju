@@ -1,0 +1,190 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+
+    decimal? PYAfterSamparikshad = 0m;
+    decimal? TotalBerujuPY = 0m;
+    decimal? TotalSamparikshadPY = 0m;
+    decimal? RemainingPY = 0m;
+    decimal? ThisYearAdd = 0m;
+    decimal? TillDateRemainingBeruju = 0m;
+    decimal? TillDateRemainingBerujuSum = 0m;
+    int sn = 1; ;
+
+}
+
+
+<style>
+
+    .html2canvas-container {
+        width: 3000px !important;
+        height: 3000px !important;
+    }
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+
+@if (Model.BerujuDetailsTillDateVMList.Count > 0)
+{
+
+
+
+
+    <div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:30px !important;">
+        <div class="row myDivToPrint">
+            <div class="col-md-4">
+                <div class="logoImg">
+                    <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+                    @*<img src="~/AdminResources/img/nepalsarkarlogo.png" style="height: 80px; width: 80px; margin-left: 50px;" />*@
+                </div>
+            </div>
+            @*<div class="col-md-4">
+                    बेरूजु फस्यैाट तथा सम्परीक्षणको अधावधिक विवरण
+
+                </div>*@
+            @*<div id="Headtitle" class="col-md-4" style="text-align:center;">
+                    <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+                    @if (Model.OfficeTypeForReportHeader == 5)
+                    {
+                        <p>
+                            @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                        </p>
+
+
+                    }
+
+                    @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+                    {
+                        <p>
+                            @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                        </p>
+
+
+                    }
+
+                    <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+                    <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+
+                </div>*@
+
+        </div>
+        <div class="row" style="margin-top:20px;margin-bottom:20px;">
+            <div class="col-md-12" style="text-align:center;">
+                आ.व.-@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)
+            </div>
+            <div class="col-md-12" style="text-align:center;">
+
+                बेरूजु फस्यैाट तथा सम्परीक्षणको अधावधिक विवरण
+            </div>
+        </div>
+        @*<div class="row">
+                <div class="col-md-3">
+
+                    .....महिना सम्मको
+                </div>
+                <div class="col-md-3">
+
+
+                </div>
+            </div>*@
+        @*<div class="row">
+                <div class="col-md-3">
+
+                    कार्यलय सङ्केत नम्बर :
+                </div>
+                <div class="col-md-3">
+
+
+                </div>
+            </div>*@
+
+        <div id="col-md-12">
+
+            <table class="table table-bordered my-table" id="exporttopdf" style="font-size:12px;">
+                <thead>
+                    <tr>
+                        <th>क्रस</th>
+                        <th>मन्त्रालय/निकायको नाम</th>
+                        <th>गत वर्षसम्मको बाँकी</th>
+                        <th>सम्परीक्षण भएको</th>
+                        <th>गत वर्षसम्मको बाँकी</th>
+                        <th>यो वर्षको थप</th>
+                        <th>हालसम्मको बाँकी बेरुजू</th>
+                        <th>हालसम्मको बाँकीबेरुजू मध्ये पेश्की</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.BerujuDetailsTillDateVMList)
+                    {
+                        TotalBerujuPY += item.TotalBerujuPY;
+                        TotalSamparikshadPY += item.TotalSamparikhadPY;
+                        PYAfterSamparikshad = item.TotalBerujuPY - item.TotalSamparikhadPY;
+                        RemainingPY += PYAfterSamparikshad;
+                        ThisYearAdd += item.TotalBerujuCY;
+                        TillDateRemainingBeruju = PYAfterSamparikshad + item.TotalBerujuCY;
+                        TillDateRemainingBerujuSum += TillDateRemainingBeruju;
+                        <tr>
+                            <td>@sn</td>
+                            <td>@item.OFficeName</td>
+                            <td>@item.TotalBerujuPY</td>
+                            <td>@item.TotalSamparikhadPY</td>
+                            <td>@PYAfterSamparikshad</td>
+                            <td>@item.TotalBerujuCY</td>
+                            <td>@TillDateRemainingBeruju</td>
+                            <td></td>
+                        </tr>
+                        sn++;
+                    }
+                    <tr>
+                        <td></td>
+                        <td>जम्मा</td>
+                        <td>@TotalBerujuPY</td>
+                        <td>@TotalSamparikshadPY</td>
+                        <td>@RemainingPY</td>
+                        <td>@ThisYearAdd</td>
+                        <td>@TillDateRemainingBerujuSum</td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+
+
+
+    </div>
+
+
+}

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<_4pix_Beruju.Models.Setups.FiscalYearRecord>
+
+@{
+    ViewBag.Title = "BerujuLagatKhata";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">आर्थिक वर्ष</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            @*<h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>*@
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            @*@Html.ActionLink("", "Create", "BerujuType", new { @class = "btn btn-sm btn-success" })*@
+
+
+                            <a href="@Url.Action("Create","FiscalYearRecords")" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                            </a>
+                        </h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FiscalYearTitle)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FiscalYearTitleEng)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.StartFrom)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EndDate)
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FiscalYearTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FiscalYearTitleEng)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StartFrom)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+
+                                        <td>
+                                            @*@Html.ActionLink("Edit", "Edit", new { id=item.FiscalYearId }) |
+                                                @Html.ActionLink("Details", "Details", new { id=item.FiscalYearId }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id=item.FiscalYearId })*@
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

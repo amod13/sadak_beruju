@@ -1,0 +1,105 @@
+﻿@model _4pix_Beruju.Models.BerujuFilesByDafa
+@{
+    ViewBag.Title = "View Files";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<h4>बेरुजु दफा सम्बन्धित फाइलहरू</h4>
+
+<hr />
+
+<style>
+
+    .file-carousel {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+        gap: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .file-tile {
+        min-width: 120px;
+        border: 1px solid #ccc;
+        padding: 8px;
+        cursor: pointer;
+        text-align: center;
+        background: #f9f9f9;
+        border-radius: 4px;
+    }
+
+        .file-tile:hover {
+            background: #eef;
+        }
+
+        .file-tile .small {
+            font-size: 11px;
+            word-break: break-all;
+        }
+</style>
+
+<!-- FILE TILE CAROUSEL -->
+<div class="file-carousel">
+    @foreach (var file in Model.Documents)
+    {
+        <div class="file-tile"
+             data-path="@Url.Content(file.FilePath)"
+             data-name="@file.FileName">
+            <i class="fa fa-file-pdf-o fa-2x text-danger"></i>
+            <div class="small">@file.FileName</div>
+        </div>
+    }
+</div>
+
+<hr />
+
+<!-- FILE PREVIEW -->
+<div id="filePreview">
+    <div class="card">
+        <div class="card-body text-center">
+            <p class="text-muted">कुनै फाइल चयन गर्नुहोस्</p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $(document).ready(function () {
+
+            $(".file-tile").click(function () {
+
+                var path = $(this).data("path");
+                var name = $(this).data("name");
+                var ext = path.split('.').pop().toLowerCase();
+
+                var content = "";
+
+                if (ext === "pdf") {
+                    content = `<iframe src="${path}" style="width:100%;height:500px;"></iframe>`;
+                }
+                else if (["jpg", "jpeg", "png"].includes(ext)) {
+                    content = `<img src="${path}" class="img-fluid" />`;
+                }
+                else {
+                    content = `<a href="${path}" class="btn btn-primary" target="_blank">
+                            Download ${name}
+                           </a>`;
+                }
+
+                $("#filePreview").html(`
+                <div class="card">
+                    <div class="card-header">${name}</div>
+                    <div class="card-body">
+                        ${content}
+                    </div>
+                </div>
+            `);
+            });
+
+        });
+    });
+
+</script>
+

@@ -1,0 +1,173 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Models.BerujuTypeReportsViewModel
+
+@{
+    ViewBag.Title = "SearchSaidantikBeruju";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">सैदान्तिक बेरुजु</li>
+        </ul>
+    </div>
+</div>
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">सैदान्तिक बेरुजु</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            @*@using (Html.BeginForm("ExportHTML", "ReportLL", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="ExportData" />
+                                    <input type="submit" id="btnSubmit" value="Export" />
+                                }*@
+                            <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Ajax.BeginForm("ListSaidantikBuruju", "BerujuTypeReports", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "DetailsReportsID",
+                            LoadingElementId = "loader"
+                        }))
+                        {
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>कार्यालय</label>
+                                        @Html.DropDownListFor(model => model.OfficeIdSearch, Utilities.GetMinistryListForMinistryUserOnly(Model.OfficeIdSearch), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>आर्थिक वर्ष</label>
+                                        @Html.DropDownListFor(model => model.FiscalYearIdSearch, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListDD(), new { @class = "form-control form-control-sm", id = "dll_Kosh" })
+
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>आन्तरिक/अन्तिम</label>
+                                        @Html.DropDownListFor(model => model.InternalOrExternalIdSearch, _4pix_Beruju.Areas.Admin.functions.GetInternalOrExternalTitleDD(), new { @class = "form-control form-control-sm", id = "dll_Kosh" })
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>खोज्नुहोस</button>
+                            </fieldset>
+                        }
+
+                        <div id="loader" class=" aletr" style="display:none">
+                            Loading...
+                            <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                        </div>
+
+                        <div id="DetailsReportsID"></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "SaindantikList.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + ' ' + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + ' ' + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>
+
+
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="~/Scripts/pdfmake-unicode.js"></script>
+@*<script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("input[name='ExportData']").val($("#double-scroll").html());
+            });
+        });
+    </script>*@
+
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#DetailsReportsID").css("width", "1500px");
+        $("#DetailsReportsID").css("text-align", "left");
+        $("#Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#DetailsReportsID')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+                $("#DetailsReportsID").css("width", "auto");
+
+            }
+        });
+    });
+</script>
+

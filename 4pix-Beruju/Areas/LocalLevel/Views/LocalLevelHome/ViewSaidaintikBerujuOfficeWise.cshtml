@@ -1,0 +1,64 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "ViewSaidaintikBerujuOfficeWise";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+        <div class="grey-bg container-fluid">
+
+            <div class="row">
+                <h3>कार्यालयको नाम : @Utilities.GetCurrentLoginOfficeName(Model.CurrentLoginUserOfficeId)</h3>
+                <hr />
+                <br />
+                <div class="col-sm-12" style="margin-bottom:20px;">
+                    <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                    <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                </div>
+
+                <div class="col-lg-12" id="">                  
+
+
+                    <div id="DetailsReportsID">
+                        <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+                            <thead>
+                                <tr>
+                                    <th>आर्थिक वर्ष</th>
+                                    <th>बेरूजु दफा</th>
+                                    <th>संक्षिप्त व्यहोरा</th>
+                                    <th>पूर्ण व्यहोरा</th>
+                                    
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.Admin_GetSaidaintikBerujuListByOfficeIdVMList)
+                            {
+
+
+                                <tr>
+                                    <td>@item.FiscalYearTitle</td>
+                                    <td>@item.BerujuDafaNumber</td>
+                                    <td>@item.BerujuShortDesc</td>
+                                    <td>@Html.Raw(item.BerujuLongDesc)</td>
+                                   
+                                </tr>
+
+                            }
+
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+

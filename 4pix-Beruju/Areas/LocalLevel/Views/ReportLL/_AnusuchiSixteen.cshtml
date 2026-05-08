@@ -1,0 +1,267 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+
+
+
+    decimal? TotalAlyaAmount = 0;
+    decimal? TotalSamparikshadAmount = 0;
+
+}
+<style>
+
+    .html2canvas-container {
+        width: 3000px !important;
+        height: 3000px !important;
+    }
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+
+@if (Model.Anusuchi16ViewModelList.Count >= 0)
+{
+    
+<div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:30px !important;">
+    <div class="row myDivToPrint">
+
+        <div class="col-md-4">
+            <div class="logoImg">
+                <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+                @*<img src="~/AdminResources/img/nepalsarkarlogo.png" style="height: 80px; width: 80px; margin-left: 50px;" />*@
+            </div>
+        </div>
+
+        <div id="Headtitle" class="col-md-4" style="text-align:center;">
+            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+            @if (Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+        </div>
+
+    </div>
+    <div class="row" style="margin-top:20px !important;margin-bottom:20px !important;">
+        <div class="col-md-12" style="text-align:center;">
+            कार्यालय कोड नं.-@_4pix_Beruju.Utilities.GetCurrentLoginOfficeCode(Model.OfficeIdForReportHeader)
+        </div>
+        <div class="col-md-12" style="text-align:center;">
+
+            बेरूजु कार्यालयगत लगत तथा एकीकृत प्रगति प्रतिवेदन
+        </div>
+    </div>
+    
+
+    <div id="col-md-12">
+        <table class="table table-bordered my-table" id="exporttopdf" style="font-size:12px;">
+
+            <TR>
+                <TD ROWSPAN=2>
+                    <SPAN>क्र.स.</SPAN>
+                </TD>
+                <TD ROWSPAN=2>
+                    <SPAN>कार्यालय सङ्केत नं. र कार्यालय</SPAN>
+                </TD>
+
+                <TD colspan="4" class="tdClass">
+                    अ.ल्या. सहित बाँकी बेरुजु
+                </TD>
+                <TD colspan="7" class="tdClass">
+                    यस आर्थिक वर्षमा फस्यैाट
+                </TD>
+                <TD ROWSPAN=2>
+                    प्रतिशत
+                </TD>
+                <TD colspan="4" class="tdClass">
+                    फस्यैाट भई बाँकी रहेको बेरुजु
+                </TD>
+                <TD ROWSPAN=2>
+                    फस्यैाट मध्ये नगत असुल
+                </TD>
+                <TD colspan="3" class="tdClass">
+                    लगत कट्टा तथा सम्परीक्षणको लागि पेश भएको
+                </TD>
+
+            </TR>
+
+            <tr>
+                <td>पेश्की</td>
+                <td>नियमित</td>
+                <td>असुल</td>
+                <td>जम्मा</td>
+                <td>पेश्की</td>
+                <td>नियमित</td>
+                <td>असुल</td>
+                <td>जम्मा</td>
+                <td>म.ले.प.को का. बाट</td>
+                <td>कु.चो. तथा के.त.का बाट</td>
+                <td>कुल जम्मा</td>
+                <td>पेश्की</td>
+                <td>नियमित</td>
+                <td>असुल</td>
+                <td>जम्मा</td>
+                <td>कु.चो. तथा के.त.</td>
+                <td>म.ले.प.को का.</td>
+                <td>जम्मा</td>
+            </tr>
+            <tr>
+                <td colspan="18">साबिक आर्थिक वर्ष देखी सम्मको म.ले.प.को वार्षिक प्रतिवेदनको कुमारी चोक तथा केन्द्रीय तहसिल कार्यालयमा लगत रहेको मध्ये</td>
+            </tr>
+            @foreach (var item in Model.Anusuchi16ViewModelList)
+            {
+                TotalAlyaAmount = item.PeskiWithAlyaAmount + item.AshuliWithAlyaAmount + item.NiyamitWithAlyaAmount;
+                TotalSamparikshadAmount = item.PeskiSamparikshadThisYearAmount + item.NiyamitSamparikshadThisYearAmount + item.AshuliSamparikshadThisYearAmount;
+                decimal? totalPercentage = 0;
+                if (TotalAlyaAmount > 0)
+                {
+                    totalPercentage = (TotalSamparikshadAmount / TotalAlyaAmount) * 100;
+
+                }
+
+                string totalPercentagestr = string.Format("{0:n2}", totalPercentage);
+
+                decimal? totalPeskiAmount = item.PeskiWithAlyaAmount - item.PeskiSamparikshadThisYearAmount;
+                decimal? totalNiyamitAmount = item.NiyamitWithAlyaAmount - item.NiyamitSamparikshadThisYearAmount;
+                decimal? totalAushiamout = item.AshuliWithAlyaAmount - item.AshuliSamparikshadThisYearAmount;
+                decimal? totalAmountafterdeduct = totalPeskiAmount + totalNiyamitAmount + totalAushiamout;
+                <tr style="font-weight:bold;">
+                    <td>1</td>
+                    <td>@item.OfficeNameAndCode</td>
+                    <td>@item.PeskiWithAlyaAmount</td>
+                    <td>@item.NiyamitWithAlyaAmount</td>
+                    <td>@item.AshuliWithAlyaAmount</td>
+                    <td>@TotalAlyaAmount</td>
+                    <td>@item.PeskiSamparikshadThisYearAmount</td>
+                    <td>@item.NiyamitSamparikshadThisYearAmount</td>
+                    <td>@item.AshuliSamparikshadThisYearAmount</td>
+                    <td>@TotalSamparikshadAmount</td>
+                    <td>@item.FromMalapaAmount</td>
+                    <td>@item.FromKumariChowkAmount</td>
+                    <td>@TotalSamparikshadAmount</td>
+                    <td>@totalPercentagestr</td>
+                    <td>@totalPeskiAmount</td>
+                    <td>@totalNiyamitAmount</td>
+                    <td>@totalAushiamout</td>
+                    <td>@totalAmountafterdeduct</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+
+            @*<tr>
+                <td colspan="18">साबिक आर्थिक वर्ष देखी सम्मको म.ले.प.को वार्षिक प्रतिवेदन को </td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>22</td>
+            </tr>
+
+            <tr>
+                <td colspan="18">आर्थिक वर्ष मात्रको म.ले.प.को वार्षिक प्रतिवेदन...को </td>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>22</td>
+            </tr>*@
+
+        </table>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="font-size:8px; color:red">
+            @*नोटः आन्तरिक लेखा परीक्षण र अन्तिम लेखा परीक्षण बेरुजुको लगत छुट्टा छुट्टै खातामा राख्नु पर्दछ । साथै कारोबारको प्रकृतिअनुसार छुट्टा छुट्टै पानामा अभिलेख राख्नुपर्दछ ।*@
+        </div>
+    </div>
+
+</div>
+   
+
+}

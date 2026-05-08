@@ -1,0 +1,20 @@
+﻿@model _4pix_Beruju.Models.BerujuType
+
+
+<div class="row">
+
+    <div class="col-md-6 col-sm-6 form-group">
+        <label>शिर्षक</label>
+        @Html.TextBoxFor(m => m.TypeName, new { @class = "form-control form-control sm", @required = "required" })
+    </div>
+
+    <div class="col-md-6 col-sm-6 form-group">
+        <label>शिर्षक</label>
+        @Html.TextBox("id", null,new { @class = "form-control form-control sm", @id = "MaskDate" })
+        @*<input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>*@
+    </div>
+
+
+
+    <div class="clearfix"></div>
+</div>

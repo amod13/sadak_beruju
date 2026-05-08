@@ -1,0 +1,114 @@
+﻿@model _4pix_Beruju.Models.BerujuSubTypeChild
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<!-- Select2 -->
+<link href="~/AdminResources/plugins/select2/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .select2 {
+        width: 100% !important;
+    }
+</style>
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">बेरूजु प्रकार</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("Create", "BerujuSubTitleChild", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            @Html.ValidationSummary(true)
+                            <fieldset>
+                                @Html.Partial("_CreateEdit")
+
+                                <!-- /.card-header -->
+
+
+
+
+
+
+
+
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्छित गर्नुहोस</button>
+                                    <a href="@Url.Action("Index","BerujuSubTitleChild")" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>
+
+
+
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+        $j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('#MaskDate').inputmask('99/99/9999', { 'placeholder': 'dd/mm/yyyy' })
+    });
+</script>
+
+
+<script>
+
+        function GetBerujuSubTitleDD() {
+
+        var value = $("#BerujuTypeIdDD option:selected").val();
+        if (value != null) {
+            $.ajax({
+            url: "@Url.Action("GetBerujuSubTitleDD", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#Berujusubtitleiddiv").html(items);
+            }
+        })
+
+        }
+
+    };
+
+
+</script>

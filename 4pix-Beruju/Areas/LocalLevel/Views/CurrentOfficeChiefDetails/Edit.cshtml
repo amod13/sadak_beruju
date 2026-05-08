@@ -1,0 +1,85 @@
+﻿@model _4pix_Beruju.Models.Setups.CurrentOfficeChiefDetails
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">सेटअप</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display">कार्यालय प्रमुख-सम्परीक्षण अनुरोध/कार्यको लागि</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <h4>@ViewBag.ErrorMessage</h4>
+                        }
+
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(m => m.CurrentOfficeChiefId)
+                            @Html.HiddenFor(m => m.OfficeId)
+                            @Html.AntiForgeryToken()
+                            <fieldset>
+
+                                <div class="row">
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.ChiefName, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.ChiefName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ChiefName, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.ChiefPost, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.ChiefPost, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ChiefPost, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>आर्थिक वर्ष</label>
+                                        @Html.DropDownListFor(model => model.RunnigFiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListDDForRequest(), new { @class = "form-control form-control-sm", id = "dll_Kosh" })
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्षित गर्नुहोस</button>
+                                    <a href="@Url.Action("Index","CurrentOfficeChiefDetails")" , class="btn btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+
+                            </fieldset>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

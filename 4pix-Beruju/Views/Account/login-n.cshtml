@@ -1,0 +1,532 @@
+﻿@using _4pix_Beruju.Models
+@model LoginViewModel
+@{
+    Layout = null;
+
+    var ADviewModel = Utilities.GetApplicationDetails();
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - National Planning Commission</title>
+    <!-- Font Awesome for Icons -->
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">*@
+
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/AdminResources/css/animate.min.css" rel="stylesheet" />
+
+    <style>
+        /* --- RESET & BASIC SETUP --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        /* --- HEADER SECTION --- */
+        header {
+            background: #fff;
+            padding: 15px 10px;
+            text-align: center;
+            border-bottom: 4px solid #b71c1c;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content img {
+            height: 80px;
+            margin-bottom: 5px;
+            transition: height 0.3s ease;
+        }
+
+        .gov-text {
+            color: #d32f2f;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ministry-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+            margin: 5px 0;
+            line-height: 1.2;
+        }
+
+        .system-name {
+            font-size: 18px;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .system-badge {
+            background: #e3f2fd;
+            color: #0d47a1;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid #bbdefb;
+            line-height: 1.4;
+            max-width: 900px;
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* --- LEFT PANEL: PDF VIEWER --- */
+        .pdf-panel {
+            flex: 2;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            height: 650px;
+            /* Default order for Desktop */
+            order: 1;
+        }
+
+        .pdf-header {
+            background: #e7e7e7;
+            color: #fff;
+            padding: 12px 15px;
+            font-size: 14px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 50px;
+        }
+
+        #current-doc-title {
+            font-weight: 600;
+            color: #292929;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pdf-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #eee;
+        }
+
+        /* --- RIGHT PANEL: LOGIN & FILES --- */
+        .login-sidebar {
+            flex: 1;
+            min-width: 320px;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* Default order for Desktop */
+            order: 2;
+        }
+
+        /* Login Card */
+        .login-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .login-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 14px;
+        }
+
+        .password-group {
+            position: relative;
+        }
+
+        .password-group .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+
+        .password-group .toggle-password:hover {
+            color: #000;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border 0.3s;
+            background: #fafafa;
+        }
+
+        .form-control:focus {
+            border-color: #4caf50;
+            outline: none;
+            background: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            background: #388e3c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* File Links Section */
+        .file-menu {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .file-menu-header {
+            background: #f1f3f5;
+            padding: 12px 15px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .file-list li a {
+            display: flex;
+            align-items: start;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .file-list li a:hover,
+        .file-list li a.active-doc {
+            background: #e3f2fd;
+            color: #0d47a1;
+            font-weight: 600;
+        }
+
+        .file-list li a i {
+            margin-right: 10px;
+            margin-top: 3px;
+            color: #d32f2f;
+            flex-shrink: 0;
+        }
+
+        .blinking-alert {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #ffcdd2;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #343a40;
+            color: #ced4da;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            margin-top: auto;
+            /* Ensure footer is always last */
+            order: 3;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* =========================================
+           RESPONSIVE QUERIES
+           ========================================= */
+
+        /* TABLET & MOBILE */
+        @media (max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+                gap: 20px;
+            }
+
+            .pdf-panel,
+            .login-sidebar {
+                width: 100%;
+                max-width: 100%;
+                min-width: unset;
+            }
+
+            /* --- ORDER SWAPPING MAGIC --- */
+            .login-sidebar {
+                order: 1;
+                /* Login comes FIRST on mobile */
+            }
+
+            .pdf-panel {
+                order: 2;
+                /* PDF comes SECOND on mobile */
+                height: 500px;
+                margin-top: 10px;
+            }
+        }
+
+        /* SMALL MOBILE */
+        @@media (max-width: 600px) {
+            .header-content img {
+                height: 55px;
+            }
+
+            .gov-text {
+                font-size: 11px;
+            }
+
+            .ministry-text {
+                font-size: 16px;
+                margin: 2px 0;
+            }
+
+            .system-name {
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+
+            .system-badge {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+
+            .main-wrapper {
+                padding: 10px;
+                gap: 15px;
+            }
+
+            /* Keep order logic */
+            .login-sidebar {
+                order: 1;
+            }
+
+            .pdf-panel {
+                order: 2;
+                height: 400px;
+            }
+
+            .pdf-header {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .login-card {
+                padding: 15px;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="~/AdminResources/img/nepalsarkarlogo.png" alt="Nepal Emblem">
+            <div class="gov-text">नेपाल सरकार</div>
+            <div class="ministry-text">राष्ट्रिय योजना आयोग</div>
+            <div class="ministry-text system-name">सङ्घीय समपूरक तथा विशेष अनुदान व्यवस्थापन सूचना प्रणाली</div>
+            <div class="system-badge">
+                आर्थिक वर्ष २०८३/८४ का लागि सङ्घीय समपूरक तथा विशेष अनुदानमार्फत आयोजना वा कार्यक्रम प्रस्ताव गर्ने
+                समयसीमा २०८२ माघ मसान्तसम्म रहेको छ। धन्यवाद।
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+        <div class="card card0 border-0">
+
+            <div class="bg-blue py-12" style="padding-bottom:10px;">
+
+                <div class="row" style="align-items:center;">
+                    <div class="col-sm-1">
+                        <img src="~/AdminResources/img/nepalsarkarlogo.png" class="logoHeader" />
+
+                    </div>
+                    <div class="col-sm-3 py-1">
+                        @*<span>नेपाल सरकार</span><br />*@
+                        <span>@ADviewModel.OfficeTitleName</span><br />
+                        @*<span>@ADviewModel.MinistryName1</span><br />*@
+                        <span>@ADviewModel.MinistryName2</span><br />
+                        @*<span>बेरूजु व्यवस्थापन प्रणाली</span>*@
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row d-flex">
+
+
+
+                <div class="col-lg-8 CentralImageDiv">
+                    <div class="card1 pb-5">
+
+                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+                            <img src="@ADviewModel.ImageName" class="imageHomePage" />
+
+                            @*<img src="https://source.unsplash.com/800x260/?data,computer" class="imageHomePage">*@
+                        </div>
+                    </div>
+                    <div class="top-right animate__animated animate__backInRight">@ADviewModel.ImageText</div>
+                </div>
+
+                @*<div class="col-lg-4">
+                    </div>*@
+                <div class="col-lg-4">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="card2 card border-0 px-4 py-5">
+
+                            <div class="row px-3 mb-4">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row px-3">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">प्रयोगकर्ता</h6>
+                                </label>
+
+                                @Html.TextBoxFor(m => m.Email, new { @class = "mb-4", placeholder = "Enter a valid email address" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                @*<input class="mb-4" type="text" name="email" placeholder="Enter a valid email address">*@
+
+
+
+                            </div>
+                            <div class="row px-3">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">पासवर्ड</h6>
+                                </label>
+
+                                @Html.PasswordFor(m => m.Password, new { @class = "" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                @*<input type="password" name="password" placeholder="">*@
+                            </div>
+
+                            <div class="row mb-3 mt-2 px-3 offset-6">
+                                <button type="submit" class="btn btn-blue text-center">लग ईन</button>
+                            </div>
+                            <div class="row mb-4 px-3"> <small class="font-weight-bold">पासवर्ड भुल्नुभो? <a href="../Account/ForgotPassword">क्लिक गर्नुहोस</a></small> </div>
+                        </div>
+
+
+
+                    }
+
+                </div>
+            </div>
+            <div class="bg-blue py-2">
+                <div class="row px-4">
+                    <small class="ml-4 ml-sm-5 mb-2">@ADviewModel.CopyrightText</small>
+                    <div class="social-contact ml-4 ml-sm-auto"><span class="fa fa-envelope mr-1 text-sm"></span>@ADviewModel.OfficeEmail<span></span><span class="fa fa-phone mr-1 text-sm"></span>@ADviewModel.OfficePhone</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

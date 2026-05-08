@@ -1,0 +1,510 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "ProvinceAdminDashBoard";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    decimal TotalSumBeruju = 0;
+    decimal RemainingAmount = 0;
+}
+<link href="~/AdminResources/css/DashboardBootstrap.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+    .card .fa {
+        color: blue;
+    }
+    /*.card:hover {
+        background-color: #ffffff;
+        color: #000;
+        cursor: pointer;
+        font-weight:100;
+        transform: scale(1.02);
+        transition: all 1s ease;
+    }*/
+    .card {
+        box-shadow: 10px 10px 5px lightblue;
+    }
+
+    .card-viewDetails {
+        width: 100%;
+        border-radius: 4px;
+        background-color: #88bf46;
+        text-align: center;
+        align-content: center;
+        align-items: center;
+    }
+
+        .card-viewDetails li {
+            text-decoration: none;
+            color: white;
+        }
+
+        .card-viewDetails a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .card-viewDetails .fa {
+            color: white;
+        }
+
+    .faRedColor .fa {
+        color: #beb5ea;
+    }
+
+    .pull-right span {
+        font-size: 12px;
+        padding: 5px;
+    }
+</style>
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+        <div class="grey-bg container-fluid">
+            <section id="minimal-statistics">
+
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-money fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5>@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalSumAsBerujuTypeForAdminStr(1)</h5>
+                                            <span>नियमित गर्नुपर्ने</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-money fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5>@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalSumAsBerujuTypeForAdminStr(2)</h5>
+                                            <span>असुल उपर गर्नुपर्ने</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-money fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5>@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalSumAsBerujuTypeForAdminStr(3)</h5>
+                                            <span>पेस्की</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-money fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5>@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalSumAsBerujuTypeForAdminStr(0)</h5>
+                                            <span>जम्मा बेरूजु</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="fa fa-money fa-2x"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h5>@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalSamparikshadAmountForAdminStr()</h5>
+                                            <span>सम्परीक्षण</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("SamparikhasadAmountByType", "LocalLevelHome", new { id = "3" })">
+                                        <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h4 class="danger">@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalRemainingBerujuAmountForAdminStr()</h4>
+                                            <span>बाँकी बेरुजु</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-sticky-note fa-2x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "3" })">
+                                        <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="media-body text-left">
+                                                <h4 class="danger">@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalSaidantikBerujuSum()</h4>
+                                                <span>जम्मा सैदान्तिक बेरूजु</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="icon-home success font-large-2 float-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="@Url.Action("ViewSaidantikPage", "LocalLevelHome", new { id = "2" })">
+                                                <i class="fa fa-eye"></i><span>विवरण</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="media-body text-left">
+                                                <h4 class="danger">@_4pix_Beruju.Areas.Admin.AdminDashboard.GetTotalBerujuNotDone()</h4>
+                                                <span>जम्मा बेरूजु नभएको</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="icon-home success font-large-2 float-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="@Url.Action("ViewNoneBerujuPage", "LocalLevelHome", new { id = "2" })">
+                                                <i class="fa fa-eye"></i><span>विवरण</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex faRedColor">
+                                        <div class="media-body text-left">
+                                            <h3 class="danger">@_4pix_Beruju.DashboardUtility.GetTotalOfficeByTypeIdStr(2, 3)</h3>
+                                            <span>मन्त्रालय</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-home fa-4x"></i>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "3" })">
+                                        <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex faRedColor">
+                                        <div class="media-body text-left">
+                                            <h3 class="success">@_4pix_Beruju.DashboardUtility.GetTotalOfficeByTypeIdStr(3, 6)</h3>
+                                            <span>निर्देशनालय</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-home fa-4x"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "4" })">
+                                        <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex faRedColor">
+                                        <div class="media-body text-left">
+                                            <h3 class="warning">@_4pix_Beruju.DashboardUtility.GetTotalOfficeByTypeIdStr(4, 6)</h3>
+                                            <span>कार्यालय</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-home fa-4x"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "5" })">
+                                        <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex faRedColor">
+                                        <div class="media-body text-left">
+                                            <h3 class="warning">@_4pix_Beruju.DashboardUtility.GetTotalOfficeByTypeIdStr(5, 6)</h3>
+                                            <span>आयोग/अन्य</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-home fa-4x"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "6" })">
+                                        <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex faRedColor">
+                                        <div class="media-body text-left">
+                                            <h3 class="primary">@_4pix_Beruju.DashboardUtility.GetTotalOfficeByTypeIdStr(6, 6)</h3>
+                                            <span>स्थानीय तह</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-home fa-4x"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-viewDetails">
+                                    <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "7" })">
+                                        <span>विवरण <i class="fa fa-arrow-circle-right"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row">
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="media-body text-left">
+                                                <h3 class="primary">278</h3>
+                                                <span>New Posts</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="icon-book-open primary font-large-2 float-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="progress mt-1 mb-0" style="height: 7px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="media-body text-left">
+                                                <h3 class="warning">156</h3>
+                                                <span>New Comments</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="icon-bubbles warning font-large-2 float-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="progress mt-1 mb-0" style="height: 7px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="media-body text-left">
+                                                <h3 class="success">64.89 %</h3>
+                                                <span>Bounce Rate</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="icon-cup success font-large-2 float-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="progress mt-1 mb-0" style="height: 7px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="media d-flex">
+                                            <div class="media-body text-left">
+                                                <h3 class="danger">423</h3>
+                                                <span>Total Visits</span>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <i class="icon-direction danger font-large-2 float-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="progress mt-1 mb-0" style="height: 7px;">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </section>
+
+
+
+            <div class="row">
+                <div class="col-lg-6">
+
+                    @Html.Partial("_ColumnChart")
+
+                </div>
+
+                @*<div class="col-lg-6">
+
+                        @Html.Partial("_PieChart")
+
+                    </div>*@
+
+
+                <div class="col-lg-6">
+
+                    @Html.Partial("_GrantChart")
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="box-header with-border">
+                        <h5 class="box-title custom-heading" style="text-align:center;">अन्तिम बेरूजु</h5>
+                    </div>
+                    <table class="table table-sm table-bordered border-primary" style="background:white;">
+                        <thead>
+                            <tr>
+                                <th>आर्थिक वर्ष</th>
+
+                                <th>विनियोजन</th>
+                                <th>राजस्व</th>
+                                <th>धरौटी</th>
+                                <th>अन्य कोष</th>
+                                <th>जम्मा</th>
+                                <th>समपरिक्षण</th>
+                                <th>बाँकी</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model.DashboardkoshwiseTableList)
+                        {
+                            TotalSumBeruju = item.Biniyojan + item.Rajaswo + item.Dharauti + item.Anyakosh;
+                            RemainingAmount = TotalSumBeruju - item.TotalSamparikshad;
+
+                            <tr>
+                                <td>@item.FiscalYearTitle</td>
+
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Biniyojan.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Rajaswo.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Dharauti.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Anyakosh.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(TotalSumBeruju.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.TotalSamparikshad.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(RemainingAmount.ToString())</td>
+                            </tr>
+                        }
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,64 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    int i = 1;
+}
+
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-hover table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>वजेट उपशिर्षक</th>
+                <th>बेरूजु दफा नं</th>
+                <th>गो.भैा.न.</th>
+                <th>खर्च शिर्षक</th>
+                <th>बेरूजु रकम</th>
+                <th>सम्परीक्षण रकम</th>
+                <th>बाँकी रकम</th>
+
+                <th>पूर्ण विवरण</th>
+
+                <th>सम्परीक्षण</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ExternalBerujuList)
+            {
+
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(item.BudgetSubTitle)</td>
+                    <td>@item.BerujuNumber</td>
+                    <td>@item.JVNUMBER</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(item.KoshTypeTitleListId)</td>
+                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.VoucharAmunt.ToString())</td>
+                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.ReviesedVoucherAmount.ToString())</td>
+                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.RemainingAmount.ToString())</td>
+                    <td> @item.MergedFromOfficeCode</td>
+                    <td>
+                        <a href="~/LocalLevel/ExternalBerujuLL/ViewDetails?id=@item.ExternalBerujuId" id="deleteBtn" class="edits" target="_blank"><i class="edits fa fa-eye"></i></a>
+                    </td>
+
+                    <td>
+                        <a href="~/LocalLevel/ExternalBerujuLL/MakeSamparikshad?id=@item.ExternalBerujuId" id="deleteBtn" class="edits" onclick="return confirm('के तपाँई को विवरण लाई सम्परिक्षण गर्न चाहानुहुन्छ ?');"><i class="edits fa fa-list-ol"></i></a>
+                        @*@Html.ActionLink(" ", "ChangeToFinalBeruju", new { @id = item.InternalBerujuId }, new { @class = "edits fa fa-list-ol" })*@
+                    </td>
+
+
+
+
+
+                </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+</div>
+

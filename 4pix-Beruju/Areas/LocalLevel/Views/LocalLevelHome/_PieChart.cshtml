@@ -1,0 +1,64 @@
+﻿<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<section>
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- CHART -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h5 class="box-title custom-heading" style="text-align:center;">बेरुजु प्रकार</h5>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <div id="PieChartgraphId" style="width: 530px; height: 400px; margin:auto;"></div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        $.ajax({
+            type: "POST",
+            url: '/LocalLevelHome/GetPieChart',
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+             
+                var data = new google.visualization.DataTable();
+
+                // Setting.
+                data.addColumn('string', 'बेरुजु प्रकार');
+                data.addColumn('number', 'जम्मा');              
+                // Processing.
+                for (var i = 0; i < r.length; i++) {
+                    // Setting.
+                    data.addRow([r[i].TypeName, r[i].TotalAmount]);
+                }
+
+                var view = new google.visualization.DataView(data);
+                //Pie
+                var options = {
+                    title: ''
+                };
+
+
+
+                var chart = new google.visualization.BarChart(document.getElementById("PieChartgraphId"));
+                chart.draw(data, options);
+            },
+            failure: function (r) {
+                alert(r.d);
+            },
+            error: function (r) {
+                alert(r.d);
+            }
+        });
+    }
+</script>

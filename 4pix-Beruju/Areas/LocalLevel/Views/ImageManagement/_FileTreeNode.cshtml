@@ -1,0 +1,35 @@
+﻿
+@model List<_4pix_Beruju.Models.FileTreeNodeVM>
+
+<ul class="file-tree">
+    @foreach (var node in Model)
+    {
+        if (node.IsDirectory)
+        {
+            <li class="folder">
+                <span class="folder-name">
+                    <span class="folder-icon">📁</span>@node.Name
+                </span>
+
+                <div class="folder-children">
+                    @Html.Partial("_FileTreeNode", node.Children)
+                </div>
+            </li>
+        }
+        else
+        {
+            <li>
+                <span>📄</span>
+                <a class="file-link"
+                   href="@Url.Action("DownloadFiscalYearFile", "ImageManagement", new { area = "LocalLevel", fiscalYearId = ViewContext.RouteData.Values["fiscalYearId"] ?? Request["fiscalYearId"], relativePath = node.RelativePath })">
+                    @node.Name
+                </a>
+
+                <a class="btn btn-sm btn-outline-primary download-btn"
+                   href="@Url.Action("DownloadFiscalYearFile", "ImageManagement", new { area = "LocalLevel", fiscalYearId = ViewContext.RouteData.Values["fiscalYearId"] ?? Request["fiscalYearId"], relativePath = node.RelativePath })">
+                    Download
+                </a>
+            </li>
+        }
+    }
+</ul>

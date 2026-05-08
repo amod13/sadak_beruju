@@ -1,0 +1,155 @@
+﻿
+
+@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    /**/
+
+    ViewBag.Title = "SamparikchanTo";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">सम्परीक्षण अनुरोध फाराम</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display"> सम्परिक्षण अनुरोध (फर्छयौट) मन्त्रालय पठाउनुहोस </h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            @ViewBag.ErrorMessage
+                        </div>
+
+                    }
+
+                    <div class="card-header d-flex align-items-center">
+
+                    </div>
+                    <div class="card-body">
+
+
+                        @using (Html.BeginForm("SendForSamparikchan", "ExternalBerujuLL", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+
+
+                            @Html.HiddenFor(m => m.ObjSamparikshadReqMasterViewModel.SamparikshadReqMasterId)
+
+
+
+
+                            @*@Html.HiddenFor(m => m.ExternalBerujuForSamparikshadVMObj.VoucharAmunt)*@
+
+                            @Html.ValidationSummary(true)
+
+
+
+                            <fieldset>
+
+
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                            <label>मन्त्रालय/विभाग/कार्यलय नाम / ठेगाना</label>
+                                            @Html.DropDownListFor(m => m.ObjSamparikshadReqMasterViewModel.RequestToId, _4pix_Beruju.Areas.Admin.functions.GetSampaTo(), new { @class = "form-control form-control-sm", @required = "required" })
+                                        </div>
+
+
+
+
+
+
+
+
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label>कैफियत</label>
+                                        @Html.TextAreaFor(m => m.ObjSamparikshadReqMasterViewModel.Remarks, new { @class = "form-control form-control-sm", @required = "required" })
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-floppy-o">&nbsp;</i>पठाउनुहोस </button>
+                                    <a href="@Url.Action("GetSamparikshadRequestFromOffice","ExternalBerujuLL")" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </fieldset>
+
+
+
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@*<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+@*<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>*@
+
+
+
+
+<script>$j = jQuery.noConflict();
+    $j(function () {
+        //$j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('.MaskDate').inputmask('9999/99/99', { 'placeholder': 'yyyy/mm/dd' })
+    });
+
+
+
+    function calculateAmount() {
+
+        var sum = 0;
+        $('.price').each(function () {
+            sum += Number($(this).val());
+        });
+
+        $("#TTSamparikshadAmt").val(sum);
+
+        // here, you have your sum
+    };</script>
+
+
+
+
+
+
+

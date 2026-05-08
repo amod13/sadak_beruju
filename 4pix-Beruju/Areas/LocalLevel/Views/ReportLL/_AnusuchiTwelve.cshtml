@@ -1,0 +1,344 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+    decimal? totalInternalBerujuAmount = 0;
+    decimal? NiyamitTotal = 0, AshuliTotal = 0, Peskitotal = 0;
+    decimal? totalSampariAmountBeforeFinal = 0;
+    decimal? FinalNiyamitamount = 0, FinalAshuliAmout = 0, FinalPeskiAmount = 0;
+    decimal? FinalremainingAmount = 0;
+
+}
+
+<style>
+
+    .html2canvas-container {
+        width: 3000px !important;
+        height: 3000px !important;
+    }
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+@if (Model.AnusuchiTwelveViewModelList.Count > 0)
+{
+
+
+
+
+    <div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:30px !important;">
+        <div class="row myDivToPrint">
+            <div class="col-md-4 logoImg">
+                <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+            </div>
+            <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+                @if (Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+            </div>
+            @*<div class="col-md-4" style="text-align:right;">
+                    <p>म.ले.प.फारम नं: ८०१</p>
+                </div>*@
+        </div>
+        <div class="row">
+            @*<div class="col-md-12" style="text-align:center;font-weight:bold;">
+                    कार्यालय कोड नं.-
+                </div>*@
+            <div class="col-md-12" style="text-align:center;margin-top:20px !important;margin-bottom:20px !important;">
+
+                आन्तरिक लेखापरीक्षण र अन्तिम लेखापरिक्षण गर्दा देखिएको बेरुजुको तुलनात्मक विरण ।
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+
+                कार्यलय सङ्केत नम्बर :@Utilities.GetCurrentLoginOfficeCode(Model.OfficeIdForReportHeader)
+            </div>
+            <div class="col-md-3">
+                @*@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshID)*@
+
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered my-table" id="exporttopdf">
+
+                        <TR>
+                            <TD ROWSPAN=2>
+                                आर्थिक वर्ष
+                            </TD>
+                            <TD ROWSPAN=2>
+                                बजेट उपशिर्षक नम्बर
+                            </TD>
+                            <TD ROWSPAN=2>
+                                आ.ले.प. बेरूजु दफा नम्बर
+                            </TD>
+                            <TD ROWSPAN=2>
+                                आ.ले.प. बेरूजुको छोटकरी व्यहोरा र बेरूजुसँग सम्बन्धित व्यक्ति/संस्थाको नाम
+                            </TD>
+                            <TD ROWSPAN=2>
+                                बेरूजुको किसिम (लगति/सैदान्तिक)
+                            </TD>
+                            <TD colspan="4">
+                                आन्तरीक लेखा परिक्षणबाट कायम भएको बेरूजु रू
+                            </TD>
+                            <TD colspan="4">अन्तिम लेखा परिक्षण हुनुभन्दा अगाडि फस्यैाट रू.</TD>
+                            <TD colspan="4">
+                                आन्तरीक लेखा परिक्षणबाट कायम भएको बेरूजु रू
+                                अन्तिम लेखा परिक्षण प्रतिवेदनमा समावेश भई लगतकट्टा भएको रू
+                            </TD>
+                            <TD ROWSPAN=2>
+                                अन्तिम लेखा परिक्षण प्रतिवेदनमा समावेश बेरूजु दफा र बेरूजुको छोटकरी व्यहोरा
+                            </TD>
+                            <TD ROWSPAN=2>
+                                कैफियत
+                            </TD>
+                        </TR>
+                        <TR>
+                            <td>
+                                नियमित गर्नुपर्ने
+                            </td>
+                            <td>
+                                असुल उपर गर्नुपर्ने
+                            </td>
+                            <td>
+                                पेस्की
+                            </td>
+                            <td>
+                                जम्मा
+                            </td>
+                            <td>
+                                नियमित गर्नुपर्ने
+                            </td>
+                            <td>
+                                असुल उपर गर्नुपर्ने
+                            </td>
+                            <td>
+                                पेस्की
+                            </td>
+                            <td>
+                                जम्मा
+                            </td>
+                            <td>
+                                नियमित गर्नुपर्ने
+                            </td>
+                            <td>
+                                असुल उपर गर्नुपर्ने
+                            </td>
+                            <td>
+                                पेस्की
+                            </td>
+                            <td>
+                                जम्मा
+                            </td>
+                        </TR>
+                        @foreach (var item in Model.AnusuchiTwelveViewModelList)
+                        {
+                            totalInternalBerujuAmount = 0;
+                            totalSampariAmountBeforeFinal = 0;
+                            totalInternalBerujuAmount += item.FinalInternalBerujuNiyamitAmount + item.FinalInternalBerujuAshuliAmount + item.FinalInternalBerujuPeskiAmount;
+                            totalSampariAmountBeforeFinal += item.NiyamitAmountBeforeExternalBerujuAmt + item.AshulAmountBeforeExternalBerujuAmt + item.PeskiAmountBeforeExternalBerujuAmt;
+                            FinalNiyamitamount = item.FinalInternalBerujuNiyamitAmount - item.NiyamitAmountBeforeExternalBerujuAmt;
+                            FinalAshuliAmout = item.FinalInternalBerujuAshuliAmount - item.AshulAmountBeforeExternalBerujuAmt;
+                            FinalPeskiAmount = item.FinalInternalBerujuPeskiAmount - item.PeskiAmountBeforeExternalBerujuAmt;
+                            FinalremainingAmount = FinalNiyamitamount + FinalAshuliAmout + FinalPeskiAmount;
+                        <tr>
+                            <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FiscalYearTitle)</td>
+                            <td>@item.SubTitleName</td>
+                            <td>@item.BerujuNumber</td>
+                            <td>
+                                @item.BerujuShorDesc
+                                @Utilities.GetTowhomeNameByBerujuId(item.InternalBerujuId, 1)
+                            </td>
+                            <td>@item.LagatiSaidanktik</td>
+                            <td>
+                                @if (item.FinalInternalBerujuNiyamitAmount.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FinalInternalBerujuNiyamitAmount.ToString())</span>
+                                }
+                                else
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.FinalInternalBerujuAshuliAmount.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FinalInternalBerujuAshuliAmount.ToString())</span>
+                                }
+                                else
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.FinalInternalBerujuPeskiAmount.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FinalInternalBerujuPeskiAmount.ToString())</span>
+                                }
+                                else
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalInternalBerujuAmount.ToString())</td>
+                            <td>
+                                @if (item.NiyamitAmountBeforeExternalBerujuAmt.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.NiyamitAmountBeforeExternalBerujuAmt.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.AshulAmountBeforeExternalBerujuAmt.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AshulAmountBeforeExternalBerujuAmt.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.PeskiAmountBeforeExternalBerujuAmt.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.PeskiAmountBeforeExternalBerujuAmt.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (totalSampariAmountBeforeFinal.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalSampariAmountBeforeFinal.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (FinalNiyamitamount.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(FinalNiyamitamount.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (FinalAshuliAmout.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(FinalAshuliAmout.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (FinalPeskiAmount.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(FinalPeskiAmount.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>
+                                @if (FinalremainingAmount.HasValue)
+                                {
+                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(FinalremainingAmount.ToString())</span>
+                                }
+                                else
+
+                                {
+                                    <span>०</span>
+                                }
+                            </td>
+                            <td>@Utilities.GetBerujuDafaNumberAndShortDescByBerujuId(item.InternalBerujuId)</td>
+                            <td></td>
+
+                        </tr>
+                        }
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+}
+else
+{
+    <div>आ.ले.प. बेरुजु प्रविष्टि गर्नुहोस् । </div>
+}

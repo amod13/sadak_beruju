@@ -1,0 +1,346 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    ViewBag.Title = "ViewDetails";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<style>
+    .btn-toolbar {
+        display: inline !important;
+    }
+</style>
+<style>
+    .fake_fieldset {
+        border: 2px groove ButtonFace;
+        border-top-width: 0;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: .35em .625em .75em;
+        margin-top: 1em;
+        position: relative;
+    }
+
+    .fake_legend {
+        margin-top: -1em;
+    }
+
+        .fake_legend.test1::before {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 0.5em;
+        }
+
+        .fake_legend.test1::after {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 40%;
+        }
+</style>
+
+
+
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">विवरण</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-6">
+
+                <div class="clearfix"></div>
+                <hr />
+
+
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        @*<h4 style="color:#0991f3;">
+                                <i class="fa fa-check"></i>
+                                विवरण
+                            </h4>
+                            <br />*@
+                        <a href="@Url.Action("ListExternalBeruju","Checker", new {@id=Model.OfficeId })" , class="btn btn-sm btn-success">
+                            <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                        </a>
+                        <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" style="margin-left:20px;" />
+                    </div>
+                    <div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-body" id="DetailsReportsID">
+                        <div class="fake_fieldset test1">
+                            <div class="fake_legend test1">विवरण:</div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>आर्थिक वर्ष :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</div>
+
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>वजेट उपशिर्षक :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(Model.BudgetSubTitle)</div>
+
+                                <div class="col-lg-2 col-md-3 form-group"><b> खर्च शिर्षक :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(Model.KoshTypeTitleListId)</div>
+                            </div>
+
+
+                            @*@if (Model.OfficeManagerId > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 form-group"><b>कार्यलय प्रमुखको नाम :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.OfficeManagerName</div>
+
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b>कार्य अवधि देखि :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.FromDateStr</div>
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b> कार्य अवधि सम्म :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.ToDateStr</div>
+                                    </div>
+
+                                }*@
+
+
+
+                            @*@if (Model.AccountantId > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 form-group"><b>लेखा प्रमुखको नाम :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AccountantName</div>
+
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b>कार्य अवधि देखि :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AccountantFromDateStr</div>
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b> कार्य अवधि सम्म :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AccountantToDateStr</div>
+                                    </div>
+
+                                }*@
+
+
+
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>गोश्वारा भौचर नम्बर :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.JVNUMBER</div>
+
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>भौचर मिति :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.VoucharDateStr</div>
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>बेरुजु रकम :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.VoucharAmunt</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको संप्क्षित विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.BerujuShorDesc)</div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरुजुको विस्तृत व्यहोरा :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.BerujuDetails)</div>
+
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>बेरूजुको प्रकार :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetBerujuTypeFromId(Model.BerujuTypeId)</div>
+
+
+                                <div class="col-lg-2 col-md-4 form-group"><b>बेरूजुको उपप्रकार:</b></div>
+                                <div class="col-lg-3 col-md-8 form-group">@_4pix_Beruju.Utilities.GetBerujuSubtitleNameFromId(Model.BerujuSubTitleId)</div>
+
+
+                            </div>
+                            <div class="row">
+
+
+                                <div class="col-lg-3 col-md-3 form-group"><b>कोष प्रकार :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshTypeId)</div>
+
+                                <div class="col-lg-3 col-md-3 form-group"><b>सम्बन्धित :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.ToWhomTypeById(Model.ToWhomID)</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>सम्बन्धितको विवरण :</b></div>
+                                @*<div class="col-lg-3 col-md-9 form-group">@Model.ToWhomName</div>*@
+
+
+                                @*@if (Model.AuditorId > 0)
+                                    {
+                                        <div class="col-lg-3 col-md-3 form-group"><b>लेखा परिक्षण अधिकारिको नाम :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AuditorName</div>
+
+                                        <div class="col-lg-3 col-md-3 form-group"><b>लेखा परिक्षण अधिकारिको पद :</b></div>
+                                        <div class="col-lg-3 col-md-9 form-group">@Model.AuditorPost</div>
+
+                                    }*@
+
+
+
+
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <table class="table table-bordered table-responsive-sm">
+
+                                        <thead>
+                                            <tr>
+                                                <th>नाम</th>
+                                                <th>प्यान नं</th>
+                                                <th>मोबाईल नं</th>
+                                                <th>रकम</th>
+                                                @*<th>कागजात</th>*@
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model.ToWhomDetailListVMList)
+                                        {
+                                            <tr>
+                                                <td>@item.EmployeeName</td>
+                                                <td>@item.PanNumber</td>
+                                                <td>@item.MobielNumber</td>
+                                                <td>@item.AmountDetail</td>
+                                                @*<td>@item.UploadedFileUrl</td>*@
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="col-md-6">
+                <h5>Supporting Document</h5>
+
+                @if (!string.IsNullOrEmpty(Model.UploadedFileUrl))
+                {
+                    var filePath = Url.Content("~/RequiredDocs/" + Model.UploadedFileUrl);
+                    var extension = System.IO.Path.GetExtension(Model.UploadedFileUrl).ToLower();
+
+                    if (extension == ".pdf")
+                    {
+                        <!-- ✅ Show PDF inline (with viewer) -->
+                        <iframe src="@filePath" width="100%" height="500px" style="border:1px solid #ccc; border-radius:8px;"></iframe>
+                    }
+                    else if (extension == ".png" || extension == ".jpg" || extension == ".jpeg")
+                    {
+                        <!-- ✅ Show Image inline -->
+                        <img src="@filePath" alt="Uploaded File" class="img-fluid rounded shadow-sm" style="max-height:500px; object-fit:contain;" />
+                    }
+                    else
+                    {
+                        <!-- ✅ Fallback: Just show download link -->
+                        <a href="@filePath" target="_blank">View / Download File</a>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No file uploaded.</p>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+
+    function getClippedRegion(image, x, y, width, height) {
+        var canvas = document.createElement("canvas"),
+            ctx = canvas.getContext("2d");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        //                   source region         dest. region
+        ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
+
+        return {
+            // Those are some pdfMake params
+            image: canvas.toDataURL(),
+            width: 500
+        };
+    }
+
+
+
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#DetailsReportsID").css("width", "auto");
+        $("#DetailsReportsID").css("text-align", "left");
+        $("#Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+        $(".table-borderless").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#DetailsReportsID')[0], {
+            onrendered: function (canvas) {
+                let splitAt = 775; //
+                let images = [];
+                let y = 0;
+                while (canvas.height > y) {
+                    images.push(getClippedRegion(canvas, 0, y, canvas.width, splitAt));
+                    y += splitAt;
+                }
+
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1,
+                        pageSize: "LETTER"
+                    }]
+                };
+                var docDefinition = {
+                    content: images,
+                    pageSize: "LETTER"
+                };
+                pdfMake.createPdf(docDefinition).download("report.pdf");
+
+                $("#DetailsReportsID").css("width", "auto");
+                $(".table-borderless").css("text-align", "center");
+            }
+        });
+    });
+</script>
+

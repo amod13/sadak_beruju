@@ -1,0 +1,98 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+@{
+    int i = 1;
+    int officeType = _4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserOfficeTypeId();
+
+}
+
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-hover table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>बेरुजु दफा न</th>
+                <th>बेरुजु रकम</th>
+                <th>सम्परीक्षण अनुरोध रकम</th>
+                <th>सम्परीक्षण अनुरोध मिती</th>
+                <th>सम्परीक्षण अनुरोध गर्ने कार्यालय</th>
+
+                @*<th>पत्र</th>*@
+                @if (officeType == 3)
+                {
+
+                    <th>मन्त्रालयलाई अनुरोध</th>
+                }
+
+
+                @*<th>हटाउनुहोस</th>*@
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.SamparikhadRequestListViewModelForReportList.OrderByDescending(x => x.SamparikshadReqMasterId).Take(5))
+            {
+             
+                int isSentToMinistry = _4pix_Beruju.Areas.Admin.functions.CheckIfBerujuSentToUpperOffice(item.SamparikshadReqMasterId);
+           
+
+            <tr>
+                <td scope="row">@i</td>
+                <td>@item.FiscalYearTitle</td>
+                <td style="width:10% !important;">
+                    <a href="@Url.Action("ViewExternalBerujuDetail","ReportLL", new { @id=item.ExternalBerujuId,@id1=item.OfficeId})" , class="btn btn-sm btn-success">
+                        @item.BerujuNumber &nbsp;<i class="fa fa-forward"></i>
+                    </a>
+                </td>
+
+                <td>@item.BerujuAmount</td>
+                <td>@item.RequestedAmount</td>
+                <td>@item.RequestedDateNep</td>
+
+                <td> @item.RequestingOfficeName</td>
+
+
+                @*<td>
+            @Html.ActionLink(" ", "ViewSamparikshadReqFormById", new { @id = item.SamparikshadReqMasterId }, new { @class = "edits fa fa-eye" })
+        </td>*@
+
+
+                @if (officeType == 3)
+                {
+                    if (isSentToMinistry == 0)
+                    {
+                        <td>
+                            @Html.ActionLink("", "SamparikchanTo", new { @id = item.SamparikshadReqMasterId }, new { @class = "edits fa fa-edit" })
+                        </td>
+                    }
+                    else
+                    {
+
+                        <td>
+                            पठाईएको
+                        </td>
+                    }
+
+                }
+
+
+
+
+                @*<td>
+            <a href="~/LocalLevel/ExternalBerujuLL/DeleteSamparikshadRequestForm?id=@item.SamparikshadReqMasterId" id="deleteBtn" class="edits" onclick="return confirm('के तपाँई को विवरण लाई हटाउँन चाहानुहुन्छ ?');"><i class="edits fa fa-trash"></i></a>
+
+
+        </td>*@
+
+
+
+
+            </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+</div>

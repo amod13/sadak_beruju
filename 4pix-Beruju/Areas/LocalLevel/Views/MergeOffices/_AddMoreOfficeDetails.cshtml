@@ -1,0 +1,49 @@
+﻿@model _4pix_Beruju.Models.OfficeDetailsWithAddressVM
+
+@using _4pix_Beruju.Helpers
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script src="~/Scripts/json.cycle.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginCollectionItem("OfficeDetailsWithAddressVMList"))
+{
+    @Html.ValidationSummary(true)
+    <style>
+        .CategoryId {
+            width: 280px;
+        }
+       
+
+        
+    </style>
+
+
+    <div class="row" style="margin-left: 0px; font-size: 11px;">
+        <table>
+            <tr>
+                <td>
+                    @Html.DropDownListFor(model => model.OfficeId, Utilities.GetOfficeListWithAddress(), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                </td>
+                
+                <td>
+                    <button class="btn row-button btn-warning btn-info btn-sm"><i class="fa fa-trash"></i> Delete</button>
+                    @*<input type="button" class="row-button btn btn-warning" value="X" />*@
+                </td>
+
+
+            </tr>
+            
+        </table>
+
+
+    </div>
+
+}
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+
+

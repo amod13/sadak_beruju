@@ -1,0 +1,315 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+
+@{
+    int i = 1;
+}
+<style>
+    @@media print {
+        #header, #footer, #nav {
+            display: none !important;
+        }
+        /*@@page {margin:0 -6cm}
+        html {margin:0 6cm}*/
+        .myDivToPrintsdfsdfs {
+            z-index: 100 !important;
+            visibility: visible !important;
+            position: relative !important;
+            display: block !important;
+            background-color: lightgray !important;
+            height: 297mm !important;
+            width: 211mm !important;
+            position: relative !important;
+            padding: 0px;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 0 !important;
+            orphans: 0 !important;
+            widows: 0 !important;
+            overflow: visible !important;
+            page-break-after: always;
+        }
+
+        #double-scroll {
+            width: 1200px !important;
+            overflow: hidden !important;
+        }
+
+        .doubleScroll-scroll-wrapper {
+            overflow: hidden !important;
+        }
+    }
+</style>
+<style>
+
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            text-align: right !important;
+        }
+</style>
+<div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:20px !important;">
+
+    <div class="row">
+        <div class="col-md-4 logoImg">
+            <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+        </div>
+        <div id="Headtitle" class="col-md-4" style="text-align:center;">
+            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+            @if (Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+        </div>
+        <div class="col-md-4 text-right" style="text-align:right;">
+            <p>म.ले.प.फारम नं: ८०३</p>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div id="rptTitle" class="col-md-4" style="text-align:center; margin-top:20px;margin-bottom:20px;">
+            <p>
+                बेरुजुको केन्द्रीय कार्यालयगत लगत
+            </p>
+
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                कार्यालय सङ्केत न :@_4pix_Beruju.Utilities.GetCurrentLoginOfficeCode(Model.OfficeIdForReportHeader)
+
+
+            </p>
+
+        </div>
+        <div class="col-md-4">
+            @*कार्यालय*@
+        </div>
+    </div>
+
+
+
+
+    @*<table class="table table-bordered my-table" id="exporttopdf">
+            <thead>
+                <tr>
+                    <th>क्रम</th>
+                    <th>आ.व.</th>
+                    <th colspan="3" style="text-align:center;">लगत</th>
+                    <th colspan="3" style="text-align:center;">फछ्यौट</th>
+                    <th colspan="3" style="text-align:center;">बाँकी</th>
+                </tr>
+                <tr>
+
+                    <th></th>
+                    <th></th>
+                    <th>नियमित गर्नुपर्ने</th>
+                    <th>असुल उपर गर्नुपर्ने</th>
+                    <th>पेस्की</th>
+
+                    <th>नियमित गर्नुपर्ने</th>
+                    <th>असुल उपर गर्नुपर्ने</th>
+                    <th>पेस्की</th>
+
+                    <th>नियमित गर्नुपर्ने</th>
+                    <th>असुल उपर गर्नुपर्ने</th>
+                    <th>पेस्की</th>
+
+
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model.KendriyaKaralayagtLaagatViewModelList)
+                {
+                    item.StypeOne = _4pix_Beruju.ReportUtilities.GetSamparikshadAmountBerujuTypeWise(Model.OfficeIdForReportHeader, 1, item.FiscalYearId);
+                    item.StypeTwo = _4pix_Beruju.ReportUtilities.GetSamparikshadAmountBerujuTypeWise(Model.OfficeIdForReportHeader, 2, item.FiscalYearId);
+                    item.StypeThree = _4pix_Beruju.ReportUtilities.GetSamparikshadAmountBerujuTypeWise(Model.OfficeIdForReportHeader, 3, item.FiscalYearId);
+                    item.TypeOne = item.TypeOne.HasValue ? item.TypeOne : 0;
+                    item.TypeTwo = item.TypeTwo.HasValue ? item.TypeTwo : 0;
+                    item.TypeThree = item.TypeThree.HasValue ? item.TypeThree : 0;
+
+                    item.RtypeOne = item.TypeOne - item.StypeOne;
+                    item.RtypeTwo = item.TypeTwo - item.StypeTwo;
+                    item.RtypeThree = item.TypeThree - item.StypeThree;
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.FiscalYearTitle</td>
+                        <td>@item.TypeOne</td>
+                        <td>@item.TypeTwo</td>
+                        <td>@item.TypeThree</td>
+
+                        <td>@item.StypeOne</td>
+                        <td>@item.StypeTwo</td>
+                        <td>@item.StypeThree</td>
+
+                        <td>@item.RtypeOne</td>
+                        <td>@item.RtypeTwo</td>
+                        <td>@item.RtypeThree</td>
+
+
+
+                    </tr>
+                    i++;
+                }
+
+
+
+            </tbody>
+        </table>*@
+
+    @{
+
+
+        decimal totalTypeOne = 0;
+        decimal totalTypeTwo = 0;
+        decimal totalTypeThree = 0;
+
+        decimal totalStypeOne = 0;
+        decimal totalStypeTwo = 0;
+        decimal totalStypeThree = 0;
+
+        decimal totalRtypeOne = 0;
+        decimal totalRtypeTwo = 0;
+        decimal totalRtypeThree = 0;
+    }
+
+    <table class="table table-bordered my-table" id="exporttopdf">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आ.व.</th>
+                <th colspan="3" style="text-align:center;">लगत</th>
+                <th colspan="3" style="text-align:center;">फछ्यौट</th>
+                <th colspan="3" style="text-align:center;">बाँकी</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>नियमित गर्नुपर्ने</th>
+                <th>असुल उपर गर्नुपर्ने</th>
+                <th>पेस्की</th>
+
+                <th>नियमित गर्नुपर्ने</th>
+                <th>असुल उपर गर्नुपर्ने</th>
+                <th>पेस्की</th>
+
+                <th>नियमित गर्नुपर्ने</th>
+                <th>असुल उपर गर्नुपर्ने</th>
+                <th>पेस्की</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.KendriyaKaralayagtLaagatViewModelList)
+            {
+                item.StypeOne = _4pix_Beruju.ReportUtilities.GetSamparikshadAmountBerujuTypeWise(Model.OfficeIdForReportHeader, 1, item.FiscalYearId);
+                item.StypeTwo = _4pix_Beruju.ReportUtilities.GetSamparikshadAmountBerujuTypeWise(Model.OfficeIdForReportHeader, 2, item.FiscalYearId);
+                item.StypeThree = _4pix_Beruju.ReportUtilities.GetSamparikshadAmountBerujuTypeWise(Model.OfficeIdForReportHeader, 3, item.FiscalYearId);
+
+                item.TypeOne = item.TypeOne ?? 0;
+                item.TypeTwo = item.TypeTwo ?? 0;
+                item.TypeThree = item.TypeThree ?? 0;
+
+                item.RtypeOne = item.TypeOne - item.StypeOne;
+                item.RtypeTwo = item.TypeTwo - item.StypeTwo;
+                item.RtypeThree = item.TypeThree - item.StypeThree;
+
+                // Running totals
+                totalTypeOne += item.TypeOne ?? 0;
+                totalTypeTwo += item.TypeTwo ?? 0;
+                totalTypeThree += item.TypeThree ?? 0;
+
+                totalStypeOne += item.StypeOne ?? 0;
+                totalStypeTwo += item.StypeTwo ?? 0;
+                totalStypeThree += item.StypeThree ?? 0;
+
+                totalRtypeOne += item.RtypeOne ?? 0;
+                totalRtypeTwo += item.RtypeTwo ?? 0;
+                totalRtypeThree += item.RtypeThree ?? 0;
+
+                <tr>
+                    <td>@i</td>
+                    <td>@item.FiscalYearTitle</td>
+
+                    <td>@item.TypeOne</td>
+                    <td>@item.TypeTwo</td>
+                    <td>@item.TypeThree</td>
+
+                    <td>@item.StypeOne</td>
+                    <td>@item.StypeTwo</td>
+                    <td>@item.StypeThree</td>
+
+                    <td>@item.RtypeOne</td>
+                    <td>@item.RtypeTwo</td>
+                    <td>@item.RtypeThree</td>
+                </tr>
+
+                i++;
+            }
+
+            <!-- Final Total Row -->
+            <tr style="background-color:#d4edda; font-weight:bold;">
+                <td colspan="2" style="text-align:center;">जम्मा</td>
+
+                <td>@totalTypeOne</td>
+                <td>@totalTypeTwo</td>
+                <td>@totalTypeThree</td>
+
+                <td>@totalStypeOne</td>
+                <td>@totalStypeTwo</td>
+                <td>@totalStypeThree</td>
+
+                <td>@totalRtypeOne</td>
+                <td>@totalRtypeTwo</td>
+                <td>@totalRtypeThree</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

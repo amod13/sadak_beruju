@@ -1,0 +1,272 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    ViewBag.Title = "MakeSamparikshad";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">सम्परीक्षण फाराम</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display">सम्परीक्षण फाराम</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            @ViewBag.ErrorMessage
+                        </div>
+
+                    }
+                    <div class="card-header d-flex align-items-center">
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>आर्थिक वर्ष</th>
+                                        <th>बेरूजु दफा न</th>
+
+                                        @*<th>वजेट उपशिर्षक</th>
+                        <th>खर्च शिर्षक</th>*@
+                                        <th>गोश्वारा भौचर नम्बर</th>
+                                        <th>भौचर मिति</th>
+                                        <th>बेरुजु रकम</th>
+                                        <th>बाँकि रकम</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <tr>
+
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.FiscalYearTitle</td>
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.BerujuNumber</td>
+                                        @*<td>@Model.BudgetSubTitle</td>
+                        <td>@Model.ExpenseTItle</td>*@
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.JVNUMBER</td>
+                                        <td>@_4pix_Beruju.Utilities.GetNepaliDateFromEng(Model.ExternalBerujuForSamparikshadVMObj.VoucharDate)</td>
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.VoucharAmunt</td>
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.RemainingAmount</td>
+
+
+                                    </tr>
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @using (Html.BeginForm("EditSamparikshadForm", "ExternalBerujuLL", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.HiddenFor(m => m.ObjExternalSamparikshadViewModel.SamparishadId)
+                            @Html.HiddenFor(m => m.ObjExternalSamparikshadViewModel.ExternalBerujuId)
+                            @Html.HiddenFor(m => m.ObjExternalSamparikshadViewModel.UploadFileDetails)
+                            @Html.HiddenFor(m => m.ExternalBerujuForSamparikshadVMObj.VoucharAmunt)
+                            @Html.ValidationSummary(true)
+                            <fieldset>
+
+                                <div class="row">
+                                    <table class="table table-responsive-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    नाम
+                                                </th>
+                                                <th>
+                                                    प्यान नं
+                                                </th>
+                                                <th>
+                                                    मोबाईल
+                                                </th>
+                                                <th>
+                                                    बेरुजु रकम
+                                                </th>
+                                                <th>बाँकी रकम</th>
+                                                <th>
+                                                    सम्परीक्षण रकम
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        @for (int j = 0; j < Model.SamparikshadTowhomDetailVMListMain.Count; j++)
+                                        {
+                                            <tr>
+                                                @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].OfficeId)
+                                                @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].PersonName)
+                                                @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].PanNumber)
+                                                @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].MobielNumber)
+                                                @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].EBToWhomId)
+                                                @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].BerujuAmount)
+                                                <td>
+                                                    @Model.SamparikshadTowhomDetailVMListMain[j].PersonName
+                                                </td>
+
+
+                                                <td>
+                                                    @Model.SamparikshadTowhomDetailVMListMain[j].PanNumber
+                                                </td>
+                                                <td>
+                                                    @Model.SamparikshadTowhomDetailVMListMain[j].MobielNumber
+                                                </td>
+                                                <td>
+                                                    @Model.SamparikshadTowhomDetailVMListMain[j].IndividualAmount
+                                                </td>
+                                                @*<td>
+                                    @Model.SamparikshadTowhomDetailVMListMain[j].BerujuAmount
+                                </td>*@
+                                                <td>@_4pix_Beruju.Utilities.GetSamparikshadIndividualSum(Model.SamparikshadTowhomDetailVMListMain[j].ExternalBerujuId, Model.SamparikshadTowhomDetailVMListMain[j].EBToWhomId)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.SamparikshadTowhomDetailVMListMain[j].RevisedAmount, new { @class = "price", @onblur = "calculateAmount()", @value = Model.SamparikshadTowhomDetailVMListMain[j].RevisedAmount })
+                                                </td>
+                                            </tr>
+
+                                        }
+
+
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>चलानि नं</label>
+                                        @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.LetterNumber, new { @class = "form-control form-control-sm", @required = "required" })
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>सम्परीक्षण रकम</label>
+                                        @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.ReviesedVoucherAmount, new { @id = "TTSamparikshadAmt", @class = "form-control form-control-sm", @required = "required", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>सम्परीक्षण मिति</label>
+                                        @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.RevisedDateStr, new { @class = "form-control form-control-sm MaskDate", @required = "required", @id = "VoucharDateNeplai" })
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label>विवरण</label>
+                                        @Html.TextAreaFor(m => m.ObjExternalSamparikshadViewModel.RevisedRemarks, new { @class = "form-control form-control-sm", @required = "required" })
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(Model.ObjExternalSamparikshadViewModel.UploadFileDetails))
+                                    {
+                                        <div class="col-md-4 col-sm-4 form-group">
+                                            <label>अपलोड गरिएको कागजात</label><br />
+                                            @Html.ActionLink(" Download", "Download", "LocalLevelHome", new { @FileName = Model.ObjExternalSamparikshadViewModel.UploadFileDetails }, new { @class = "fa fa-download" })
+                                        </div>
+
+                                    }
+
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>कागजात</label><br />
+                                        @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.UploadFileDetailsFileType, new { type = "file" })
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>कट्टी</label>
+                                        @Html.DropDownListFor(m => m.ObjExternalSamparikshadViewModel.MalepaOrKumariChowkId, Utilities.GetSamparikshadDetailToFDD(), new { @class = "form-control form-control-sm", @required = "required" })
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सच्चाउनुहोस्</button>
+                                    <a href="@Url.Action("GetSamparikshadList","ExternalBerujuLL")" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@*<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+@*<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>*@
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+        //$j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('.MaskDate').inputmask('9999/99/99', { 'placeholder': 'yyyy/mm/dd' })
+    });
+
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function GetEmployeeNameCheck() {
+        $.ajax({
+            type: "POST",
+            url: "/InternalBerujuLL/GetEmployeeAndAuditorName",
+            data: '{VoucherDate: "' + $("#VoucharDateNeplai").val() + '" }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>
+
+<script>
+
+    //function calculateAmount(divId) {
+    //    var TotalAmountToAdd = 0;
+    //    var bAmount = $("#DivName" + divId).val();
+    //    if (bAmount != NaN) {
+    //        TotalAmountToAdd += parseFloat(bAmount);
+    //        $("#TTSamparikshadAmt").val(TotalAmountToAdd);
+    //    };
+
+
+
+    //}
+    function calculateAmount() {
+
+        var sum = 0;
+        $('.price').each(function () {
+            sum += Number($(this).val());
+        });
+
+        $("#TTSamparikshadAmt").val(sum);
+
+        // here, you have your sum
+    };
+
+
+
+</script>

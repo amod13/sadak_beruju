@@ -1,0 +1,440 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Controllers.CommonSetupController.BerujuLetterVM
+
+@{
+    ViewBag.Title = "AddBerujuOfficeManager";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active"></li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .card-footer {
+        padding: 0.75rem 0.25rem !important;
+    }
+
+    .line {
+        border-bottom: 1px solid black !important;
+    }
+</style>
+
+<style>
+    .btn btn-info {
+        color: #ffffff !important;
+    }
+
+    .pagebreak {
+        clear: both !important;
+        page-break-after: always !important;
+        margin-top: 30px !important;
+        margin-bottom: 30px !important;
+    }
+</style>
+<style>
+    .fieldset {
+        position: relative;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+        .fieldset h1 {
+            position: absolute;
+            top: 0;
+            font-size: 18px;
+            line-height: 1;
+            margin: -9px 0 0; /* half of font-size */
+            background: #fff;
+            padding: 0 3px;
+            font-weight: 100;
+        }
+
+    .class_tapasil {
+        width: 90%;
+        height: 100%;
+        margin: 50px;
+        /*  outline: solid 1px black;*/
+        display: flex;
+        justify-content: center;
+    }
+
+    .tapasil_details {
+        width: 50%;
+        height: 100%;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+<style>
+    @@page {
+        size: A4 portrait
+    }
+
+    article {
+        padding: 20px;
+    }
+
+    .TitleHeadingContainer {
+        height: 100%;
+        text-align: center;
+        display: flex;
+        padding: 0;
+        margin: auto;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-weight: 600 !important;
+    }
+
+        .TitleHeadingContainer table-borderless {
+            display: inline-block;
+        }
+
+        .TitleHeadingContainer h3 {
+            text-align: left;
+        }
+
+    tr {
+        font-weight: 600 !important;
+        color: black;
+    }
+</style>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">बेरुजु दाखिला गर्ने सम्बन्धमा</h3>
+                        </div>
+
+
+                        <div class="card-body A4 portrait">
+
+                            <div class="card-body">
+                                <input type="button" id="PRINT" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-success" />
+                            </div>
+                            <section class="sheet padding-10mm" id="DetailsReportsID">
+
+                                @foreach (var item in Model.ToWhomDetailListVMForReport)
+                                {
+                                    <div class="row myDivToPrint" style="margin-top: 10px !important; height: 120px !important;">
+
+
+                                        <div class="col-md-4 md4ClassForAll" style="margin:auto !important;">
+                                            <div class="logoImg" style="width:33% !important;">
+
+                                                <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+                                                @*<img src="~/vendors/Images/nepalsarkarlogoprint.png" />*@
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-md-4 md4ClassForAll" style="margin:auto !important;">
+                                            <div class="" id="" style="text-align:center;">
+
+                                                <table class="table-borderless headerTable">
+                                                    <tr>
+                                                        <td style="font-size:8pt !important;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.officeId)</td>
+                                                    </tr>
+                                                    @if (Model.OfficeTypeForReportHeader == 5)
+                                                    {
+                                                        <tr>
+                                                            <td style="font-size:9pt !important;">
+                                                                @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+                                                    {
+
+                                                        <tr>
+                                                            <td style="font-size:10pt !important;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)</td>
+                                                        </tr>
+                                                    }
+                                                    <tr>
+                                                        <td style="font-size:12pt !important;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size:10pt !important;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</td>
+
+                                                    </tr>
+                                                    @*<tr>
+                                                            <td style="font-size:8pt !important;font-style:italic !important;">(खरिद अनुगमन, मूल्यांकन तथा अभिलेख शाखा)</td>
+                                                        </tr>*@
+
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 md4ClassForAll">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div style="text-align:left !important; width:100% !important;float:left !important;padding:0 !important;margin:auto !important;border-top:1px solid black !important;">
+                                        <br />
+                                        <p>पत्र संख्या :</p>
+
+                                        <p>चलानी नं:</p>
+                                    </div>
+
+                                    <div style="text-align:right !important; font-size:14pt !important;">
+                                        मिति:-@_4pix_Beruju.Utilities.EnglishToNepaliNumber(_4pix_Beruju.Utilities.GetNepaliDateFromEng(DateTime.Now))
+                                    </div>
+                                    <div style="margin-top: 10px !important; text-align: center !important; font-size: 14pt !important;">
+                                        विषय:-बेरुजु रकम दाखिला गर्ने सम्बन्धमा ।
+                                    </div>
+                                    <div style="margin-top:10px !important;">
+                                        <article>
+                                            श्री @item.EmployeeName
+                                        </article>
+                                        <article>
+                                            ........................
+                                        </article>
+                                        <article style="text-align:justify !important;font-size:14pt !important;margin-top:20px !important;text-indent: 80px;">
+                                            उपरोक्त्त विषयमा यस कार्यालयको आ.व @_4pix_Beruju.Utilities.EnglishToNepaliNumber(_4pix_Beruju.Utilities.GetFiscalYearTitleFromExternalBerujuID(Model.ExternalBerujuId)) को लेखापरीक्षण हुँदा अन्तिम लेखापरीक्षण प्रतिवेदनमा
+                                            तपाँईको नाममा निम्नानुसारको बेरुजु देखिएकोले उक्त्त बेरुजु रकम पत्र पाएको
+                                            मितिले ७ (सात) दिनभित्र दाखिला  गरी सक्कलै भैोचर यस कार्यालयमा पेश गरिदिन हुन
+                                            अनुरोध छ । अन्यथा नियम कानुनबमोजिम भई जाने  व्यहोरा समेत अनुरोध छ ।
+                                        </article>
+                                        <article>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:10% !important;text-align:center;border:1px solid black;">क्र.स.</th>
+                                                        <th style="width:10% !important;text-align:center;border:1px solid black;">आ.व.</th>
+                                                        <th style="width:60% !important;text-align:center;border:1px solid black;">बेरुजुको व्यहोरा</th>
+                                                        <th style="width:10% !important;text-align:center;border:1px solid black;">बेरुजु रकम</th>
+                                                        <th style="width:10% !important;text-align:center;border:1px solid black;">कैफियत</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:10% !important;text-align:left;border:1px solid black;">१</td>
+                                                        <td style="width:10% !important;text-align:left;border:1px solid black;">@_4pix_Beruju.Utilities.GetFiscalYearTitleFromExternalBerujuID(Model.ExternalBerujuId)</td>
+                                                        <td style="width:60% !important;text-align:justify !important;border:1px solid black;">@Html.Raw(Model.BerujuDescription)</td>
+                                                        <td style="width:10% !important;text-align:left;border:1px solid black;">
+                                                            @if (item.AmountDetail.HasValue)
+                                                            {
+                                                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AmountDetail.ToString())</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>०</span>
+                                                            }
+                                                        </td>
+                                                        <td style="width:10% !important;text-align:left;border:1px solid black;"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                        </article>
+                                        <div class="margin-top" style="margin-top:20px !important;"></div>
+                                        <article style="width:50% !important;float:left !important;">
+                                            <p>बैंकको नाम : @_4pix_Beruju.Areas.Admin.functions.GetBankAndChequeNumberFromEBID(Model.ExternalBerujuId, 1)</p>
+
+                                            <p>खाता नम्बर : @_4pix_Beruju.Areas.Admin.functions.GetBankAndChequeNumberFromEBID(Model.ExternalBerujuId, 2)</p>
+                                            <p>
+                                                कार्यालयको कोड :@_4pix_Beruju.Utilities.GetCurrentLoginOfficeCode(Model.officeId)
+                                            </p>
+                                            <p>बेरुजु शीर्षक :१५१११</p>
+                                        </article>
+                                        <article style="width:30% !important;float:left !important;">
+                                            &nbsp;
+                                        </article>
+
+
+                                        <article style="width:20% !important;float:left !important;text-align:left;margin-top:40px !important;">
+                                            <p style="text-align:center !important;">@_4pix_Beruju.Areas.Admin.functions.GetCuurentOfficeChiefDetails(Model.ExternalBerujuId, 1)</p>
+
+                                            <p style="text-align:center !important;">@_4pix_Beruju.Areas.Admin.functions.GetCuurentOfficeChiefDetails(Model.ExternalBerujuId, 2)</p>
+
+                                        </article>
+
+                                        <table id="my-table" class="my-table table" style="margin-top:50px !important;">
+                                            <tr>
+                                                <td style="width:33% !important;">&nbsp;</td>
+                                                <td style="width:33% !important;">&nbsp;</td>
+                                                <td style="width:33% !important;margin-top:20px !important;">
+                                                    @Model.ObjCommonViewModel.EmpName                                                    
+                                                    @Model.ObjCommonViewModel.AuditorPost
+
+                                                </td>
+
+
+                                            </tr>
+                                        </table>
+
+
+
+
+                                        @*<article>
+                                            <p style="font-size:14pt !important;">
+                                                <u>बोधार्थ</u>
+                                            </p>
+                                            <p style="font-size:14pt !important;">
+                                                श्री @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader), वीरेन्द्रनगर, सुर्खेत ।
+                                            </p>
+                                            <p style="font-size:14pt !important;">
+                                                श्री बेरुजु फर्छ्यौट मूल्याँकन र अनुगमन समितिको सचिवालय, वीरेन्द्रनगर, सुर्खेत ।
+                                            </p>
+                                        </article>*@
+                                    </div>
+                                    <div class="pageBreak"></div>
+                                }
+
+
+
+
+
+
+
+                            </section>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script type="text/javascript">
+    function PrintElem(elem) {
+        var divToPrint = document.getElementById('DetailsReportsID');
+        htmlToPrint = '' +
+            '<style type="text/css">' +
+            '.my-table{' +
+            'width:100% !important;' +
+            'table-layout:fixed;' +
+            'overflow-wrap:break-word;' +
+            'border-spacing: 0px !important;' +
+            'text-align: center !important;' +
+
+
+            '}' +
+            '.my-table th, .my-table td {' +
+            'border:0px solid #000 !important;' +
+            'border-collapse: collapse !important;' +
+            'padding: 5px !important;' +
+            'border-spacing: 0px !important;' +
+
+            '}' +
+
+
+            //'.myDivToPrint{' +
+
+            //'margin-top:30px !important;' +
+            //'height:100px !important;' +
+            //'}' +
+
+
+
+            '.md4ClassForAll{' +
+            'width: 33% !important;' +
+            'float:left !important;' +
+            'height:120px !important;' +
+            'text-align:center !important;' +
+
+
+            '}' +
+
+            //'#marginTopCss {' +
+            //'margin-top:103px !important;' +
+            //'}' +
+
+
+            '.headerTable{' +
+            'text-align:center !important;' +
+            'border-spacing:0 !important;' +
+            'border-collapse: collapse !important;' +
+
+
+            '}' +
+
+            '.pagebreak{' +
+            'clear:both !important;' +
+            'page-break-after:always !important;' +
+
+
+            '}' +
+
+            '.headerTable td{' +
+            'padding:0px !important;' +
+            '}' +
+
+            //'.ConsultNameCss{' +
+            //'margin-top:100px !important;' +
+
+            //'}' +
+
+            'p{' +
+            'padding:0 !important;' +
+            'margin:0 !important;' +
+            '}' +
+
+
+            '#header, #footer, #nav {' +
+            'display:none!important;' +
+            '}' +
+
+            '.logoImg {' +
+            'float:left !important;' +
+            'max-width:auto !important;' +
+            '}' +
+
+            //'.phoneImg {' +
+            //'float:right !important;' +
+            //'}' +
+
+            //'.phoneImg{' +
+            //'margin-top:-10px !important;' +
+            //'}' +
+
+            '#HeadTitle {' +
+            'margin-bottom:30px !important;' +
+            'margin-top:30px !important;' +
+            'text-align:center !important;' +
+            '}' +
+
+
+            ' @@page {' +
+            'margin-left: 0.5in;' +
+            'margin-right: 0.5in;' +
+            'margin-top: 10px !important;' +
+            'margin-bottom: 0;' +
+            '}' +
+
+
+
+            '</style>';
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+
+    };
+</script>
+

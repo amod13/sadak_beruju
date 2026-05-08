@@ -1,0 +1,162 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+
+@{
+    int i = 1;
+    decimal? TotalSumBeruju = 0;
+    decimal? SamparikshadTotal = 0;
+}
+
+
+<style>
+
+    .html2canvas-container {
+        width: 3000px !important;
+        height: 3000px !important;
+    }
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+
+@if (Model.AntimBerujuOfficeChiefWiseRptViewModelList.Count > 0)
+{
+
+
+
+    <div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:20px !important;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="logoImg">
+                    <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+                    @*<img src="~/AdminResources/img/nepalsarkarlogo.png" style="height: 80px; width: 80px; margin-left: 50px;" />*@
+                </div>
+            </div>
+            <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+                @if (Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+            </div>
+            @*<div class="col-md-4 text-right">
+                    <p>म.ले.प.फारम नं: </p>
+                </div>*@
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div id="rptTitle" class="col-md-4" style="text-align:center; margin-top:20px;margin-bottom:30px;">
+                <p>
+                    अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-कार्यालय प्रमुख अनुसार
+                </p>
+
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered my-table" id="exporttopdf" style="font-size:12px;">
+                <thead>
+                    <tr>
+                        <th>क्रम</th>
+                        <th>आ.व.</th>
+                        <th>कार्यलय प्रमुख</th>
+                        <th>विनियोजन</th>
+                        <th>राजस्व</th>
+                        <th>धरौटी</th>
+                        <th>अन्य कोष</th>
+                        <th>जम्मा</th>
+                        <th>सम्परीक्षण</th>
+                        <th>बाँकी</th>
+                    </tr>
+
+
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.AntimBerujuOfficeChiefWiseRptViewModelList)
+                    {
+                        SamparikshadTotal = _4pix_Beruju.Areas.Admin.functions.GetSamparikshadAmountFiscalYearOfficeChiefWise(Model.OfficeId, item.FiscalYearId, item.OfficeManagerId);
+                        TotalSumBeruju = item.TotalAmout - SamparikshadTotal;
+
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.FiscalYearTitle</td>
+                            <td>@item.EmpName</td>
+                            <td>@item.Biniyojan</td>
+                            <td>@item.Rajaswo</td>
+                            <td>@item.Dharauti</td>
+                            <td>@item.AnyaKosh</td>
+                            <td>@item.TotalAmout</td>
+                            <td>@SamparikshadTotal</td>
+                            <td>@TotalSumBeruju</td>
+                        </tr>
+                        i++;
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+}
+else
+{
+    <div style="font-size:12px;font-weight:bold;margin-top:20px;text-align:center;">विवरण उपलब्ध हुन सकेन ।</div>
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.doubleScroll.js"></script>
+<script type="text/javascript">
+    var kk = $.noConflict();
+    kk(document).ready(function () {
+        kk('#double-scroll').doubleScroll();
+        kk('#sample2').doubleScroll({ resetOnWindowResize: true });
+    });
+</script>

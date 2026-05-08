@@ -1,0 +1,72 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+@{
+    int i = 1;
+}
+
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>बेरुजु दफा न</th>
+                <th>वजेट उपशिर्षक</th>
+                <th>खर्च शिर्षक</th>
+                <th>बेरूजु रकम</th>
+                <th>पूर्ण विवरण</th>
+      
+                @*<th>सम्परिक्षण</th>*@
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ExternalBerujuList)
+            {
+
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+                    <td>@item.BerujuNumber</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(item.BudgetSubTitle)</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(item.KoshTypeTitleListId)</td>
+                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.VoucharAmunt.ToString())</td>
+                    <td>
+                        @Html.ActionLink(" ", "ViewDetails", new { @id = item.ExternalBerujuId, @id2 = item.OfficeId },new { @class = "edits fa fa-eye", target = "_blank" })
+                    </td>
+
+
+                    @*@if (item.IsSamparikshadDone == true)
+                        {
+                            <td></td>
+
+                        }
+                        else
+                        {
+                            <td>
+                                <a href="~/LocalLevel/ExternalBerujuLL/MakeSamparikshad?id=@item.ExternalBerujuId" id="deleteBtn" class="edits" onclick="return confirm('के तपाँई को विवरण लाई सम्परिक्षण गर्न चाहानुहुन्छ ?');"><i class="edits fa fa-list-ol"></i></a>
+                               </td>
+
+                        }*@
+
+
+
+
+
+                </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<script src="~/DataTables/datatables.min.js"></script>
+<script>
+    var dt = jQuery.noConflict();
+    dt(document).ready(function () {
+        dt('#example').DataTable({ "pageLength": 15 });
+    });
+</script>

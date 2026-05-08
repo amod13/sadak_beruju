@@ -1,0 +1,197 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+@{
+    ViewBag.Title = "ViewSamparikshadReqForm";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">आन्तरीक संपरीक्षण अनुरोध फाराम</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <div class="row">
+            <div class="col-lg-4"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-header">
+
+                    <div class="col-sm-12">
+                        @*<input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />*@
+                        <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                    </div>
+
+                </div>
+
+
+                <div class="card" id="exporttopdf">
+                    <div class="row">
+
+                        <div class="col-md-4">
+
+                        </div>
+                        <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.ObjInternalSamparikshadRequestMaterDetailVM.OfficeId)</p>
+
+                            <p>
+                                @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.ObjInternalSamparikshadRequestMaterDetailVM.OfficeId)
+
+                            </p>
+
+
+
+                            <p>
+                                @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.ObjInternalSamparikshadRequestMaterDetailVM.OfficeId)
+
+                            </p>
+
+
+
+
+                            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.ObjInternalSamparikshadRequestMaterDetailVM.OfficeId)</p>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div id="rptTitle" class="col-md-4" style="text-align:center;">
+                            <p>
+                                बेरुजु संपरीक्षण पत्र
+                            </p>
+                            <p>@_4pix_Beruju.Utilities.GetNepaliDateFromEng(DateTime.Today)</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="card-header">
+
+                        <div class="row">
+
+                            <div class="col-lg-4">प.स.आ.प्र.</div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">मिति : @Model.ObjInternalSamparikshadRequestMaterDetailVM.RequestedDateNep</div>
+
+
+                            @*<span></span><br />
+                                <span>कार्यलयको नाम : @Model.ObjSamparikshadRequestMaterDetailVM.ToWhomOfficeName</span><br />
+                                <span>कार्यलयको ठेगाना @Model.ObjSamparikshadRequestMaterDetailVM.OfficeAddress</span>*@
+
+
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-4">च.न.:@Model.ObjInternalSamparikshadRequestMaterDetailVM.LetterNumber</div>
+                            <div class="col-lg-4">विषय :बेरुजु संपरीक्षण गरिदिनुहुन ।</div>
+                            <div class="col-lg-4"></div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                @Model.ObjInternalSamparikshadRequestMaterDetailVM.ToWhomOfficeName
+                            </div>
+                            <div class="col-lg-12">
+                                @Model.ObjInternalSamparikshadRequestMaterDetailVM.OfficeAddress
+
+                            </div>
+                        </div>
+
+                        <div class="card-header d-flex align-items-center">
+                            प्रस्तुत विषयमा @Utilities.GetCurrentLoginOfficeName(Model.ObjInternalSamparikshadRequestMaterDetailVM.OfficeId) समेतको आ.व. विभिन्नको आर्थिक कारोवारको लेखा परीक्षण हुँदा बेरुजु प्रतिवेदनको निम्न दफाहरुमा उल्लेख भएका बेरुजु आर्थिक कार्याबिधि तथा वित्तिय उत्तरदायित्व ऐन २०७६ को दफा ४०(२) वमोजिम असुल भै आएकोले रू @Model.ObjInternalSamparikshadRequestMaterDetailVM.TotalAmount  । उक्त बेरुजु रकम आर्थिक कार्याबिधि तथा वित्तीय उत्तरदायित्व ऐन २०७६ को दफा ४०(४) वमोजिम संपरीक्षण गरिदिनुहुन अनुरोध छ ।
+                        </div>
+
+
+                        <div class="card-header d-flex align-items-center">
+                            <div class="table-responsive">
+                                <table class="table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>सि.न</th>
+                                            <th>आ.व</th>
+                                            <th>बेरुजुको दफा नं.</th>
+                                            <th>छोटकारि व्यहोरा</th>
+                                            <th>रकम</th>
+                                            <th>फछयैाट</th>
+                                            <th>रकम</th>
+                                            <th>फछयैाट गर्ने जिम्मेवार व्यक्तिको नाम र दर्जा</th>
+                                            <th>कैफियत</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tr>
+                                        <td>१</td>
+                                        <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.ObjInternalSamparikshadRequestMaterDetailVM.FYID)</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.BerujuDafaNumber</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.BerujuShortDes</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.TotalAmount</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.BerujuShortDes</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.TotalAmount</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.ResponsiblePersonName<span>,</span>@Model.ObjInternalSamparikshadRequestMaterDetailVM.Post</td>
+                                        <td>@Model.ObjInternalSamparikshadRequestMaterDetailVM.Remarks</td>
+                                    </tr>
+
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        html2canvas($('#exporttopdf')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("SamparikshadRequest.pdf");
+            }
+        });
+    });
+</script>
+

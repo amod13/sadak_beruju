@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Updated</title>
+
+    <!-- Auto close after 2 seconds -->
+    <script>
+        setTimeout(function () {
+            window.close();
+        }, 2000); // 2 seconds
+    </script>
+</head>
+<body>
+
+    @if (TempData["Success"] != null)
+    {
+        <div style="
+            margin: 40px;
+            padding: 15px;
+            border: 1px solid #28a745;
+            background-color: #d4edda;
+            color: #155724;
+            font-size: 16px;
+            border-radius: 5px;">
+            @TempData["Success"]
+            <br />
+            <small>यो ट्याब केही क्षणमा बन्द हुनेछ…</small>
+        </div>
+    }
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Models.BerujuTypeReportsViewModel
+@{
+    int i = 1;
+}
+<div class="table-responsive" id="DetailsReportsID">
+
+
+
+    <table class="table table-hover table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>बेरूजु दफा नं</th>
+              
+                <th>विवरण</th>
+               
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.objBerujuTypeModels.SaidantikBerujuListViewModel)
+            {
+
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+                    <td>@item.BerujuDafaNumber</td>
+                   
+
+                    <td>
+                        @Html.ActionLink(" ", "ViewDetailsSaidantikBeruju", new { @id = item.SaidantikBerujuId, @id1 = Model.InternalOrExternalIdSearch,@id2=Model.OfficeIdSearch }, new { @class = "edits fa fa-eye",@target="_blank" })
+                    </td>
+                    
+
+                </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+
+
+
+</div>

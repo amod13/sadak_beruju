@@ -1,0 +1,105 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Models.ExpenseTitleViewModelSetup
+
+@{
+    ViewBag.Title = "ListBudgetSubTitle";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">खर्च शिर्षक विवरण</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            @*<h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>*@
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            @*@Html.ActionLink("", "Create", "BerujuType", new { @class = "btn btn-sm btn-success" })*@
+
+
+                            <a href="@Url.Action("CreateExpenseTitle","ExpenseTitleSetup")" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>क्रम</th>
+                                        <th>खर्च शिर्षक नम्बर</th>
+                                        <th>खर्च शिर्षक नाम</th>
+                                        <th>सच्याउनुहोस्</th>
+                                        <th>हटाउनुहोस्</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.ExpenseTitleSetupList)
+                                    {
+
+                                        <tr>
+                                            <td scope="row">@i</td>
+                                            <td>@item.Code</td>
+                                            <td>@item.TItlle</td>
+                                            <td>
+                                                @Html.ActionLink(" ", "EditExpenseTitle", new { @id = item.ChaluPujigatId }, new { @class = "edits fa fa-edit" })
+                                            </td>
+
+                                            <td>
+                                                <a href="~/LocalLevel/ExpenseTitleSetup/DeleteChaluOrPujigatTitleDetail?id=@item.ChaluPujigatId" id="deleteBtn" class="edits" onclick="return confirm('के तपाँई को विवरण लाई हटाउँन चाहानुहुन्छ ?');"><i class="edits fa fa-trash"></i></a>
+
+                                                </td>
+
+
+                                        </tr>
+                                        ++i;
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>

@@ -1,0 +1,466 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+<script src="~/vendor/CkStandar/ckeditor.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">अन्तिम लेखापरीक्षण बेरूजु</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+
+                <h6 class="h3 display">अन्तिम लेखापरीक्षण बेरूजु (@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshTypeId))</h6>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <div style="color:red;font-size:15px;font-style:italic;">@ViewBag.ErrorMessage</div>
+                        }
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("Create", "ExternalBerujuLL", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(m => m.KoshTypeId)
+                            <fieldset>
+
+
+
+                                @Html.Partial("_CreateEdit")
+
+
+                                <div class="well well-small" id="Add-Item" style="width: 940px;">
+
+                                    @Html.ActionLink("विवरण थप्नुहोस", "ToWhomeDetailsList", null, new { @id = "btns", @class = "addProductItem btn btn-success" })
+
+                                    <table id="tblotm" style="width: 940px; margin-left: 0px !important;margin-top:10px;">
+                                        <tr>
+
+                                            <td style="width:197px;font-weight:bold;">सम्बन्धितको नाम</td>
+                                            <td style="width:121px;font-weight:bold;">प्यान नं</td>
+                                            <td style="width:117px;font-weight:bold;">मोबाईल नं</td>
+                                            <td style="width:123px;font-weight:bold;">बेरुजु रकम</td>
+                                            <td style="width:127px;font-weight:bold;">भौचर नम्बर</td>
+                                            <td style="width:148px;font-weight:bold;">मिति</td>
+
+                                        </tr>
+
+
+                                    </table>
+
+                                    @try
+                                    {
+                                        foreach (var item in Model.ToWhomDetailListVMList)
+                                        {
+
+                                            @Html.Partial("ToWhomeDetailsList", item)
+
+                                        }
+                                    }
+                                    catch { }
+
+                                </div>
+
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>जम्मा बेरूजु रकम</label>
+                                        @Html.TextBoxFor(m => m.VoucharAmunt, new { @id = "TTSamparikshadAmt", @class = "form-control form-control-sm", @required = "required", @readonly = "readonly" })
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>कागजात</label><br />
+                                        @Html.TextBoxFor(m => m.SupportingDocFiles, new
+                                        {
+                                            type = "file",
+                                            required = "required",
+                                            accept = ".png,.jpg,.jpeg,.pdf"
+                                        })
+                                        <span class="text-danger" id="fileError"></span>
+
+
+                                    </div>
+                                </div>
+                                <hr />
+
+
+
+
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्षित गर्नुहोस</button>
+                                    <a href="@Url.Action("Index","ExternalBerujuLL", new { @id=Model.KoshTypeId})" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+
+
+
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="card-body">
+                @*<div class="offset-lg-10">
+                        <a href="@Url.Action("Index","ExternalBerujuLL", new { @id=Model.KoshTypeId})" , class="btn btn-sm btn-success pull-right">
+                            <i class="fa fa-backward"></i>&nbsp; पूर्ण सूची हेर्नुहोस
+                        </a>
+                    </div>*@
+                <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                    <table class="table table-hover table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>क्रम</th>
+                                <th>आर्थिक वर्ष</th>
+                                <th>बेरुजु दफा न</th>
+                                <th>वजेट उपशिर्षक</th>
+                                <th>खर्च शिर्षक</th>
+                                <th>बेरुजु रकम</th>
+                                <th>सच्चाउनुहोस</th>
+                                <th>विवरण</th>
+                                @*<th>हटाउनुहोस</th>*@
+                                @*<th>सम्परिक्षण</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.ExternalBerujuListTopFive)
+                            {
+
+                                <tr>
+                                    <td scope="row">@i</td>
+                                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+                                    <td>@item.BerujuNumber</td>
+                                    <td>@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(item.BudgetSubTitle)</td>
+                                    <td>@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(item.KoshTypeTitleListId)</td>
+                                    <td>@item.VoucharAmunt</td>
+
+                                    <td>
+                                        @Html.ActionLink(" ", "Edit", new { @id = item.ExternalBerujuId }, new { @class = "edits fa fa-edit" })
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink(" ", "ViewDetails", new { @id = item.ExternalBerujuId }, new { @class = "edits fa fa-eye" })
+                                    </td>
+                                    @*<td>
+                                            @Html.ActionLink(" ", "DeleteFromCreate", new { @id = item.ExternalBerujuId, @id1 = item.KoshTypeId }, new { @class = "edits fa fa-trash" })
+                                        </td>*@
+
+                                    @*@if (item.IsSamparikshadDone == true)
+                                        {
+                                            <td></td>
+
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <a href="~/LocalLevel/ExternalBerujuLL/MakeSamparikshad?id=@item.ExternalBerujuId" id="deleteBtn" class="edits" onclick="return confirm('के तपाँई को विवरण लाई सम्परिक्षण गर्न चाहानुहुन्छ ?');"><i class="edits fa fa-list-ol"></i></a>
+                                            </td>
+
+                                        }*@
+
+
+
+                                </tr>
+                                ++i;
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>
+
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+@*<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+        //$j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('.MaskDate').inputmask('9999/99/99', { 'placeholder': 'yyyy/mm/dd' })
+    });
+
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script src="@Url.Content("~/Scripts/OrderManagerScript.js")" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+
+    var kk = $.noConflict();
+    kk(document).ready(function () {
+        AddClickEvents();
+
+    });
+</script>
+
+<script type="text/javascript">
+
+
+
+
+    //function GetEmployeeNameCheck() {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/InternalBerujuLL/GetEmployeeAndAuditorName",
+    //        data: '{VoucherDate: "' + $("#VoucharDateNeplai").val() + '" }',
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function (response) {
+    //            alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+    //        },
+    //        failure: function (response) {
+    //            alert(response.responseText);
+    //        },
+    //        error: function (response) {
+    //            alert(response.responseText);
+    //        }
+    //    });
+    //};
+
+    function GetBudgetSubTitleByFYID() {
+
+        var FYIDVal = $("#DDFYID option:selected").val();
+        if (FYIDVal != null) {
+
+
+            $.ajax({
+                url: "@Url.Action("GetBudgetSubtitleFromOfficeIdFYID", "AjaxRequest", new { @area="admin"})",
+                data: { id: FYIDVal },
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+                    var items = "";
+                    $.each(data, function (i, item) {
+                        items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                    });
+
+                    $("#BSTID").html(items);
+                }
+            })
+        }
+
+    };
+
+
+
+    function GetTypeListDD() {
+
+        //var koshIdVal = $("#KoshTypeIdDD option:selected").val();
+        var koshIdVal = '@Model.KoshTypeId';
+        var ChaluOrIdVal = $("#ChaluOrPujiDD option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetTypeListDD", "AjaxRequest", new { @area="admin"})",
+            data: { id: koshIdVal, id1:ChaluOrIdVal},
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#KoshTypeListTitleDD").html(items);
+            }
+        })
+
+    };
+    function GetBerujuSubTitleDD() {
+
+        var value = $("#BerujuTypeIdDD option:selected").val();
+        if (value != null) {
+            $.ajax({
+            url: "@Url.Action("GetBerujuSubTitleDD", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#Berujusubtitleiddiv").html(items);
+                GetBerujuSubTitleChildDD(); 
+            }
+        })
+
+        }
+
+    };
+
+    //GetBerujuSubTitleChildDD
+
+    function GetBerujuSubTitleChildDD() {
+
+        var value = $("#Berujusubtitleiddiv option:selected").val();
+    if (value != null) {
+        $.ajax({
+        url: "@Url.Action("GetBerujuSubTitleChildDD", "AjaxRequest", new { @area="admin"})",
+        data: { id: value },
+        dataType: "json",
+        type: "POST",
+        error: function () {
+            alert("An error occurred.");
+        },
+        success: function (data) {
+            var items = "";
+            $.each(data, function (i, item) {
+                items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+            });
+
+            $("#Berujusubtitlechildiddiv").html(items);
+        }
+    })
+
+    }
+
+};
+
+
+
+
+
+
+</script>
+
+<script type="text/javascript">
+
+    kk("#Add-Item").on('click', '.row-button', function () {
+        kk(this).closest("div.row").remove();
+        var sum = 0;
+        kk('.ItemTotal').each(function () {
+            sum += Number(kk(this).val());
+        });
+
+        kk("#TTSamparikshadAmt").val(sum);
+
+    })
+</script>
+
+<script type="text/javascript">
+    function calAmt() {
+        var sum = 0;
+        kk('.ItemTotal').each(function () {
+            sum += Number($(this).val());
+        });
+
+        kk("#TTSamparikshadAmt").val(sum);
+    };
+
+
+
+
+</script>
+
+
+
+
+
+<script src="~/Scripts/SweetAlert.min.js"></script>
+<script type="text/javascript">
+
+    kk(function () {
+         var a = '@TempData["Success"]';
+         var b = '@TempData["Error"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else if (b != '')
+        {
+            sweetAlert(b, "Error", "error");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.querySelector('input[name="SupportingDocFiles"]');
+        const fileError = document.getElementById('fileError');
+
+        fileInput.addEventListener('change', function () {
+            fileError.textContent = ''; // Clear any old message
+            const file = this.files[0];
+            if (!file) return;
+
+            const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
+            const maxSize = 500 * 1024; // 500 KB
+
+            if (!allowedTypes.includes(file.type)) {
+                fileError.textContent = 'Only PNG, JPG, JPEG, and PDF files are allowed.';
+                this.value = ''; // Clear invalid file
+                return;
+            }
+
+            if (file.size > maxSize) {
+                fileError.textContent = 'File size must be less than 500 KB.';
+                this.value = ''; // Clear too-large file
+            }
+        });
+    });
+</script>

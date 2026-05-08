@@ -1,0 +1,37 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+@{
+
+}
+<div id="DetailsReportsID">
+    <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+        <thead>
+            <tr>
+                <th>आर्थिक वर्ष</th>
+                <th>कार्यलयको नाम</th>
+                <th>कार्यलयको कोड</th>
+                <th>जम्मा बेरूजु नभएको</th>
+
+
+            </tr>
+        </thead>
+        @foreach (var item in Model.SaidantikCountOfficeWiseViewModelList)
+        {
+
+
+            <tr>
+                <td>@item.FiscalYearTitle</td>
+                <td>@item.OFficeName</td>
+                <td>@item.OfficeCode</td>
+                <td>@item.Total</td>
+
+            </tr>
+
+        }
+
+
+
+    </table>
+</div>
+

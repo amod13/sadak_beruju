@@ -1,0 +1,396 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+
+    decimal? niyamitafterSamparikshad = 0, ashuliaftersamparikshad = 0, peskiaftersamparikshad = 0;
+
+}
+
+<style>
+
+    .html2canvas-container {
+        width: 3000px !important;
+        height: 3000px !important;
+    }
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+
+@if (Model.AnusuchiThirteenViewModelList.Count > 0)
+{
+
+
+
+
+    <div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:30px !important;">
+        <div class="row myDivToPrint">
+            <div class="col-md-4 logoImg">
+                <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+            </div>
+
+
+            <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+                @if (Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+            </div>
+            @*<div class="col-md-4" style="text-align:right;">
+                    <p>म.ले.प.फारम नं: ८०१</p>
+                </div>*@
+        </div>
+        <div class="row" style="margin-top:20px;margin-bottom:20px;">
+            <div class="col-md-12" style="text-align:center">
+                कार्यालय कोड नं.-@_4pix_Beruju.Utilities.GetCurrentLoginOfficeCode(Model.OfficeIdForReportHeader)
+            </div>
+            <div class="col-md-12" style="text-align:center;">
+
+                लेखापरीक्षण प्रतिवेदनमा ओैल्याएको बेरुजुको लगत
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                @*.....महिना सम्मको*@
+            </div>
+            <div class="col-md-3">
+                @*@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshID)*@
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                @*कार्यलय सङ्केत नम्बर :*@
+            </div>
+            <div class="col-md-3">
+                @*@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshID)*@
+
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <table class="table table-bordered my-table" id="exporttopdf">
+
+                <TR>
+                    <TD ROWSPAN=2>
+                        <SPAN>आर्थिक वर्ष</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>बजेट उपशिर्षक नम्बर</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>बेरूजु दफा नम्बर</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>शुरू कायम बेरुजु रू</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>
+                            आर्थिक वर्ष
+                            @_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)
+                            सम्ममा फस्यैाट रकम
+                        </SPAN>
+                    </TD>
+                    <TD colspan="4" class="tdClass">
+                        यस आर्थिक वर्षको शुरूको बाकीँ रू
+                    </TD>
+                    <TD colspan="4" class="tdClass"> यस आर्थिक वर्षमा फस्यैाट रू.</TD>
+                    <TD colspan="4" class="tdClass">
+                        फस्यैाट भई बाँकी रहेको जिम्मेबारी सार्नुपर्ने रू
+                    </TD>
+
+                    <TD ROWSPAN=2>
+                        <SPAN>
+                            बेरूजुसँग सम्बन्धित व्यक्ति/संस्थाको नाम,बेरूजुको छोटकरी व्यहोरा
+                            बेरूजु फस्यैाट/समपरीक्षण भएको जानकारी पत्रको चलानी नं. र मिति
+                        </SPAN>
+                    </TD>
+
+                    <TD ROWSPAN=2>
+                        <SPAN>बेरूजु रकम रू</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>तत्कालीन कार्यलय प्रमुखको नाम</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>तत्कालीन लेखा प्रमुखको नाम</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>नगद असुली मिति</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>नगद असुली भैाचर नं.</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>फस्यैाट भएको मध्ये नगद असुली रू</SPAN>
+                    </TD>
+                    <TD ROWSPAN=2>
+                        <SPAN>लगत कट्टा तथा समपरीक्षणको लागी पेश भएको</SPAN>
+                    </TD>
+                </TR>
+                <TR>
+                    <td>
+                        <SPAN class="belowTD">नियमित गर्नुपर्ने</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">असुल उपर गर्नुपर्ने</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">नियमित गर्नुपर्ने</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">असुल उपर गर्नुपर्ने</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">नियमित गर्नुपर्ने</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">असुल उपर गर्नुपर्ने</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                </TR>
+                <tbody>
+                    @foreach (var item in Model.AnusuchiThirteenViewModelList)
+                    {
+                        decimal? tillCurrentFYSampAmount = Utilities.GetTotalSamparikshadAmountTillCurrentFY(Model.OfficeIdForReportHeader, item.FiscalYearId, item.ExternalBerujuId);
+                        decimal? CurrentFiscalYearAmount = Utilities.GetTotalSamparikshadAmountCurrentFY(Model.OfficeIdForReportHeader, item.FiscalYearId, item.ExternalBerujuId);
+
+                        niyamitafterSamparikshad = item.FirstBerujuKayamAmount - tillCurrentFYSampAmount;
+                        ashuliaftersamparikshad = item.FirstBerujuKayamAmount - tillCurrentFYSampAmount - CurrentFiscalYearAmount;
+                        //peskiaftersamparikshad = item.FirstBerujuKayamAmount - tillCurrentFYSampAmount;
+
+                    <tr>
+                        <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FiscalYearTitle.ToString())</td>
+                        <td>@item.BudgetUpShirshak</td>
+                        <td>@item.BerujuDafaNumber</td>
+
+                        <td>
+                            @if (item.FirstBerujuKayamAmount.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FirstBerujuKayamAmount.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (tillCurrentFYSampAmount.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(tillCurrentFYSampAmount.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (item.NiyamitBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.NiyamitBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.AshulBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AshulBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.PeskiBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.PeskiBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (niyamitafterSamparikshad.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(niyamitafterSamparikshad.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.NiyamitBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.NiyamitBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.AshulBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AshulBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.PeskiBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.PeskiBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (CurrentFiscalYearAmount.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(CurrentFiscalYearAmount.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.NiyamitBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.NiyamitBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.AshulBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AshulBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.PeskiBeforeFY.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.PeskiBeforeFY.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>
+                            @if (ashuliaftersamparikshad.HasValue)
+                            {
+                                <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(ashuliaftersamparikshad.ToString())</span>
+                            }
+                            else
+                            {
+                                <span>०</span>
+                            }
+                        </td>
+                        <td>@item.BerujuShorDesc</td>
+                        <td></td>
+                        <td>@Utilities.GetOfficeChiefAndAuditorName(Model.OfficeIdForReportHeader, 1,item.FiscalYearId)</td>
+                        <td>@Utilities.GetOfficeChiefAndAuditorName(Model.OfficeIdForReportHeader, 2,item.FiscalYearId)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+
+
+
+    </div>
+
+
+}

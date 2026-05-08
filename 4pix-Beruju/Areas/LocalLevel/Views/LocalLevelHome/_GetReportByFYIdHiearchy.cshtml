@@ -1,0 +1,39 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+<div id="DetailsReportsID">
+    <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+        <thead>
+            <tr>
+                <th>आर्थिक वर्ष</th>
+                <th>कार्यलयको नाम</th>
+                <th>नियमित गर्नुपर्ने</th>
+                <th>सम्परीक्षण</th>
+                <th>असुल उपर गर्नुपर्ने</th>
+                <th>सम्परीक्षण</th>
+                <th>पेस्की</th>
+                <th>सम्परीक्षण</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.DashboardOfficesGetSumBerujuTypeWiseViewModelList)
+        {
+            <tr>
+                <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</td>
+                <td>@item.OFficeName</td>
+                <td>@item.Niyamit</td>
+                <td>@item.NiyamitTotalSamparikshad</td>
+
+                <td>@item.AshulUpar</td>
+                <td>@item.AshulUparTotalSamparikshad</td>
+
+                <td>@item.Peski</td>
+                <td>@item.PeskiTotalSamparikshad</td>
+            </tr>
+
+        }
+
+
+    </table>
+</div>
+

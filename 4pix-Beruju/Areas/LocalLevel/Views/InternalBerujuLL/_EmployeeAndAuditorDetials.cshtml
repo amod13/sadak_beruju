@@ -1,0 +1,18 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+<div class="row">
+    @foreach (var item in Model.ManagerOrAuditorNameViewModelList)
+    {
+
+
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>Manager name</label>
+            @item.ManagerOrAuditorName
+        </div>
+
+
+
+    }
+</div>
+
+

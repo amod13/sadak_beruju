@@ -1,0 +1,615 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+
+    decimal? samparikshadFiscalYearTotal = 0;
+    decimal? FirstQuardTotal = 0;
+    decimal? SecondQuardTotal = 0;
+    decimal? ThirdQuardTotal = 0;
+
+    decimal? YearlyNiyamitTitalQuardTotal = 0;
+    decimal? YearlyAshuluTitalQuardTotal = 0;
+    decimal? YearlyPeskitotalQuardTotal = 0;
+    decimal? YearlyAllTotal = 0;
+
+}
+
+
+<style>
+
+    .html2canvas-container {
+        width: 3000px !important;
+        height: 3000px !important;
+    }
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+
+@if (Model.AnusuchiFourteenViewModelList.Count > 0)
+{
+
+
+
+
+    <div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:30px !important;">
+        <div class="row myDivToPrint">
+            <div class="col-md-4">
+                <div class="logoImg">
+                    <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+                    @*<img src="~/AdminResources/img/nepalsarkarlogo.png" style="height: 80px; width: 80px; margin-left: 50px;" />*@
+                </div>
+            </div>
+            <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+                @if (Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+                {
+                    <p>
+                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                    </p>
+
+
+                }
+
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+                <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+
+            </div>
+            @*<div class="col-md-4" style="text-align:right;">
+                    <p>म.ले.प.फारम नं: ८०१</p>
+                </div>*@
+        </div>
+        <div class="row" style="margin-top:20px;margin-bottom:20px;">
+            <div class="col-md-12" style="text-align:center;">
+                कार्यालय कोड नं.-@_4pix_Beruju.Utilities.GetCurrentLoginOfficeCode(Model.OfficeIdForReportHeader)
+            </div>
+            <div class="col-md-12" style="text-align:center;">
+
+                बेरूजु फस्यैांट (लक्ष्य र प्रगति) को विवरण तथा एकीकृत प्रतिवेदन
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                .....महिना सम्मको
+            </div>
+            <div class="col-md-3">
+                @*@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshID)*@
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                कार्यलय सङ्केत नम्बर :
+            </div>
+            <div class="col-md-3">
+                @*@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshID)*@
+
+            </div>
+        </div>
+
+        <div id="col-md-12">
+
+            <table class="table table-bordered my-table" id="exporttopdf" style="font-size:12px;">
+
+                <TR>
+                    <TD ROWSPAN=3>
+                        <SPAN>क्र.स.</SPAN>
+                    </TD>
+                    <TD ROWSPAN=3>
+                        <SPAN>कार्यालय सङ्केत नं. र कार्यालय</SPAN>
+                    </TD>
+
+                    <TD colspan="4" class="tdClass">
+                        फस्यैांट गर्न बाँकी बेरूजु आर्थिक वर्ष..लाई अ.ल्या.
+                    </TD>
+
+
+                    <TD colspan="5" class="tdClass">
+                        प्रथम चैामासिक
+                    </TD>
+                    <TD colspan="5" class="tdClass">
+                        दोस्रो चैामासिक
+                    </TD>
+                    <TD colspan="5" class="tdClass">
+                        तेस्रो चैामासिक
+                    </TD>
+                    <TD colspan="5" class="tdClass">
+                        हालसम्मको वार्षिक
+                    </TD>
+
+
+                </TR>
+                <tr>
+                    <td colspan="4">&nbsp;</td>
+
+                    <td colspan="4">लक्ष्य तथा प्रगति</td>
+
+                    <td colspan="1">प्रतिशत</td>
+                    <td colspan="4">लक्ष्य तथा प्रगति</td>
+
+                    <td colspan="1">प्रतिशत</td>
+                    <td colspan="4">लक्ष्य तथा प्रगति</td>
+                    <td colspan="1">प्रतिशत</td>
+                    <td colspan="4">लक्ष्य तथा प्रगति</td>
+                    <td colspan="1">प्रतिशत</td>
+
+                </tr>
+                <TR>
+
+                    <td>
+                        <SPAN class="belowTD">नियमित</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">असुल</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+
+
+                    <td>
+                        <SPAN class="belowTD">नियमित</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">असुल</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD"></SPAN>
+                    </td>
+
+                    <td>
+                        <SPAN class="belowTD">नियमित</SPAN>
+                    </td>
+
+                    <td>
+                        <SPAN class="belowTD">असुल</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD"></SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">नियमित</SPAN>
+                    </td>
+
+
+                    <td>
+                        <SPAN class="belowTD">असुल</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD"></SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">नियमित</SPAN>
+                    </td>
+
+
+                    <td>
+                        <SPAN class="belowTD">असुल</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">पेस्की</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD">जम्मा</SPAN>
+                    </td>
+                    <td>
+                        <SPAN class="belowTD"></SPAN>
+                    </td>
+                </TR>
+
+                @foreach (var item in Model.AnusuchiFourteenViewModelList)
+                {
+                    samparikshadFiscalYearTotal = item.SamparikshadRemainNiyamitAmt + item.SamparikshadRemainAshuliAmt + item.SamparikshadRemainPeskiAmt;
+
+                    FirstQuardTotal = item.FirstTrimisterNiyamitAmt + item.FirstTrimisterAshuliAmt + item.FirstTrimisterPeskiAmt;
+                    SecondQuardTotal = item.SecondTrimisterNiyamitAmt + item.SecondTrimisterAshuliAmt + item.SecondTrimisterPeskiAmt;
+                    ThirdQuardTotal = item.ThirdTrimisterNiyamitAmt + item.ThirdTrimisterAshuliAmt + item.ThirdTrimisterPeskiAmt;
+
+                    YearlyNiyamitTitalQuardTotal = item.FirstTrimisterNiyamitAmt + item.SecondTrimisterNiyamitAmt + item.ThirdTrimisterNiyamitAmt;
+                    YearlyAshuluTitalQuardTotal = item.FirstTrimisterAshuliAmt + item.SecondTrimisterAshuliAmt + item.ThirdTrimisterAshuliAmt;
+                    YearlyPeskitotalQuardTotal = item.FirstTrimisterPeskiAmt + item.SecondTrimisterPeskiAmt + item.ThirdTrimisterPeskiAmt;
+                    YearlyAllTotal = YearlyNiyamitTitalQuardTotal + YearlyAshuluTitalQuardTotal + YearlyPeskitotalQuardTotal;
+
+                    decimal? firstQuadPercentage = 0;
+                    if (samparikshadFiscalYearTotal > 0)
+                    {
+                        firstQuadPercentage = (FirstQuardTotal / samparikshadFiscalYearTotal) * 100;
+                    }
+                    string firstQuadPercentagestr = string.Format("{0:n2}", firstQuadPercentage);
+
+
+                    decimal? secondquardpercentage = 0;
+                    if (samparikshadFiscalYearTotal > 0)
+                    {
+                        secondquardpercentage = (SecondQuardTotal / samparikshadFiscalYearTotal) * 100;
+                    }
+
+
+
+                    string secondquardpercentagestr = string.Format("{0:n2}", secondquardpercentage);
+
+
+                    decimal? thirdquardpercentage = 0;
+                    if (samparikshadFiscalYearTotal > 0)
+                    {
+                        thirdquardpercentage = (ThirdQuardTotal / samparikshadFiscalYearTotal) * 100;
+                    }
+
+
+                    string thirdquardpercentagestr = string.Format("{0:n2}", thirdquardpercentage);
+
+                    decimal? yearlytotalpercentage = firstQuadPercentage + secondquardpercentage + thirdquardpercentage;
+
+                    string yearlytotalpercentagestr = string.Format("{0:n2}", yearlytotalpercentage);
+                <tr style="font-weight:bold;">
+                    <td>1</td>
+                    <td>
+                        @item.OfficeNameWithCode
+                    </td>
+                    <td>
+                        @if (item.SamparikshadRemainNiyamitAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.SamparikshadRemainNiyamitAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.SamparikshadRemainAshuliAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.SamparikshadRemainAshuliAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.SamparikshadRemainPeskiAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.SamparikshadRemainPeskiAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (samparikshadFiscalYearTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(samparikshadFiscalYearTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (item.FirstTrimisterNiyamitAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FirstTrimisterNiyamitAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.FirstTrimisterAshuliAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FirstTrimisterAshuliAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.FirstTrimisterPeskiAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.FirstTrimisterPeskiAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (FirstQuardTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(FirstQuardTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>@firstQuadPercentagestr</td>
+                    <td>
+                        @if (item.SecondTrimisterNiyamitAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.SecondTrimisterNiyamitAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.SecondTrimisterAshuliAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.SecondTrimisterAshuliAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.SecondTrimisterPeskiAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.SecondTrimisterPeskiAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (SecondQuardTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(SecondQuardTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>@secondquardpercentagestr</td>
+                    <td>
+                        @if (item.ThirdTrimisterNiyamitAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.ThirdTrimisterNiyamitAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.ThirdTrimisterAshuliAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.ThirdTrimisterAshuliAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.ThirdTrimisterPeskiAmt.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.ThirdTrimisterPeskiAmt.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (ThirdQuardTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(ThirdQuardTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>@thirdquardpercentagestr</td>
+                    <td>
+                        @if (YearlyNiyamitTitalQuardTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(YearlyNiyamitTitalQuardTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (YearlyAshuluTitalQuardTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(YearlyAshuluTitalQuardTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (YearlyPeskitotalQuardTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(YearlyPeskitotalQuardTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>
+                        @if (YearlyAllTotal.HasValue)
+                        {
+                            <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(YearlyAllTotal.ToString())</span>
+                        }
+                        else
+                        {
+                            <span>०</span>
+                        }
+                    </td>
+                    <td>@yearlytotalpercentagestr</td>
+                </tr>
+
+                }
+
+                <tr></tr>
+
+            </table>
+            <table class="table table-responsive" border="1" style="display:none;">
+                <thead>
+                    <tr>
+                        <th colspan="2">विशेष विवरण</th>
+                        <th>बेरुजु जम्मा</th>
+                        <th>फस्यैाट जम्मा</th>
+                        <th>प्र.श.</th>
+                        <th>बाँकी</th>
+                        <th colspan="2">कुमारी चोक तथा केन्द्रीय तहसिल कार्यालयमा रहेको</th>
+                        <th>बेरुजु जम्मा</th>
+                        <th>फस्यैाट जम्मा</th>
+                        <th>प्र.श.</th>
+                        <th>बाँकी</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>१</td>
+                        <td>
+                            आ.व.....सम्मको कुल बाँकी बेरूजु रू
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>५</td>
+                        <td>..सम्मको पेश्की बाँकी बेरुजु</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>२</td>
+                        <td>
+                            कुल जम्मा बेरुजु मध्ये पेश्की बाँकी
+                            रु.
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>६</td>
+                        <td>..सम्मको नियमित गर्न बाँकी बेरुजु</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>३</td>
+                        <td>
+                            कुल जम्मा बेरुजु मध्ये नियमित गर्नुपर्ने रु
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>७</td>
+                        <td>..सम्मको असुल गर्न बाँकी बेरुजु</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>४</td>
+                        <td>
+                            कुल जम्मा बेरुजु मध्ये असुल गर्नुपर्ने रु
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>८</td>
+                        <td>.. सम्मको मात्र जम्मा बाँकी बेरुजु</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" style="font-size:8px; color:red">
+                @*नोटः आन्तरिक लेखा परीक्षण र अन्तिम लेखा परीक्षण बेरुजुको लगत छुट्टा छुट्टै खातामा राख्नु पर्दछ । साथै कारोबारको प्रकृतिअनुसार छुट्टा छुट्टै पानामा अभिलेख राख्नुपर्दछ ।*@
+            </div>
+        </div>
+
+    </div>
+
+
+}

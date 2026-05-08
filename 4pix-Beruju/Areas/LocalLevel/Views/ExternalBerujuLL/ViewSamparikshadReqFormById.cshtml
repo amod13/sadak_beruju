@@ -1,0 +1,453 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    /**/
+
+    ViewBag.Title = "ViewSamparikshadReqForm";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int count = 1;
+}
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<style>
+    .panel.panel-default .panel-heading {
+        background: #b7d5f7 !important;
+        color: #0d0b0d !important;
+        border-color: #f1f5fc !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+    }
+
+    .TitleHeadingContainer {
+        height: 100%;
+        text-align: center;
+        display: flex;
+        padding: 0;
+        margin: auto;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-weight: 600 !important;
+    }
+
+        .TitleHeadingContainer table-borderless {
+            display: inline-block;
+        }
+
+        .TitleHeadingContainer h3 {
+            text-align: left;
+        }
+
+    tr {
+        /*font-weight: 600 !important;
+        color: black;*/
+    }
+    /*.table-borderless{
+        text-align:left;
+    }*/
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+
+
+
+<style type="text/css" media="print">
+
+    @@page {
+        size: landscape;
+    }
+
+    .TitleHeadingContainer {
+        height: 100%;
+        text-align: center;
+        display: flex;
+        padding: 0;
+        margin: auto;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-weight: 600 !important;
+    }
+
+        .TitleHeadingContainer table-borderless {
+            display: inline-block;
+        }
+
+        .TitleHeadingContainer h3 {
+            text-align: left;
+        }
+</style>
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">सम्परीक्षण अनुरोध फाराम</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <div class="row">
+            <div class="col-lg-4"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-header">
+
+                    <div class="col-sm-12">
+                        @*<input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />*@
+                        <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                        <input type="button" id="print" onclick="PrintElem('exporttopdf');" value="Print" class="btn btn-info btn-sm" />
+                    </div>
+
+                </div>
+
+
+                <div class="card" id="exporttopdf">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="logoImg">
+                                <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+                                @*<img src="~/AdminResources/img/nepalsarkarlogo.png" style="height: 80px; width: 80px; margin-left: 50px;" />*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 TitleHeadingContainer">
+
+                            <table class="table-borderless">
+
+                                <tr>
+                                    <td>
+                                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.ObjSamparikshadRequestMaterDetailVM.OfficeId)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.ObjSamparikshadRequestMaterDetailVM.OfficeId)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.ObjSamparikshadRequestMaterDetailVM.OfficeId)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.ObjSamparikshadRequestMaterDetailVM.OfficeId)</td>
+                                </tr>
+                                <tr>
+                                    <td> @_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.ObjSamparikshadRequestMaterDetailVM.OfficeId)</td>
+                                </tr>
+
+
+                            </table>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+
+
+                    <div class="card-header">
+                        <div class="row card-header d-flex align-items-center" style="padding-bottom:0px!important;">
+
+                            <div class="col-lg-4">प.स -@Model.ObjSamparikshadRequestMaterDetailVM.LetterNumber</div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4 dateFloatLeft">मिति : @Model.ObjSamparikshadRequestMaterDetailVM.RequestedDateNep</div>
+                        </div>
+                        <div class="row card-header d-flex align-items-center" style="padding-top:0px!important;">
+
+                            <div class="col-lg-4">च.न.:</div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
+
+                        </div>
+
+                        <div class="row card-header d-flex align-items-center" id="OfficeNameAddDiv">
+
+                            <div class="col-md-12">@Utilities.GetSamparikshadletterofficenameByOfficeId(Model.ObjSamparikshadRequestMaterDetailVM.ToWhomofficeId)</div>
+                            <div class="col-md-12">@Utilities.GetSamparikshadletterofficeaddressByOfficeId(Model.ObjSamparikshadRequestMaterDetailVM.ToWhomofficeId)</div>
+                        </div>
+                        <br />
+                        <br />
+
+
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                @Model.ObjSamparikshadRequestMaterDetailVM.ToWhomOfficeName
+                            </div>
+                            <div class="col-lg-12">
+                                @Model.ObjSamparikshadRequestMaterDetailVM.OfficeAddress
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row" style="font-weight:bold;text-align:center;" id="Headtitle">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 Headtitle">विषय :बेरुजु सम्परीक्षण गरिदिन हुन !</div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+
+
+                        <div class="card-header d-flex align-items-center">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    प्रस्तुत विषयमा @Utilities.GetCurrentLoginOfficeName(Model.ObjSamparikshadRequestMaterDetailVM.OfficeId) को @Utilities.GetFiscalYearTitleFromExternalBerujuID(Model.ObjSamparikshadRequestMaterDetailVM.ExternalBerujuId) आर्थिक कारोवारको लेखापरीक्षण हुँदा बेरुजु प्रतिवेदनको निम्न दफाहरुमा उल्लेख भएका बेरुजु आर्थिक कार्यविधि तथा वित्तिय उत्तरदायित्व ऐन, २०७६ को दफा ४०(२) बमोजिम असुल भै आएकोले रू @Model.ObjSamparikshadRequestMaterDetailVM.TotalAmount उक्त बेरुजु रकम आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६ को दफा ४०(४) बमोजिम सम्परीक्षण गरिदिन हुन अनुरोध छ ।
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card-header d-flex align-items-center">
+                            <div class="table-responsive">
+                                <table class="table-bordered EmpDetails" width="100%" id="dfsd">
+                                    <thead>
+                                        <tr>
+                                            <th>सि.नं.</th>
+                                            <th>आ.व.</th>
+                                            <th>बेरुजुको दफा नं.</th>
+                                            <th>छोटकरी व्यहोरा</th>
+                                            <th>नाम</th>
+                                            <th>रकम</th>
+                                            <th>फछयैाट गर्नुपर्ने कारण</th>
+                                            <th>रकम</th>
+                                            <th>फछयैाट गर्ने जिम्मेवार व्यक्तिको नाम र दर्जा</th>
+                                            <th>कैफियत</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.GetsamparikshadrequesttowhomforletterViewModelList)
+                                    {
+                                        if (item.RevisedAmount > 0)
+                                        {
+                                            <tr style="border:1px solid black;">
+                                                <td>@count</td>
+                                                <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromExternalBerujuId(Model.ObjSamparikshadRequestMaterDetailVM.ExternalBerujuId)</td>
+                                                <td>@Model.ObjSamparikshadRequestMaterDetailVM.BerujuDafaNumber</td>
+                                                <td>@Utilities.GetBerujuShortDescriptionByEBID(Model.ObjSamparikshadRequestMaterDetailVM.ExternalBerujuId)</td>
+                                                <td>@item.NameAndPost</td>
+                                                <td>@item.BerujuAmount</td>
+                                                <td>
+                                                    @if (string.IsNullOrEmpty(Model.ObjSamparikshadRequestMaterDetailVM.RemarksForRequest))
+                                                    {
+                                                        @Utilities.GetBerujuShortDescriptionByEBID(Model.ObjSamparikshadRequestMaterDetailVM.ExternalBerujuId)
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model.ObjSamparikshadRequestMaterDetailVM.RemarksForRequest
+                                                    }
+
+                                                </td>
+                                                <td>@item.RevisedAmount</td>
+
+                                                <td>@Model.ObjSamparikshadRequestMaterDetailVM.ResponsiblePersonName<span>,</span>@Model.ObjSamparikshadRequestMaterDetailVM.Post</td>
+                                                <td>@Model.ObjSamparikshadRequestMaterDetailVM.Remarks</td>
+                                            </tr>
+                                            ++count;
+                                        }
+
+
+
+                                    }
+
+
+
+                                </table>
+                            </div>
+
+                        </div>
+                        <br />
+                        <br />
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+    function getClippedRegion(image, x, y, width, height) {
+        var canvas = document.createElement("canvas"),
+            ctx = canvas.getContext("2d");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        //                   source region         dest. region
+        ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
+
+        return {
+            // Those are some pdfMake params
+            image: canvas.toDataURL(),
+            width: 500
+        };
+    }
+
+
+
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#exporttopdf").css("width", "auto");
+        $("#exporttopdf").css("text-align", "left");
+        $(".Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+        $(".table-borderless").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#exporttopdf')[0], {
+            onrendered: function (canvas) {
+                let splitAt = 775; //
+                let images = [];
+                let y = 0;
+                while (canvas.height > y) {
+                    images.push(getClippedRegion(canvas, 0, y, canvas.width, splitAt));
+                    y += splitAt;
+                }
+
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1,
+                        pageSize: "LETTER"
+                    }]
+                };
+                var docDefinition = {
+                    content: images,
+                    pageSize: "LETTER"
+                };
+                pdfMake.createPdf(docDefinition).download("report.pdf");
+
+                $("#exporttopdf").css("width", "auto");
+                $(".table-borderless").css("text-align", "center");
+                $(".Headtitle").css("text-align", "center");
+            }
+        });
+    });
+
+    function PrintElem(elem) {
+        var divToPrint = document.getElementById('exporttopdf');
+        var htmlToPrint = '' +
+            '<style type="text/css">' +
+            '.EmpDetails{' +
+            'border:1px solid #000;!important ' +
+            'padding:0 em;' +
+            '}' +
+            '.EmpDetails th,td{' +
+            'border:1px solid #000;!important' +
+            '}' +
+            '.TitleHeadingContainer {' +
+            'text-align:center;' +
+            ' display: flex;' +
+            ' padding: 0;' +
+            ' margin-top: 0px;' +
+            ' align-content: center;' +
+            ' align-items: center;' +
+            'justify-content: center;' +
+            'margin-bottom: 5px;' +
+            'font - weight: 600!important;' +
+
+            '}' +
+            'TABLE.table-borderless, TABLE.table-borderless td {' +
+            'BORDER:none;!important' +
+            '}' +
+            '.logoImg {' +
+            'float:left' +
+            '}' +
+
+            '.dateFloatLeft {' +
+            'float:right' +
+            '}' +
+            '#OfficeNameAddDiv {' +
+            'margin-bottom:30px !important;' +
+            'margin-top:30px !important;' +
+            '}' +
+
+            '#HeadTitle {' +
+            'margin-bottom:30px !important;' +
+            'margin-top:30px !important;' +
+            '}' +
+
+
+            '</style>';
+
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+    }
+
+
+
+    //function PrintElem(elem) {
+    //    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    //    mywindow.document.write('<html><head><title>' + ' ' + '</title>');
+    //    mywindow.document.write('</head><body >');
+    //    mywindow.document.write('<h1>' + ' ' + '</h1>');
+    //    mywindow.document.write(document.getElementById(elem).innerHTML);
+    //    mywindow.document.write('</body></html>');
+    //    mywindow.document.close(); // necessary for IE >= 10
+    //    mywindow.focus(); // necessary for IE >= 10*/
+
+    //    mywindow.print();
+    //    mywindow.close();
+
+    //    return true;
+    //}
+
+</script>

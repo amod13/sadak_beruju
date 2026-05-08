@@ -1,0 +1,21 @@
+﻿@model _4pix_Beruju.Models.BerujuSubType
+
+
+<div class="row">
+
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>बेरूजुको प्रकार</label>
+        @Html.DropDownListFor(m => m.BerujuTypeId, _4pix_Beruju.Areas.Admin.functions.GetBerujuTypeDefaultDD(), new { @id = "BerujuTypeIdDD", @class = "form-control form-control-sm", @required = "required", @onChange = "GetBerujuSubTitleDD()" })
+    </div>
+
+    <div class="col-md-6 col-sm-6 form-group">
+        <label>उप शिर्षक</label>
+        @Html.TextBoxFor(m => m.SubTitle, new { @class = "form-control form-control sm", @required = "required" })
+    </div>
+
+
+
+    <div class="clearfix"></div>
+</div>

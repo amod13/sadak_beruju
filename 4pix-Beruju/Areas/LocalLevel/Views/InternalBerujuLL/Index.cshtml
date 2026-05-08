@@ -1,0 +1,120 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">आन्तरिक लेखापरीक्षण बेरूजु</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            @*<h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>*@
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            @*@Html.ActionLink("", "Create", "BerujuType", new { @class = "btn btn-sm btn-success" })*@
+
+
+                            <a href="@Url.Action("Create","InternalBerujuLL", new { @id=Model.KoshTypeId})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>क्रम</th>
+                                        <th>आर्थिक वर्ष</th>
+                                        <th>बेरुजु दफा न</th>
+                                        <th>वजेट उपशिर्षक</th>
+                                        <th>खर्च शिर्षक</th>
+                                        <th>बेरुजु रकम</th>
+                                        <th>सच्चाउनुहोस</th>
+                                        <th>विवरण</th>
+                                        @*<th>हटाउनुहोस</th>*@
+                                        @*<th>अन्तिम बेरुजु</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.InternalBerujuList)
+                                    {
+
+                                        <tr>
+                                            <td scope="row">@i</td>
+                                            <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+                                            <td>@item.BerujuNumber</td>
+                                            <td>@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(item.BudgetSubTitle)</td>
+                                            <td>@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(item.KoshTypeTitleListId)</td>
+                                            <td>@item.VoucharAmunt</td>
+                                            <td>
+                                                @Html.ActionLink(" ", "Edit", new { @id = item.InternalBerujuId }, new { @class = "edits fa fa-edit" })
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink(" ", "ViewDetails", new { @id = item.InternalBerujuId }, new { @class = "edits fa fa-eye" })
+                                            </td>
+                                            @*<td>
+                                                    @Html.ActionLink(" ", "Delete", new { @id = item.InternalBerujuId }, new { @class = "edits fa fa-trash" })
+                                                </td>*@
+                                            @*<td>
+                                                 <a href="~/LocalLevel/InternalBerujuLL/ChangeToFinalBeruju?id=@item.InternalBerujuId" id="deleteBtn" class="edits" onclick="return confirm('Are you sure you want to change?');"><i class="edits fa fa-list-ol"></i></a>
+                                                </td>*@
+
+
+                                        </tr>
+                                        ++i;
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+
+<script type="text/javascript">
+     $(function () {
+         var a = '@TempData["Success"]';
+         var b = '@TempData["Error"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else if (b != '')
+        {
+            sweetAlert(b, "Error", "error");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>

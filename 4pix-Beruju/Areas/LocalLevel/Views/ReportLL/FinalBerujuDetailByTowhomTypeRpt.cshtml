@@ -1,0 +1,331 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+
+@{
+    ViewBag.Title = "BerujuLagatKhata";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">प्रतिवेदनहरू</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-सम्बन्धित अनुसार</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Ajax.BeginForm("FinalBerujuDetailByTowhomTypeRpt", "ReportLL", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "DetailsReportsID",
+                            LoadingElementId = "loader"
+                        }))
+                        {
+                        <fieldset>
+
+                            @if (Model.CurrentLoginUserTypeviewModel == 2 || Model.CurrentLoginUserTypeviewModel == 8 || Model.CurrentLoginUserTypeviewModel == 9)
+                            {
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>कार्यालय प्रकार</label>
+                                    @Html.DropDownListFor(m => m.OfficeTypeSearchId, Utilities.GetOfficeTypeDDWithoutDefault(), new { @class = "form-control form-control sm", @id = "dll_OfficeType" })
+
+                                </div>
+
+
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>मन्त्रालय</label>
+                                    @Html.DropDownListFor(m => m.MininstrySearchId, Utilities.GetMinistryList(Model.ProvinceIdSearch, 3), new { @class = "form-control form-control sm", @id = "dll_ministry", @onchange = "GetNirdeshanalayaList()" })
+
+                                </div>
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>निर्देशनालय</label>
+                                    @Html.DropDownListFor(m => m.NirdeshnalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_nirdesh", @onchange = "GetOfficesList()" })
+
+                                </div>
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>कार्यालय</label>
+                                    @Html.DropDownListFor(model => model.OfficeId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>आयोग/अन्य</label>
+                                    @Html.DropDownListFor(model => model.AayogAndOthers, Utilities.GetAagyoAndOtherOfficeList(6), new { @class = "form-control form-control-sm", id = "dll_aayog" })
+
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>स्थानीय तह</label>
+                                    @Html.DropDownListFor(model => model.LocalLevelOfficeId, Utilities.GetLocalLevelForListReport(6), new { @class = "form-control form-control-sm", id = "dll_aayog" })
+
+                                </div>
+
+
+                            </div>
+                            }
+
+
+
+
+
+
+                            @if (Model.CurrentLoginUserTypeviewModel == 4)//Nirdeshanalaya
+                            {
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>कार्यालय</label>
+                                        @Html.DropDownListFor(model => model.OfficeId, Utilities.GetOfficesByNirdeshanalayaID(Model.OfficeId, Model.OfficeId, 4), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                                    </div>
+                                    @*<div class="col-md-3 col-sm-6 form-group">
+                    <label>सम्बन्धित</label>
+                    @Html.DropDownListFor(model => model.ToWhomTypeId, _4pix_Beruju.Areas.Admin.functions.GetToWhomTypeDDswithDefault(), new { @class = "form-control form-control-sm", id = "dll_towhome" })
+
+                </div>*@
+                                </div>
+
+
+
+                            }
+
+                            @if (Model.CurrentLoginUserofficeTypeID == 101)//static code for district users
+                            {
+                                <div class="row">
+
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>कार्यालयहरू</label>
+                                        @Html.DropDownListFor(model => model.OfficeId, Utilities.GetOfficeLevelHierarchyForDistrict(Model.OfficeId, Model.OfficeId, 4, Model.CurrentLoginUserDistrictId), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+                            <div class="row">
+                                @*<div class="col-md-4 col-sm-4 form-group">
+                <label>कोष</label>
+                @Html.DropDownListFor(model => model.KoshID, _4pix_Beruju.Areas.Admin.functions.GetKoshTypeWithoutDefault(), new { @class = "form-control form-control-sm", id = "dll_Kosh" })
+
+            </div>*@
+
+                                <div class="col-md-3 col-sm-3 form-group">
+                                    <label>आर्थिक वर्ष</label>
+                                    @Html.DropDownListFor(model => model.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDD(), new { @class = "form-control form-control-sm", id = "dll_Kosh" })
+
+                                </div>
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>सम्बन्धित</label>
+                                    @Html.DropDownListFor(model => model.ToWhomTypeId, _4pix_Beruju.Areas.Admin.functions.GetToWhomTypeDDswithDefault(), new { @class = "form-control form-control-sm", id = "dll_towhome" })
+
+                                </div>
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>सारांश/विस्तार</label>
+                                    @Html.DropDownListFor(model => model.SumamryOrDetailsId, _4pix_Beruju.Areas.Admin.functions.GetSummaryOrDetailsDD(), new { @class = "form-control form-control-sm", id = "dll_towhome" })
+
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>खोज्नुहोस</button>
+                        </fieldset>
+                        }
+
+                        <div id="loader" class=" aletr" style="display:none">
+                            Loading...
+                            <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                        </div>
+
+                        <div id="DetailsReportsID"></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function GetNirdeshanalayaList() {
+        var value = $("#dll_ministry option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetNirdeshanalayaList", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_nirdesh").html(items);
+                $("#dll_office").html("<option value='0'>--Select--</option>");
+            }
+        })
+    };
+
+    function GetOfficesList() {
+        var value = $("#dll_nirdesh option:selected").val();
+        $.ajax({
+            @*url: "@Url.Action("GetVDCMUNDDByDistrictId", "AjaxRequest", new { @area="admin"})",*@
+            url: "@Url.Action("GetOfficesList", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                GetVDCMUNDDByDistrictId
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_office").html(items);
+            }
+        })
+    };
+
+
+
+
+
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "BerujuLagatKhata.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var divToPrint = document.getElementById('DetailsReportsID');
+        htmlToPrint = '' +
+            '<style type="text/css">' +
+            '.my-table{' +
+            'width:100% !important;' +
+            'table-layout:fixed;' +
+            //'overflow-wrap:break-word;' +
+            'border-spacing: 0px !important;' +
+
+            '}' +
+
+            'table th, table td {' +
+            'border:1px solid #000;' +
+            'padding;0.5em !important;' +
+
+            '}' +
+
+            '#header, #footer, #nav {' +
+            'display: none!important;' +
+            '}' +
+
+
+            '.makeFloatright {' +
+            'float:right !important;' +
+            '}' +
+
+            '#rptTitle {' +
+            'margin-left:-75px !important';+
+            '}'+
+    
+
+            '.logoImg {' +
+            'width:80px !important;' +
+            'float:left !important;' +
+            '}' +
+
+            '</style>';
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+
+    };
+</script>
+
+
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#DetailsReportsID").css("width", "1500px");
+        $("#DetailsReportsID").css("text-align", "left");
+        $("#Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#DetailsReportsID')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+                $("#DetailsReportsID").css("width", "auto");
+
+            }
+        });
+    });
+</script>
+
+

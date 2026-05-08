@@ -1,0 +1,83 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+@{
+    decimal TotalBeruju = 0;
+    decimal TotalSamparikshad = 0;
+    decimal RemainingBeruju = 0;
+
+
+    decimal niyamitGt = 0, niyamitSamGT = 0, ashulGt = 0, ashulsamGT = 0,
+            peskiGT = 0, peskiSamGT = 0, TotalBerujuGT = 0, TotalSamGT = 0, RemainGT = 0;
+}
+<div id="DetailsReportsID">
+    <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+        <thead>
+            <tr>
+                <th>आर्थिक वर्ष</th>
+                <th>कार्यलयको नाम</th>
+                <th>कार्यलयको कोड</th>
+                <th>नियमित गर्नुपर्ने</th>
+                <th>सम्परीक्षण</th>
+                <th>असुल उपर गर्नुपर्ने</th>
+                <th>सम्परीक्षण</th>
+                <th>पेस्की</th>
+                <th>सम्परीक्षण</th>
+                <th>जम्मा बेरूजु</th>
+                <th>जम्मा सम्परीक्षण</th>
+                <th>बाँकी बेरूजु</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.DashboardOfficesGetSumBerujuTypeWiseViewModelList)
+        {
+            TotalBeruju = item.Niyamit + item.AshulUpar + item.Peski;
+            TotalSamparikshad = item.NiyamitTotalSamparikshad + item.AshulUparTotalSamparikshad + item.PeskiTotalSamparikshad;
+            RemainingBeruju = TotalBeruju - TotalSamparikshad;
+
+            niyamitGt = niyamitGt + item.Niyamit;
+            niyamitSamGT = niyamitSamGT + item.NiyamitTotalSamparikshad;
+            ashulGt = ashulGt + item.AshulUpar;
+            ashulsamGT = ashulsamGT + item.AshulUparTotalSamparikshad;
+            peskiGT = peskiGT + item.Peski;
+            peskiSamGT = peskiSamGT + item.PeskiTotalSamparikshad;
+            TotalBerujuGT = TotalBerujuGT + TotalBeruju;
+            TotalSamGT = TotalSamGT + TotalSamparikshad;
+            RemainGT = RemainGT + RemainingBeruju;
+        <tr>
+            <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</td>
+            <td>@item.OFficeName</td>
+            <td>@item.OfficeCode</td>
+            <td>@item.Niyamit</td>
+            <td>@item.NiyamitTotalSamparikshad</td>
+
+            <td>@item.AshulUpar</td>
+            <td>@item.AshulUparTotalSamparikshad</td>
+
+            <td>@item.Peski</td>
+            <td>@item.PeskiTotalSamparikshad</td>
+            <td>@TotalBeruju</td>
+            <td>@TotalSamparikshad</td>
+            <td>@RemainingBeruju</td>
+
+        </tr>
+
+
+
+        }
+        <tr style="font-weight:bold;">
+            <td colspan="3">जम्मा</td>
+            <td>@niyamitGt</td>
+            <td>@niyamitSamGT</td>
+            <td>@ashulGt</td>
+            <td>@ashulsamGT</td>
+            <td>@peskiGT</td>
+            <td>@peskiSamGT</td>
+            <td>@TotalBerujuGT</td>
+            <td>@TotalSamGT</td>
+            <td>@RemainGT</td>
+        </tr>
+
+
+    </table>
+</div>
+

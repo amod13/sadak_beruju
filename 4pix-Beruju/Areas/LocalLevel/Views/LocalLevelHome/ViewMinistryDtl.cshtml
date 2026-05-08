@@ -1,0 +1,220 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "ViewMinistryDtl";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    decimal TotalBeruju = 0;
+    decimal TotalSamparikshad = 0;
+    decimal RemainingBeruju = 0;
+
+    decimal niyamitGt = 0, niyamitSamGT = 0, ashulGt = 0, ashulsamGT = 0,
+        peskiGT = 0, peskiSamGT = 0, TotalBerujuGT = 0, TotalSamGT = 0, RemainGT = 0;
+}
+
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+        <div class="grey-bg container-fluid">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    @using (Ajax.BeginForm("GetReportByFYId", "LocalLevelHome", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "DetailsReportsID", LoadingElementId = "loader" }))
+                    {
+                        @Html.HiddenFor(m => m.UserTypeId)
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4" style="margin-bottom:20px;">
+                                <label>आर्थिक वर्ष</label>
+                                @Html.DropDownListFor(model => model.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListDD(), new { @class = "form-control form-control-sm", id = "dll_FYID" })
+
+                            </div>
+                            <div class="col-md-2 col-sm-4" style="margin-bottom:20px;">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="form-control form-control-sm btn btn-warning"><i class="fa fa-eye">&nbsp;</i>देखाउनुहोस्</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <hr />
+                <br />
+                <div class="col-sm-12" style="margin-bottom:20px;">
+                    <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                    <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                    <a href='@Url.Action("ViewMinistryDtlAllSum","LocalLevelHome",new { @id=Model.UserTypeId})' , class="btn btn-sm btn-success">
+                        <i class="fa fa-backward"></i>&nbsp;हालसम्मको जम्मा हेर्नुहोस
+                    </a>
+
+                </div>
+                
+               
+
+                <div class="col-lg-12" id="">
+
+                    <div id="loader" class=" aletr" style="display:none">
+                        Loading...
+                        <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                    </div>
+
+
+                    <div id="DetailsReportsID" class="table table-responsive">
+                        <table class="table table-sm table-bordered border-primary" style="background:white;">
+
+
+                            <thead>
+                                <tr>
+                                    <th>आर्थिक वर्ष</th>
+                                    <th>कार्यालयको नाम</th>
+                                    <th>कार्यालयको कोड</th>
+                                    <th>नियमित गर्नुपर्ने</th>
+                                    <th>सम्परीक्षण</th>
+                                    <th>असुल उपर गर्नुपर्ने</th>
+                                    <th>सम्परीक्षण</th>
+                                    <th>पेस्की</th>
+                                    <th>सम्परीक्षण</th>
+                                    <th>जम्मा बेरूजु</th>
+                                    <th>जम्मा सम्परीक्षण</th>
+                                    <th>बाँकी बेरूजु</th>
+
+
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.DashboardOfficesGetSumBerujuTypeWiseViewModelList)
+                            {
+                                TotalBeruju = item.Niyamit + item.AshulUpar + item.Peski;
+                                TotalSamparikshad = item.NiyamitTotalSamparikshad + item.AshulUparTotalSamparikshad + item.PeskiTotalSamparikshad;
+                                RemainingBeruju = TotalBeruju - TotalSamparikshad;
+
+                                niyamitGt = niyamitGt + item.Niyamit;
+                                niyamitSamGT = niyamitSamGT + item.NiyamitTotalSamparikshad;
+                                ashulGt = ashulGt + item.AshulUpar;
+                                ashulsamGT = ashulsamGT + item.AshulUparTotalSamparikshad;
+                                peskiGT = peskiGT + item.Peski;
+                                peskiSamGT = peskiSamGT + item.PeskiTotalSamparikshad;
+                                TotalBerujuGT = TotalBerujuGT + TotalBeruju;
+                                TotalSamGT = TotalSamGT + TotalSamparikshad;
+                                RemainGT = RemainGT + RemainingBeruju;
+
+
+                                <tr>
+                                    <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.ViewBagFiscalYearId)</td>
+                                    <td>@item.OFficeName</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.OfficeCode)</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Niyamit.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.NiyamitTotalSamparikshad.ToString())</td>
+
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AshulUpar.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AshulUparTotalSamparikshad.ToString())</td>
+
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Peski.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.PeskiTotalSamparikshad.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(TotalBeruju.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(TotalSamparikshad.ToString())</td>
+                                    <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(RemainingBeruju.ToString())</td>
+                                </tr>
+
+                            }
+                            <tr style="font-weight:bold;">
+                                <td colspan="3">जम्मा</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(niyamitGt.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(niyamitSamGT.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(ashulGt.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(ashulsamGT.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(peskiGT.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(peskiSamGT.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(TotalBerujuGT.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(TotalSamGT.ToString())</td>
+                                <td>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(RemainGT.ToString())</td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function GetOfficeDataByFiscalYearID() {
+        var value = $("#dll_FYID option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetDashboardreportByFiscalYearId", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                $("#dll_nirdesh").html(items);
+            }
+        })
+    };
+
+
+</script>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "MinistrySumDetails.xls"
+            });
+        });
+    });
+
+
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head>');
+        mywindow.document.write('</head><body >');
+       
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        html2canvas($('#exporttopdf')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+            }
+        });
+    });
+</script>

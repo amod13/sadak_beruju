@@ -1,0 +1,234 @@
+﻿@model _4pix_Beruju.Areas.Admin.Models.OfficeSetup
+
+@{
+    ViewBag.Title = "AddProvincesMinistry";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">कार्यालय</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display">कार्यालय</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <h4>@ViewBag.ErrorMessage</h4>
+                        }
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("EditProvinceOffices", "OfficeSetup", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+
+                            @Html.ValidationSummary(true)
+                        <fieldset>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 form-group">
+                                    <label>मन्त्रालय</label>
+                                    @Html.DropDownListFor(m => m.OfficeDetailId, _4pix_Beruju.Utilities.GetMinistryList(0, 2), new { @class = "form-control form-control-sm", @required = "required", @id = "ddl_ministry", onchange = "GetBivagFromMinistryDD()" })
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 form-group">
+                                    <label>विभाग</label>
+                                    @Html.DropDownListFor(m => m.OfficeDetailId, _4pix_Beruju.Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control-sm", @required = "required", @id = "ddl_bivag", onchange = "GetNirdeshanalayFromBivagDD()" })
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 form-group">
+                                    <label>निर्देशनालय</label>
+                                    @Html.DropDownListFor(m => m.MainOfficeId, _4pix_Beruju.Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control-sm", @required = "required", @id = "ddl_nirdesh" })
+                                </div>
+                            </div>
+
+
+
+                            @Html.Partial("_CreateEdit")
+
+                            <div class="form-group">
+                                @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्छित गर्नुहोस</button>
+                                <a href="@Url.Action("ProvinceOffices","OfficeSetup")" , class="btn btn-sm btn-success">
+                                    <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                </a>
+                            </div>
+                        </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+<script type="text/javascript">
+
+
+
+          function GetDistrictListDD() {
+
+     var value = $("#dll_province option:selected").val();
+     $.ajax({
+         url: "@Url.Action("GetDistrictListByProvinceIdDefaultValue", "AjaxRequest", new { @area = "Admin" })",
+         data: { id: value },
+         dataType: "json",
+         type: "POST",
+         error: function () {
+             alert("An error occurred.");
+         },
+         success: function (data) {
+             var items = "";
+             $.each(data, function (i, item) {
+                 items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+             });
+
+             $("#dll_district").html(items);
+         }
+     })
+ };
+
+    function GetVDCMUNListDD() {
+        var value = $("#dll_district option:selected").val();
+        $.ajax({
+            @*url: "@Url.Action("GetVDCMUNDDByDistrictId", "AjaxRequest", new { @area="admin"})",*@
+            url: "@Url.Action("GetVDCMUNDDByDistrictIdWithDefaultValue", "AjaxRequest", new { @area = "Admin" })",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                GetVDCMUNDDByDistrictId
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_vdcmun").html(items);
+            }
+        })
+    };
+
+
+    $(document).ready(function () {
+    var selectedMinistry = '@Model.ProvinceId';      // preselected Ministry (मन्त्रालय)
+    var selectedBivag = '@Model.DistrictId';          // preselected Department (विभाग)
+    var selectedNirdesh = '@Model.MainOfficeId';      // preselected Directorate (निर्देशनालय)
+
+    // Step 1: Load Bivag after Ministry is set
+    function GetBivagFromMinistryDD(selectedValue, callback) {
+        var value = $("#ddl_ministry option:selected").val();
+
+        if (!value) {
+            $("#ddl_bivag").html("<option value=''>-- Select --</option>");
+            $("#ddl_nirdesh").html("<option value=''>-- Select --</option>");
+            return;
+        }
+
+        $.ajax({
+            url: "@Url.Action("GetBivagFromMinistryDD", "AjaxRequest", new { @area = "Admin" })",
+            type: "POST",
+            dataType: "json",
+            data: { id: value },
+            success: function (data) {
+                var items = "<option value=''>-- Select --</option>";
+                $.each(data, function (i, item) {
+                    items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $("#ddl_bivag").html(items);
+
+                // Preselect if editing
+                if (selectedValue) {
+                    $("#ddl_bivag").val(selectedValue);
+                }
+
+                if (callback) callback(); // run next step after load
+            },
+            error: function () {
+                alert("Error loading Bivag.");
+            }
+        });
+    }
+
+    // Step 2: Load Nirdeshanalay after Bivag is set
+    function GetNirdeshanalayFromBivagDD(selectedValue) {
+        var value = $("#ddl_bivag option:selected").val();
+
+        if (!value) {
+            $("#ddl_nirdesh").html("<option value=''>-- Select --</option>");
+            return;
+        }
+
+        $.ajax({
+            url: "@Url.Action("GetNirdeshanalayFromBivagDD", "AjaxRequest", new { @area = "Admin" })",
+            type: "POST",
+            dataType: "json",
+            data: { id: value },
+            success: function (data) {
+                var items = "<option value=''>-- Select --</option>";
+                $.each(data, function (i, item) {
+                    items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $("#ddl_nirdesh").html(items);
+
+                // Preselect if editing
+                if (selectedValue) {
+                    $("#ddl_nirdesh").val(selectedValue);
+                }
+            },
+            error: function () {
+                alert("Error loading Nirdeshanalay.");
+            }
+        });
+    }
+
+    // Step 3: Cascading behavior for change events
+    $("#ddl_ministry").change(function () {
+        GetBivagFromMinistryDD(null, function () {
+            $("#ddl_nirdesh").html("<option value=''>-- Select --</option>");
+        });
+    });
+
+    $("#ddl_bivag").change(function () {
+        GetNirdeshanalayFromBivagDD();
+    });
+
+    // Step 4: Handle edit mode
+    if (selectedMinistry) {
+        // ministry is already selected from model binding
+        GetBivagFromMinistryDD(selectedBivag, function () {
+            GetNirdeshanalayFromBivagDD(selectedNirdesh);
+        });
+    }
+});
+
+</script>

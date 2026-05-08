@@ -1,0 +1,121 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Models.ExpenseTitleViewModelSetup
+
+@{
+    ViewBag.Title = "ListBudgetSubTitle";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+<link href="~/DataTables/datatables.min.css" rel="stylesheet" />
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">वजेट उप-शिर्षक (वउशि) विवरण</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            @*<h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>*@
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            @*@Html.ActionLink("", "Create", "BerujuType", new { @class = "btn btn-sm btn-success" })*@
+
+
+                            <a href="@Url.Action("CreateBudgetSubTitle","ExpenseTitleSetup")" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered" id="example" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>क्रम</th>
+                                        <th>आर्थिक वर्ष</th>
+                                        <th>वजेट उप-शिर्षक नम्बर</th>
+                                        <th>वजेट उप-शिर्षक नाम</th>
+                                        <th>सच्याउनुहोस्</th>
+                                        <th>हटाउनुहोस्</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.BudgetSubTitleSetupList)
+                                    {
+                                        int FYID = 0;
+                                        if (item.FiscalYearId.HasValue)
+                                        {
+                                            FYID = Convert.ToInt32(item.FiscalYearId);
+                                        }
+
+                                        else
+                                        {
+                                            item.FiscalYearId = 1;
+                                        }
+
+                                    <tr>
+                                        <td scope="row">@i</td>
+
+                                        <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(FYID)</td>
+                                        <td>@item.SubTitleCode</td>
+                                        <td>@item.SubTitleName</td>
+                                        <td>
+                                            @Html.ActionLink(" ", "EditBudgetSubTitle", new { @id = item.BudgetSubTitleId }, new { @class = "edits fa fa-edit" })
+                                        </td>
+                                        <td>
+                                            <a href="~/LocalLevel/ExpenseTitleSetup/DeleteBudgetSubTitleDetail?id=@item.BudgetSubTitleId" id="deleteBtn" class="edits" onclick="return confirm('के तपाँई को विवरण लाई हटाउँन चाहानुहुन्छ ?');"><i class="edits fa fa-trash"></i></a>
+
+                                            @*@Html.ActionLink(" ", "DeleteBudgetSubTitleDetail", new { @id = item.BudgetSubTitleId }, new { @class = "edits fa fa-trash" })*@
+                                        </td>
+                                    </tr>
+                                        ++i;
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+<script src="~/DataTables/datatables.min.js"></script>
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>
+
+<script>
+    var dt = jQuery.noConflict();
+    dt(document).ready(function () {
+        dt('#example').DataTable({ "pageLength": 100 });
+    });
+</script>

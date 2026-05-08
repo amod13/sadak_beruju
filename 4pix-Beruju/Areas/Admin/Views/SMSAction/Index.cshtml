@@ -1,0 +1,135 @@
+﻿@model _4pix_Beruju.Models.ListUserForSMSMV
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">SMS</li>
+        </ul>
+    </div>
+</div>
+
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        @*<h4>
+
+                                <a href="@Url.Action("Create","BerujuType")" , class="btn btn-sm btn-success">
+                                    <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                                </a>
+                            </h4>*@
+                    </div>
+
+
+                    @using (Html.BeginForm("PostSMS", "SMSAction", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                    {
+
+                        @Html.ValidationSummary(true)
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Checked</th>
+                                            <th>क्रम</th>
+                                            <th>कार्यालय</th>
+                                            <th>नाम</th>
+                                            <th>मोबाईल</th>
+                                            <th>प्रकार</th>
+                                            <th>रकम</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @for (int j = 0; j < Model.ListUserForSMSMVList.Count; j++)
+                                        {
+                                            @Html.HiddenFor(m => Model.ListUserForSMSMVList[j].MobielNumber)
+                                            @Html.HiddenFor(m => Model.ListUserForSMSMVList[j].OfficeDetailId)
+                                            @Html.HiddenFor(m => Model.ListUserForSMSMVList[j].TotalAmount)
+                                            @Html.HiddenFor(m => Model.ListUserForSMSMVList[j].ToWhomDetailsId)
+                                            @Html.HiddenFor(m => Model.ListUserForSMSMVList[j].InternalOrExternalId)
+                                            <tr>
+                                                <td>@Html.CheckBoxFor(m => Model.ListUserForSMSMVList[j].Ischecked)</td>
+                                                <td>@i</td>
+                                                <td>@Model.ListUserForSMSMVList[j].OFficeName</td>
+                                                <td>@Model.ListUserForSMSMVList[j].PersonName</td>
+                                                <td>@Model.ListUserForSMSMVList[j].MobielNumber</td>
+                                                <td>@Model.ListUserForSMSMVList[j].TypeName</td>
+                                                <td>@Model.ListUserForSMSMVList[j].TotalAmount</td>
+                                            </tr>
+                                            i++;
+
+
+                                        }
+
+                                        @*@foreach (var item in Model.ListUserForSMSMVList)
+                                            {
+
+                                                <tr>
+                                                    <td scope="row">@i</td>
+                                                    <td>@item.OFficeName</td>
+                                                    <td>@item.PersonName</td>
+                                                    <td>@item.MobielNumber</td>
+                                                    <td>@item.TypeName</td>
+                                                    <td>@item.TotalAmount</td>
+
+                                                </tr>
+                                                ++i;
+                                            }*@
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>SMS पठाँउनुहोस</button>
+
+                        </div>
+                    }
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>

@@ -1,0 +1,263 @@
+﻿@model _4pix_Beruju.Models.SaidantikBeruju
+@{
+    ViewBag.Title = "ListExternalBeruju";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+    int status = 0;
+    string email = Utilities.GetCurrentUserEmail();
+    if (email == "checker5@gmail.com" || email == "checker6@gmail.com" || email == "checker7@gmail.com")
+    {
+        status = 1;
+    }
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/DataTables/datatables.min.css" rel="stylesheet" />
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">अन्तिम लेखापरीक्षण बेरूजु</li>
+        </ul>
+    </div>
+</div>
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <h4>बेरुजु ईन्ट्री गरिएको कार्यालय ( @Utilities.GetCurrentLoginOfficeName(Model.OfficeId) )</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            @*<input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />*@
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        @using (Ajax.BeginForm("GetSaidantikBerujuForList", "Checker", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "DetailsReportsID",
+                            LoadingElementId = "loader"
+                        },
+                          new { id = "frmExternalBeruju" }
+                          ))
+                        {
+                            <fieldset>
+                                <div class="row">
+
+                                    @Html.HiddenFor(m => m.OfficeId)
+
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>आर्थिक वर्ष (*)</label>
+                                        @Html.DropDownListFor(m => m.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDDAll(), new { @class = "form-control form-control sm", @id = "dll_fyId" })
+
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>बेरुजु दफा न</label>
+                                        @Html.TextBoxFor(m => m.BerujuDafaNumber, new { @class = "form-control form-control sm", @id = "dll_berujunumber" })
+                                    </div>
+
+
+
+
+
+
+                                </div>
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>खोज्नुहोस</button>
+                            </fieldset>
+                        }
+                        <div id="loader" class=" aletr" style="display:none">
+                            Loading...
+                            <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                        </div>
+
+                        <div id="DetailsReportsID">
+
+                            <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                                <table class="table table-hover table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>क्रम</th>
+                                            <th>आर्थिक वर्ष</th>
+                                            <th>बेरूजु दफा नं</th>
+                                            <th>सच्चाउनुहोस</th>
+                                            <th>विवरण</th>
+                                            @if (status == 1)
+                                            {
+                                                <th>हटाउनुहोस</th>
+                                            }
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model.SaidantikBerujuList)
+                                        {
+
+                                            <tr>
+                                                <td scope="row">@i</td>
+                                                <td>@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(item.FiscalYearId)</td>
+                                                <td>@item.BerujuDafaNumber</td>
+                                                <td>
+                                                    @Html.ActionLink(
+                                                        " ",
+                                                        "EditSaidantik",
+                                                        new { id = item.SaidantikBerujuId, id1 = item.InternalOrExternal, id3 = Model.OfficeId },
+                                                        new { @class = "edits fa fa-edit", target = "_blank" }
+                                                    )
+                                                </td>
+
+                                                <td>
+                                                    @Html.ActionLink(" ", "ViewSaidantikDetails", new { @id = item.SaidantikBerujuId, @id1 = item.InternalOrExternal, @id3 = Model.OfficeId }, new { @class = "edits fa fa-eye" })
+                                                </td>
+                                                @if (status == 1)
+                                                {
+                                                    <td>
+                                                        <a href="javascript:void(0);"
+                                                           class="edits fa fa-trash text-danger"
+                                                           onclick="confirmDelete('@item.SaidantikBerujuId','@item.OfficeId')">
+                                                        </a>
+                                                    </td>
+                                                }
+
+
+                                            </tr>
+                                            ++i;
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
+
+
+
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "ListExternalBeruju.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + ' ' + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + ' ' + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }</script>
+
+<script src="~/DataTables/datatables.min.js"></script>
+<script>
+    var dt = jQuery.noConflict();
+    dt(document).ready(function () {
+        dt('#example').DataTable({ "pageLength": 15 });
+    });</script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#ddl_officeId').select2({
+            placeholder: "छान्नुहोस्...",
+            allowClear: true,
+            width: '100%'
+        });
+    });</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmDelete(id, id2) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This record will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/LocalLevel/Checker/DeleteSaidantik?id=' + id + '&id2=' + id2;
+            }
+        });
+    }
+</script>
+
+<script>
+    var successMsg = '@(TempData["Success"] ?? "")';
+    var errorMsg = '@(TempData["Error"] ?? "")';
+
+    if (successMsg !== '') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: successMsg
+        });
+    }
+    else if (errorMsg !== '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMsg
+        });
+    }
+</script>

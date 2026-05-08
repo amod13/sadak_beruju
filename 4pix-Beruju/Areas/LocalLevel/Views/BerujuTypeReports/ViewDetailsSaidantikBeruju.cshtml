@@ -1,0 +1,229 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Models.BerujuTypeReportsViewModel
+
+@{
+    ViewBag.Title = "ViewDetails";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+<link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css" media='screen,print'>
+<style>
+    @@media print {
+        .row {
+            width: 100% !important;
+        }
+
+        .form-group, .col-xl-2, .col-xl-12 {
+            width: 100% !important;
+        }
+
+        .col-lg-3, .col-lg-9 {
+            width: 100% !important;
+        }
+
+        #DetailsReportsID {
+            width: 100% !important;
+        }
+
+        .fake_fieldset test1 {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<style>
+    .btn-toolbar {
+        display: inline !important;
+    }
+</style>
+<style>
+    .fake_fieldset {
+        border: 2px groove ButtonFace;
+        border-top-width: 0;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: .35em .625em .75em;
+        margin-top: 1em;
+        position: relative;
+    }
+
+    .fake_legend {
+        margin-top: -1em;
+    }
+
+        .fake_legend.test1::before {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 0.5em;
+        }
+
+        .fake_legend.test1::after {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 40%;
+        }
+</style>
+
+
+
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">विवरण</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="clearfix"></div>
+                <hr />
+
+
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        @*<input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" style="margin-right:10px";/>*@
+
+                        <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" style="margin-right:10px" ; />
+                        <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" style="margin-right:10px" ; />
+
+                        @*<a href="@Url.Action("Index","SaidantikBeruju", new { @id=Model.InternalOrExternal})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                            </a>*@
+
+                    </div>
+                    <div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-body myDivToPrint" id="DetailsReportsID" style="width:100%;">
+                        <div class="row myDivToPrint">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeIdSearch)</p>
+
+
+                                <p>
+                                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdSearch)
+
+                                </p>
+                                @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdSearch)
+                                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdSearch)</p>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="fake_fieldset test1">
+                            <div class="fake_legend test1">विवरण:</div>
+
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>आर्थिक वर्ष :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.objBerujuTypeModels.objSaidantikBerujuViewModel.FiscalYearId)</div>
+
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरुजु दफा नं :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@Model.objBerujuTypeModels.objSaidantikBerujuViewModel.BerujuDafaNumber</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको संक्षिप्त विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.objBerujuTypeModels.objSaidantikBerujuViewModel.BerujuShortDesc)</div>
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको पूर्ण विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.objBerujuTypeModels.objSaidantikBerujuViewModel.BerujuLongDesc)</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "BerujuLagatKhata.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=1200');
+
+        mywindow.document.write('<html><head><title>' + ' ' + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + ' ' + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="~/Scripts/pdfmake-unicode.js"></script>
+@*<script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("input[name='ExportData']").val($("#double-scroll").html());
+            });
+        });
+    </script>*@
+
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#DetailsReportsID").css("width", "1500px");
+        $("#DetailsReportsID").css("text-align", "left");
+        $("#Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#DetailsReportsID')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+                $("#DetailsReportsID").css("width", "auto");
+
+            }
+        });
+    });
+</script>

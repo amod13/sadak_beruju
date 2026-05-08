@@ -1,0 +1,152 @@
+﻿@model _4pix_Beruju.Areas.Admin.Models.OfficeSetup
+
+@{
+    ViewBag.Title = "ListLocalLevel";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+<link href="~/DataTables/datatables.min.css" rel="stylesheet" />
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">स्थानिय तह प्रयोगकर्ता</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            @*<h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>*@
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            @*@Html.ActionLink("", "Create", "BerujuType", new { @class = "btn btn-sm btn-success" })*@
+
+
+                            <a href="@Url.Action("AddLocalLevel","OfficeSetupLL")" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+                    </div>
+                    <div class="card-body" id="DetailsReportsID">
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="display" style="width:100%" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>क्रम</th>
+                                        <th>स्थानिय तह नाम</th>
+                                        <th>कार्यालय कोड</th>
+                                        <th>ईमेल (प्रयोगकर्ता)</th>
+                                        <th>सच्चाउनुहोस</th>
+                                        <th>हटाउनुहोस</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.OfficeSetupList)
+                                    {
+
+                                        <tr>
+                                            <td scope="row">@i</td>
+                                            <td>@item.OFficeName</td>
+                                            <td>@item.OfficeCode</td>
+                                            <td>@item.OfficeEmail</td>
+
+                                            <td>
+                                                @Html.ActionLink(" ", "EditLocalLevel", new { @id = item.OfficeDetailId }, new { @class = "edits fa fa-edit" })
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink(" ", "DeleteLocalLevel", new { @id = item.OfficeDetailId }, new { @class = "edits fa fa-trash" })
+                                            </td>
+
+
+                                        </tr>
+                                        ++i;
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+<script src="~/DataTables/datatables.min.js"></script>
+<script>
+    var ll = jQuery.noConflict();
+    ll(document).ready(function () {
+        ll('#example').dataTable({
+            "pageLength": 50
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "LocalLevelOfficesDetails.xls"
+            });
+        });
+    });
+
+
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head>');
+        mywindow.document.write('</head><body >');
+
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>
+

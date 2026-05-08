@@ -1,0 +1,243 @@
+﻿
+
+@model List<_4pix_Beruju.Models.OfficeTreeViewModel>
+
+@{
+    ViewBag.Title = "Lagat Document Tree";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<style>
+
+
+    .preview-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+        min-height: 80vh;
+    }
+
+    .preview-body {
+        min-height: 70vh;
+        border: 1px dashed #d1d5db;
+        border-radius: 12px;
+        background: #f9fafb;
+        padding: 15px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .preview-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+        .preview-toolbar .btn {
+            border-radius: 10px;
+            font-size: 13px;
+            padding: 6px 12px;
+        }
+
+    .preview-stage {
+        text-align: center;
+        overflow: auto;
+        min-height: 55vh;
+        position: relative;
+    }
+
+        .preview-stage img {
+            max-width: 100%;
+            transition: transform 0.25s ease;
+            transform-origin: center center;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .preview-stage iframe,
+        .preview-stage embed {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+    .file-meta {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 8px;
+    }
+
+    .unsupported-box {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6b7280;
+    }
+
+        .unsupported-box i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            color: #9ca3af;
+        }
+
+    .preview-empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6b7280;
+    }
+
+</style>
+
+<div class="container-fluid">
+    <h3>📁 Lagat Document Tree</h3>
+    <hr />
+
+    <div class="row">
+        <!-- LEFT SIDE: TREE -->
+        <div class="col-md-4" style="border-right:1px solid #ddd; height:600px; overflow:auto;">
+            <ul id="treeView">
+
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var office in Model)
+                    {
+                        <li>
+                            <span class="office">
+                                📁 @office.OfficeName (@office.OfficeCode)
+                            </span>
+
+                            <ul>
+                                @foreach (var fy in office.FiscalYears)
+                                {
+                                    <li>
+                                        <span class="fy">
+                                            📂 @fy.FiscalYearTitle
+                                        </span>
+
+                                        <ul>
+                                            @foreach (var file in fy.Files)
+                                            {
+                                                <li>
+                                                    <a href="javascript:void(0)"
+                                                       onclick="previewFile('@Url.Content("~/RequiredDocs/" + file.FilePath)')">
+                                                        📄 @file.FilePath
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+
+                                    </li>
+                                }
+                            </ul>
+
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>No data available</li>
+                }
+
+            </ul>
+        </div>
+
+        <!-- RIGHT SIDE: PREVIEW -->
+        <div class="col-md-8 col-preview">
+            <div class="preview-card">
+                <div class="preview-header d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="fa-solid fa-eye me-2 text-primary"></i>Preview / Download
+                    </h5>
+                </div>
+
+                <div id="filePreview" class="preview-body">
+                    <div class="text-center text-muted py-5">
+                        <i class="fa-regular fa-folder-open fa-3x mb-3"></i>
+                        <p class="mb-0">Select a file from the tree to preview.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ STYLES -->
+<style>
+    #treeView {
+        padding-left: 10px;
+    }
+
+        #treeView li {
+            list-style: none;
+            margin: 6px 0;
+        }
+
+        #treeView span {
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+    .file-link {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+        .file-link:hover {
+            color: #0056b3;
+        }
+</style>
+
+<!-- ✅ SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/file-preview.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        // Hide all child UL initially
+        $("#treeView ul").hide();
+
+        // Toggle Office & Fiscal Year
+        $("#treeView").on("click", ".office, .fy", function () {
+            $(this).siblings("ul").slideToggle(200);
+        });
+
+        // File click → Preview
+        $("#treeView").on("click", ".file-link", function () {
+
+            var path = $(this).data("path");
+
+            // Highlight selected
+            $(".file-link").removeClass("active-file");
+            $(this).addClass("active-file");
+
+            // Detect file type
+            if (path.toLowerCase().endsWith(".pdf")) {
+                $("#filePreview").attr("src", path);
+            }
+            else {
+                // For images (jpg/png)
+                $("#filePreview").attr("src", path);
+            }
+        });
+
+    });
+</script>
+
+<style>
+    .active-file {
+        font-weight: bold;
+        color: green !important;
+    }
+</style>

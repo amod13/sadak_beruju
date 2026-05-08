@@ -1,0 +1,62 @@
+﻿@model _4pix_Beruju.Models.BerujuCheckerReportFilter
+@{
+
+    int i = 1;
+}
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>कार्यालयको नाम</th>
+                <th>  Entry </th>
+                <th>  Verified</th>
+                <th>  Unverified
+                <th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.BerujuList)
+            {
+
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@item.OfficeName</td>
+                    <td>@item.TotalBeruju</td>
+
+                    <td>
+                        @Html.ActionLink(
+                                           item.TotalVerified.ToString(),
+                                           "ListEntryApprovedBeruju",
+                                           "Checker",
+                                           new { id = item.OfficeId },
+                                           null
+                                           )
+                    </td>
+                    <td>
+                        @Html.ActionLink(
+                                       item.TotalUnverified.ToString(),
+                                       "ListExternalBeruju",
+                                       "Checker",
+                                       new { id = item.OfficeId },
+                                       null
+                                       )
+                    </td>
+                </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/DataTables/datatables.min.js"></script>
+<script>
+    var dt = jQuery.noConflict();
+    dt(document).ready(function () {
+        dt('#example').DataTable({ "pageLength": 15 });
+    });
+</script>

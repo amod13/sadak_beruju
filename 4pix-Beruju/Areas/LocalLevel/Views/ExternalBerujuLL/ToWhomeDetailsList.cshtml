@@ -1,0 +1,125 @@
+﻿@model _4pix_Beruju.Models.ToWhomDetailListVM
+
+@using _4pix_Beruju.Helpers
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script src="~/Scripts/json.cycle.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginCollectionItem("ToWhomDetailListVMList"))
+{
+    @Html.ValidationSummary(true)
+    <style>
+        .CategoryId {
+            width: 220px;
+        }
+
+        .PanDivId {
+            width: 130px;
+        }
+
+        .ItemEntryId {
+            width: 150px;
+        }
+
+        /*#size {
+            width: 100px;
+        }*/
+
+        .StockQuantity {
+            width: 60px !important;
+        }
+
+        .Quantity {
+            width: 60px !important;
+        }
+
+        .Discount {
+            width: 60px !important;
+        }
+
+        .ItemTotal {
+            width: 140px !important;
+        }
+        .VoucherAndDate {
+            width: 140px !important;
+        }
+    </style>
+
+
+    <div class="row" style="margin-left: 0px; font-size: 11px;">
+        <table>
+            <tr>
+                <td>
+                    @Html.TextBoxFor(model => model.EmployeeName, new { @class = "CategoryId", @required = "required" })
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.PanNumber, new { @class = "PanDivId" })
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MobielNumber, new { @class = "PanDivId", @maxlength = "10" })
+
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.AmountDetail, new { @class = "ItemTotal", @id = "size", @onblur = "calAmt()", @required = "required" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.VoucherNumber, new { @class = "VoucherAndDate", @id = "size1"})
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.VoucherDate, new { @class = "VoucherAndDate", @id = "size2",@placeholder="yyyy/mm/dd"})
+                </td>
+                <td>
+                    <button class="btn row-button btn-warning btn-info btn-sm"><i class="fa fa-trash"></i> Delete</button>
+                    @*<input type="button" class="row-button btn btn-warning" value="X" />*@
+                </td>
+
+
+            </tr>
+            <tr>
+                <td class="CategoryId"></td>
+                <td class="PanDivId"></td>
+                <td>
+                    @*@Html.ValidationMessageFor(m => m.MobielNumber, "", new { @class = "error" })*@
+
+                </td>
+
+                <td class="ItemTotal">
+                    @Html.ValidationMessageFor(m => m.AmountDetail)
+                </td>
+                <td></td>
+
+
+            </tr>
+        </table>
+
+
+    </div>
+
+}
+<script>
+    $(document).ready(function () {
+        $(".ItemTotal").on("keyup", function (e) {
+
+            var sum = 0;
+            $('.ItemTotal').each(function () {
+                sum += Number($(this).val());
+            });
+
+            $("#TTSamparikshadAmt").val(sum);
+            
+        });
+
+
+
+    });
+</script>
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+
+

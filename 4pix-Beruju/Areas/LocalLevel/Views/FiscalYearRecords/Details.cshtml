@@ -1,0 +1,76 @@
+﻿@model _4pix_Beruju.Models.Setups.FiscalYearRecord
+
+@{
+    ViewBag.Title = "BerujuLagatKhata";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FiscalYearRecord</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FiscalYearTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FiscalYearTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FiscalYearTitleEng)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FiscalYearTitleEng)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCurrent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCurrent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreFiscalYearId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreFiscalYearId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayOrder)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FiscalYearId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

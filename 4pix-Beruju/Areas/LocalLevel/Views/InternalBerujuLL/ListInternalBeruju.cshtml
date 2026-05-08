@@ -1,0 +1,154 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+@{
+    ViewBag.Title = "ListInternalBeruju";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">आन्तरिक लेखापरीक्षण बेरूजु</li>
+        </ul>
+    </div>
+</div>
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <h4>आन्तरिक लेखापरीक्षण बेरूजु</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        @using (Ajax.BeginForm("GetInternalBerujuList", "InternalBerujuLL", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "DetailsReportsID",
+                            LoadingElementId = "loader"
+                        }))
+                        {
+                            <fieldset>
+                                <div class="row">
+
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>आर्थिक वर्ष (*)</label>
+                                        @Html.DropDownListFor(m => m.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDDAll(), new { @class = "form-control form-control sm", @id = "dll_fyId" })
+
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>बेरुजु प्रकार (*)</label>
+                                        @Html.DropDownListFor(m => m.KoshTypeId, _4pix_Beruju.Areas.Admin.functions.GetKoshTypeWithSaidantikDD(), new { @class = "form-control form-control sm", @id = "dll_fyId" })
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 form-group">
+                                        <label>बेरुजु दफा न</label>
+                                        @Html.TextBoxFor(m => m.BerujuNumber, new { @class = "form-control form-control sm", @id = "dll_berujunumber" })
+                                    </div>
+
+
+
+                                </div>
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>खोज्नुहोस</button>
+                            </fieldset>
+                        }
+                        <div id="loader" class=" aletr" style="display:none">
+                            Loading...
+                            <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                        </div>
+
+                        <div id="DetailsReportsID"></div>
+
+                        @*<a href="@Url.Action("Index","InternalBerujuLL", new { @id=1})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;विनियोजन
+                            </a>
+
+
+                            <a href="@Url.Action("Index","InternalBerujuLL", new { @id=2})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;राजस्व
+                            </a>
+
+                            <a href="@Url.Action("Index","InternalBerujuLL", new { @id=4})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;धरौटी
+                            </a>
+                            <a href="@Url.Action("Index","InternalBerujuLL", new { @id=5})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;अन्य कोष
+                            </a>*@
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "ListInternalBeruju.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + ' ' + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + ' ' + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        html2canvas($('#exporttopdf')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+            }
+        });
+    });
+</script>

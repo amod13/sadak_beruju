@@ -1,0 +1,29 @@
+﻿@model _4pix_Beruju.Areas.LocalLevel.Models.ExpenseTitleViewModelSetup
+
+<div class="row">
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>खर्च शिर्षक नम्बर</label>
+        @Html.TextBoxFor(m => m.ObjExpenseTitleSetup.Code, new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>खर्च शिर्षक नाम</label>
+        @Html.TextBoxFor(m => m.ObjExpenseTitleSetup.TItlle, new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>चालु/पूजिगत</label>
+        @Html.DropDownListFor(m => m.ObjExpenseTitleSetup.ChaluPujiTypeId,_4pix_Beruju.Areas.Admin.functions.ChaluOrPujigatDD(), new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>कोष</label>
+        @Html.DropDownListFor(m => m.ObjExpenseTitleSetup.KoshTypeId,_4pix_Beruju.Areas.Admin.functions.GetKoshTypeDD(), new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+
+</div>
+
+
+

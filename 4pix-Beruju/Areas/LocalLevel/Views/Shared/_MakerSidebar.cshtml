@@ -1,0 +1,81 @@
+﻿
+@{
+
+ 
+
+}
+<style>
+    .SelectedHighlightColor {
+        background: orange;
+    }
+</style>
+
+
+<nav class="side-navbar">
+    <div class="side-navbar-wrapper">
+        <!-- Sidebar Header    -->
+        <div class="sidenav-header d-flex align-items-center justify-content-center">
+            <!-- User Info-->
+            <div class="sidenav-header-inner text-center">
+
+           
+                    <a href="~/LocalLevel/LocalLevelHome/MakerDashboard">
+                        <img src="~/AdminResources/img/photos/250px-Emblem_of_Nepal.svg.png" alt="Logo" class="img-fluid">
+                    </a>
+                
+
+
+
+                @*<h6 class="h-75" style="color:black;margin-top:3px;margin-bottom:-7px;">@_4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserOfficeNameAndCode(1)</h6>
+                <span>@_4pix_Beruju.Areas.Admin.functions.GetCurrentLoginUserOfficeNameAndCode(2)</span>*@
+
+
+            </div>
+            <!-- Small Brand information, appears on minimized sidebar-->
+            <div class="sidenav-header-logo"><a href="#" class="brand-small text-center"> <strong></strong><strong class="text-primary"></strong></a></div>
+        </div>
+        <!-- Sidebar Navigation Menus-->
+        <div class="main-menu">
+            <!--<h5 class="sidenav-heading">Main</h5>-->
+            <ul id="side-main-menu" class="side-menu list-unstyled">
+
+                <li><a href="~/LocalLevel/LocalLevelHome/MakerDashboard"> <i class="icon-home"></i>गृह पृष्ठ</a></li>
+
+                <li>
+                    <a href="#OfficeSetupDiv" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>बेरुजु भेरिफिकेशन</a>
+                    <ul id="OfficeSetupDiv" class=" ">
+
+                        <li>
+                            @Html.ActionLink(
+                                    "बेरुजु डाटा भेरिफिकेशन",
+                                    "OfficeWiseBerujuEntry",
+                                    "Checker",
+                                    new { id = 0, area = "LocalLevel" },
+                                    null
+                                )
+                        </li>
+                        <li class="BivagSetupClass">
+                            @Html.ActionLink(
+                                    "सैदातिक बेरुजु डाटा भेरिफिकेशन",
+                                    "OfficeWiseSaidantikBerujuEntry",
+                                    "Checker",
+                                    new { id = 0, area = "LocalLevel" },
+                                    null
+                                )
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
+
+
+
+            </ul>
+
+        </div>
+
+
+    </div>
+</nav>

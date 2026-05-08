@@ -1,0 +1,267 @@
+﻿@model _4pix_Beruju.Models.DashboardViewModel
+
+@{
+
+    decimal TotalSumBeruju = 0;
+    decimal RemainingAmount = 0;
+    int officeId = ViewBag.OfficeId;
+}
+<section id="minimal-statistics">
+
+    <div class="row">
+
+        @{
+            // Calculate totals
+            decimal grandTotal = Model.DashboardBerujuTypewiseTableList.Sum(x => x.TotalExternalBerujuAmount);
+
+            decimal samparikshanTotal = 0;
+            var firstItem = Model.DashboardBerujuTypewiseTableList.FirstOrDefault();
+            if (firstItem != null)
+            {
+                samparikshanTotal = firstItem.TotalSamparikshanAmount;
+            }
+
+            decimal bakiBeruju = grandTotal - samparikshanTotal;
+
+            int totalTypes = Model.DashboardBerujuTypewiseTableList.Count;
+
+            // Define icons per BerujuTypeId
+            Func<int, string> getIcon = typeId =>
+            {
+                switch (typeId)
+                {
+                    case 1: return "fa-check-circle";   // Niyemit
+                    case 2: return "fa-arrow-circle-up"; // Asul
+                    case 3: return "fa-file-text";      // Peski
+                    default: return "fa-money";
+                }
+            };
+
+            // Optional card colors per type
+            Func<int, string> getCardClass = typeId =>
+            {
+                switch (typeId)
+                {
+                    case 1: return "border-left-success";
+                    case 2: return "border-left-danger";
+                    case 3: return "border-left-warning";
+                    default: return "border-left-primary";
+                }
+            };
+        }
+
+        <!-- Typewise ExternalBeruju Cards -->
+        @foreach (var item in Model.DashboardBerujuTypewiseTableList)
+        {
+            string icon = getIcon(item.BerujuTypeId);
+            string cardClass = getCardClass(item.BerujuTypeId);
+
+            <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card @cardClass">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa @icon fa-2x"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5><strong>@item.TotalExternalBerujuAmount.ToString("N2")</strong>                                            </h5>
+
+                                    <span>@item.BerujuTypeNepali</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Grand Total Card -->
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="fa fa-calculator fa-2x"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>@grandTotal.ToString("N2")</h5>                                          </h5>
+
+                                <span>जम्मा कुल बेरुजु</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Samparikshan Card -->
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card border-left-info">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="fa fa-clipboard fa-2x"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5><strong>@samparikshanTotal.ToString("N2")</strong>                                            </h5>
+                                <span>सम्परीक्षण</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-viewDetails">
+                        <a href="@Url.Action("SamparikhasadAmountByType", "LocalLevelHome", new { id = "3" })">
+                            <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Baki Beruju Card -->
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card border-left-warning">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="media-body text-left">
+                                <h5><strong>@bakiBeruju.ToString("N2")</strong>                                            </h5>
+
+
+                                <span>बाँकी बेरुजु</span>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fa fa-sticky-note fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="card-viewDetails">
+                            <a href="@Url.Action("ViewMinistryDtl", "LocalLevelHome", new { id = "2" })">
+                                <span>विवरण  <i class="fa fa-arrow-circle-right"></i></span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="row">
+    <div class="col-lg-6">
+
+        @*@Html.Partial("_ColumnChart")*@
+
+    </div>
+
+    @*<div class="col-lg-6">
+
+            @Html.Partial("_PieChart")
+
+        </div>*@
+
+    <div class="col-lg-6">
+
+        @*@Html.Partial("_GrantChart")*@
+
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="box-header with-border">
+            <h5 class="box-title custom-heading" style="text-align:center;">अन्तिम बेरूजु</h5>
+        </div>
+        @{
+            decimal totalBiniyojan = 0;
+            decimal totalRajaswo = 0;
+            decimal totalDharauti = 0;
+            decimal totalAnyakosh = 0;
+            decimal totalJamma = 0;
+            decimal totalSamparikshad = 0;
+            decimal totalFurcheut = 0;
+            decimal totalBaaki = 0;
+        }
+
+    <table class="table table-sm table-bordered border-primary" style="background:white;">
+        <thead>
+            <tr>
+                <th>आर्थिक वर्ष</th>
+                <th>विनियोजन</th>
+                <th>राजस्व</th>
+                <th>धरौटी</th>
+                <th>अन्य कोष</th>
+                <th>जम्मा</th>
+                <th>फर्छ्यौट  </th>
+                <th>समपरिक्षण</th>
+                <th>बाँकी</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.DashboardkoshwiseTableList)
+            {
+                var totalSumBeruju = item.Biniyojan + item.Rajaswo + item.Dharauti + item.Anyakosh;
+                var remainingAmount = totalSumBeruju - item.TotalSamparikshad;
+
+                // Accumulate totals
+                totalBiniyojan += item.Biniyojan;
+                totalRajaswo += item.Rajaswo;
+                totalDharauti += item.Dharauti;
+                totalAnyakosh += item.Anyakosh;
+                totalJamma += totalSumBeruju;
+                totalSamparikshad += item.TotalSamparikshad;
+                totalFurcheut += item.TotalFurcheut;
+                totalBaaki += remainingAmount;
+
+                <tr>
+                    <td>@item.FiscalYearTitle</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Biniyojan.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Rajaswo.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Dharauti.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.Anyakosh.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalSumBeruju.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.TotalFurcheut.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.TotalSamparikshad.ToString())</td>
+                    <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(remainingAmount.ToString())</td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+            <tr class="fw-bold table-secondary">
+                <td>जम्मा</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalBiniyojan.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalRajaswo.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalDharauti.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalAnyakosh.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalJamma.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalFurcheut.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalSamparikshad.ToString())</td>
+                <td class="text-right">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(totalBaaki.ToString())</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

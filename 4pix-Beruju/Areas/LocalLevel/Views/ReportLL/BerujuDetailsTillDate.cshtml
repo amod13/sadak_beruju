@@ -1,0 +1,318 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+
+@{
+
+
+    ViewBag.Title = "Anusuchi12";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">प्रतिवेदनहरू</li>
+        </ul>
+    </div>
+</div>
+<style>
+    #double-scroll td {
+        /*height:200px;*/
+    }
+
+    #double-scroll SPAN {
+        writing-mode: vertical-lr;
+        -ms-writing-mode: tb-rl;
+        transform: rotate(180deg);
+        /*text-wrap: normal;*/
+        height: 200px;
+        width: auto;
+        text-align: center;
+    }
+
+        #double-scroll SPAN .belowTD {
+            text-align: center;
+            height: auto;
+            /*text-align: center;*/
+        }
+
+    #double-scroll .tdClass {
+        height: 150px;
+        width: 200px;
+    }
+</style>
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">बेरूजु फस्यैाट तथा सम्परीक्षणको अधावधिक विवरण</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-sm-12">
+                            <input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />
+                            <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                            <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Ajax.BeginForm("BerujuDetailsTillDate", "ReportLL", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "DetailsReportsID",
+                            LoadingElementId = "loader"
+                        }))
+                        {
+                            <fieldset>
+
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>आर्थिक वर्ष</label>
+                                        @Html.DropDownListFor(model => model.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListDD(), new { @class = "form-control form-control-sm", id = "dll_Kosh" })
+
+                                    </div>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>खोज्नुहोस</button>
+                            </fieldset>
+                        }
+
+
+                        <div id="loader" class=" aletr" style="display:none">
+                            Loading...
+                            <img src="~/AdminResources/img/ajax-loader.gif" />
+
+                        </div>
+
+                        <div id="DetailsReportsID">
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function GetNirdeshanalayaList() {
+        var value = $("#dll_ministry option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetNirdeshanalayaList", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_nirdesh").html(items);
+                $("#dll_office").html("<option value='0'>--छान्नुहोस--</option>");
+            }
+        })
+    };
+
+    function GetOfficesList() {
+        var value = $("#dll_nirdesh option:selected").val();
+        $.ajax({
+            @*url: "@Url.Action("GetVDCMUNDDByDistrictId", "AjaxRequest", new { @area="admin"})",*@
+            url: "@Url.Action("GetOfficesList", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                GetVDCMUNDDByDistrictId
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#dll_office").html(items);
+            }
+        })
+    };
+
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/AdminResources/js/table2excel.js"></script>
+<script type="text/javascript">
+    var tte = $.noConflict();
+    tte(function () {
+        tte("#Div_Ministry").hide();
+        tte("#Div_Nirdesha").hide();
+        tte("#Div_Office").hide();
+        tte("#Div_Aayog").hide();
+        tte("#Div_Local").hide();
+
+        tte("#dll_OfficeType").change(function () {
+            var OfficeId = tte(this).val();
+            if (OfficeId != null) {
+
+                if (OfficeId == 2) {
+                    tte("#Div_Ministry").show();
+                    tte("#Div_Nirdesha").hide();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 3) {
+                    tte("#Div_Ministry").show();
+                    tte("#Div_Nirdesha").show();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 4) {
+                    tte("#Div_Ministry").show();
+                    tte("#Div_Nirdesha").show();
+                    tte("#Div_Office").show();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 5) {
+                    tte("#Div_Ministry").hide();
+                    tte("#Div_Nirdesha").hide();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").show();
+                    tte("#Div_Local").hide();
+
+                }
+                else if (OfficeId == 6) {
+                    tte("#Div_Ministry").hide();
+                    tte("#Div_Nirdesha").hide();
+                    tte("#Div_Office").hide();
+                    tte("#Div_Aayog").hide();
+                    tte("#Div_Local").show();
+
+                }
+            }
+
+        });
+
+
+        tte("#btnExport").click(function () {
+            tte("#DetailsReportsID").table2excel({
+                filename: "BerujuLagatKhata.xls"
+            });
+        });
+    });
+
+    function PrintElem(elem) {
+        var divToPrint = document.getElementById('DetailsReportsID');
+        htmlToPrint = '' +
+            '<style type="text/css">' +
+            '.my-table{' +
+            'width:100% !important;' +
+            'table-layout:fixed;' +
+            //'overflow-wrap:break-word;' +
+            'border-spacing: 0px !important;' +
+            '}' +
+
+            'table th, table td {' +
+            'border:0.5px solid #000 !important;' +
+            'border-collapse: collapse !important;' +
+            'padding: 2px !important;' +
+            'border-spacing: 0px !important;' +
+            'font-size:10px !important;' +
+            'font-weight: normal !important;' +
+
+            '}' +
+
+            '#header, #footer, #nav {' +
+            'display: none!important;' +
+            '}' +
+
+            '.makeFloatright {' +
+            'float:right !important;' +
+            '}' +
+
+
+            '.logoImg {' +
+            'width:80px !important;' +
+            'float:left !important;' +
+            '}' +
+
+
+
+            '</style>';
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+
+    };
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="~/Scripts/pdfmake-unicode.js"></script>
+
+
+
+<script type="text/javascript">
+    $("body").on("click", "#btnExportPDF", function () {
+        $("#DetailsReportsID").css("width", "1500px");
+        $("#DetailsReportsID").css("text-align", "left");
+        $("#Headtitle").css("text-align", "left");
+        $("#rptTitle").css("text-align", "left");
+        $("th").css("text-align", "left");
+
+        window.scrollTo(0, 0);
+
+        html2canvas($('#DetailsReportsID')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        scale: 1
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Report-details.pdf");
+                $("#DetailsReportsID").css("width", "auto");
+
+            }
+        });
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,110 @@
+﻿@model _4pix_Beruju.Models.BerujuSubTypeChild
+
+@{
+
+
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">बेरूजु प्रकार</li>
+        </ul>
+    </div>
+</div>
+
+<section>
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            @*<h1 class="h3 display">@GrantApp.Areas.Admin.FunctionClass.GetGrantTypeNameById(Model.ViewBagGrantTypeId)</h1>*@
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            @*@Html.ActionLink("", "Create", "BerujuType", new { @class = "btn btn-sm btn-success" })*@
+
+
+                            <a href="@Url.Action("Create","BerujuSubTitleChild")" , class="btn btn-sm btn-success">
+                                <i class="fa fa-plus"></i>&nbsp;नयाँ थप्नुहोस
+                            </a>
+                        </h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>क्रम</th>
+                                        <th>बेरुजु प्रकार</th>
+                                        <th>उप प्रकार</th>
+                                        <th>शिर्षक</th>
+                                        <th>सच्चाउनुहोस</th>
+                                        <th>हटाउनुहोस</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.BerujuSubTypeChildList)
+                                    {
+
+                                        <tr>
+                                            <td scope="row">@i</td>
+                                            <td> @item.BerujuTypeName</td>
+                                            <td>@item.BerujuSubTypeName</td>
+                                            <td>@item.SubTitleChild</td>
+
+                                            <td>
+                                                @Html.ActionLink(" ", "Edit", new { @id = item.BerujuSubTitleChildId }, new { @class = "edits fa fa-edit" })
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink(" ", "Delete", new { @id = item.BerujuSubTitleChildId }, new { @class = "edits fa fa-trash" })
+                                            </td>
+
+
+                                        </tr>
+                                        ++i;
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+
+<script type="text/javascript">
+     $(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>

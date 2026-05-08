@@ -1,0 +1,110 @@
+﻿@model _4pix_Beruju.Models.SetBerujuTargetValue
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">लक्ष्य तथा प्रगती सेटअप</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display">लक्ष्य तथा प्रगती सेटअप</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <h4>@ViewBag.ErrorMessage</h4>
+                        }
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(m => m.OfficeId)
+                            @Html.HiddenFor(m => m.CreaatedDate)
+                            @Html.HiddenFor(m => m.CreatedBy)
+                            @Html.HiddenFor(m => m.BerujuTargetId)
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>लक्ष्य तथा प्रगती सेटअप</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.FiscalYearId, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.DropDownListFor(m => m.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithNull(), new { @id = "DDFYID", @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessageFor(model => model.FiscalYearId, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.NIyamitTargetVal, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.NIyamitTargetVal, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.NIyamitTargetVal, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.AshuliTargetVal, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.AshuliTargetVal, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.AshuliTargetVal, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.PeshkiTargetVal, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.PeshkiTargetVal, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PeshkiTargetVal, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सुरक्छित गर्नुहोस</button>
+                                    <a href="@Url.Action("Index","SetBerujuTargetValues")" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

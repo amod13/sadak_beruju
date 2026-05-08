@@ -1,0 +1,31 @@
+﻿@model _4pix_Beruju.Models.Setups.EmployeeAuditor
+<div class="row">
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>आर्थिक वर्ष</label>
+        @Html.DropDownListFor(m => m.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListDD(), new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>नाम</label>
+        @Html.TextBoxFor(m => m.EmpName, new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>पद</label>
+        @Html.TextBoxFor(m => m.AuditorPost, new { @class = "form-control form-control-sm ", @required = "required" })
+    </div>
+
+
+
+    @*<div class="col-md-4 col-sm-4 form-group">
+            <label>कार्य अवधि देखि</label>
+            @Html.TextBoxFor(m => m.FromDurationStr, new { @class = "form-control form-control-sm MaskDate", @required = "required" })
+        </div>
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>कार्य अवधि सम्म</label>
+            @Html.TextBoxFor(m => m.ToDurationStr, new { @class = "form-control form-control-sm MaskDate", @required = "required" })
+        </div>*@
+
+</div>
+

@@ -1,0 +1,299 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    ViewBag.Title = "ViewDetails";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+
+<style>
+    .btn-toolbar {
+        display: inline !important;
+    }
+</style>
+<style>
+    .fake_fieldset {
+        border: 2px groove ButtonFace;
+        border-top-width: 0;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: .35em .625em .75em;
+        margin-top: 1em;
+        position: relative;
+    }
+
+    .fake_legend {
+        margin-top: -1em;
+    }
+
+        .fake_legend.test1::before {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 0.5em;
+        }
+
+        .fake_legend.test1::after {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 40%;
+        }
+
+    @@media print {
+        .fake_fieldset {
+            border: 2px groove ButtonFace !important;
+            border-top-width: 0 !important;
+            margin-left: 2px !important;
+            margin-right: 2px !important;
+            padding: .35em .625em .75em !important;
+            margin-top: 1em !important;
+            position: relative !important;
+        }
+
+        .fake_legend {
+            margin-top: -1em !important;
+        }
+
+            .fake_legend.test1::before {
+                position: absolute !important;
+                top: 0 !important;
+                left: -1px !important;
+                border-top: 2px groove ButtonFace !important;
+                content: " " !important;
+                width: 0.5em !important;
+            }
+
+            .fake_legend.test1::after {
+                position: absolute !important;
+                top: 0 !important;
+                right: -1px !important;
+                border-top: 2px groove ButtonFace !important;
+                content: " " !important;
+                width: 40% !important;
+            }
+    }
+</style>
+
+
+
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">विवरण</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+
+                <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />
+
+                <div class="clearfix"></div>
+                <hr />
+
+
+                <div class="card" id="DetailsReportsID">
+                    <div class="card-header d-flex align-items-center">
+
+                        @*<a href="@Url.Action("Index","ExternalBerujuLL", new { @id=Model.KoshTypeId})" , class="btn btn-sm btn-success">
+                                <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                            </a>*@
+
+                    </div>
+                    <div>
+                        <div class="row">
+
+                            <div class="col-md-4">
+
+                            </div>
+                            <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(ViewBag.OfficeId)</p>
+
+                                <p>
+                                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(ViewBag.OfficeId)
+
+                                </p>
+
+
+
+                                <p>
+                                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(ViewBag.OfficeId)
+
+                                </p>
+
+
+
+
+                                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(ViewBag.OfficeId)</p>
+                                <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(ViewBag.OfficeId)</p>
+
+
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div id="rptTitle" class="col-md-4" style="text-align:center; margin-top:20px; margin-bottom:20px;">
+                                <p>
+                                    अन्तिम बेरुजु प्रतिवेदन-@_4pix_Beruju.Areas.Admin.functions.GetBerujuTypeFromId(Model.BerujuTypeId)
+                                </p>
+
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="card-body">
+                        <div class="fake_fieldset test1">
+                            <div class="fake_legend test1">विवरण:</div>
+                            <div class="row">
+                                <div class="col-lg-2 col-xs-3 form-group"><b>आर्थिक वर्ष :</b></div>
+                                <div class="col-lg-2 col-xs-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</div>
+
+
+                                <div class="col-lg-2 col-xs-3 form-group"><b>वजेट उपशिर्षक :</b></div>
+                                <div class="col-lg-6 col-xs-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetBudgetSubTitleById(Model.BudgetSubTitle)</div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-xs-3 form-group"><b> खर्च शिर्षक :</b></div>
+                                <div class="col-lg-6 col-xs-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetChaluOrPujigatKharchaTitleBId(Model.KoshTypeTitleListId)</div>
+                            </div>
+
+
+
+
+                            <div class="row voucherDtl">
+                                <div class="col-lg-2 col-md-3 form-group"><b>गोश्वारा भौचर नम्बर :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.JVNUMBER</div>
+
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>भौचर मिति :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@Model.VoucharDateStr</div>
+
+                                <div class="col-lg-2 col-md-3 form-group"><b>बेरुजु रकम :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Utilities.EnglishToNepaliNumber(Model.VoucharAmunt.ToString())</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको संप्क्षित विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.BerujuShorDesc)</div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>बेरूजुको पूर्ण विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.BerujuDetails)</div>
+
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 form-group"><b>बेरूजुको प्रकार :</b></div>
+                                <div class="col-lg-2 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetBerujuTypeFromId(Model.BerujuTypeId)</div>
+
+
+                                <div class="col-lg-2 col-md-4 form-group"><b>बेरूजुको उपप्रकार:</b></div>
+                                <div class="col-lg-3 col-md-8 form-group">@_4pix_Beruju.Utilities.GetBerujuSubtitleNameFromId(Model.BerujuSubTitleId)</div>
+
+
+                            </div>
+                            <div class="row">
+
+
+                                <div class="col-lg-3 col-md-3 form-group"><b>कोष प्रकार :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshTypeId)</div>
+
+                                <div class="col-lg-3 col-md-3 form-group"><b>सम्बन्धित :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.ToWhomTypeById(Model.ToWhomID)</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>सम्बन्धितको विवरण :</b></div>
+                                @*<div class="col-lg-3 col-md-9 form-group">@Model.ToWhomName</div>*@
+
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <table class="table table-bordered table-responsive-sm">
+
+                                        <thead>
+                                            <tr>
+                                                <th>नाम</th>
+                                                <th>प्यान नं</th>
+                                                <th>मोबाईल नं</th>
+                                                <th>रकम</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model.ToWhomDetailListVMList)
+                                        {
+                                            <tr>
+                                                <td>@item.EmployeeName</td>
+                                                <td>@item.PanNumber</td>
+                                                <td>@item.MobielNumber</td>
+                                                <td>
+                                                @if(item.AmountDetail.HasValue)
+                                                {
+                                                    <span>@_4pix_Beruju.Utilities.EnglishToNepaliNumber(item.AmountDetail.ToString())</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>०</span>
+                                                }
+                                                </td>
+
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function PrintElem(elem) {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + ' ' + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + ' ' + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>

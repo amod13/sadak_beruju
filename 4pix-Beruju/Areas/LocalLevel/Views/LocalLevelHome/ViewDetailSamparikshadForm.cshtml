@@ -1,0 +1,214 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+
+@{
+    ViewBag.Title = "ViewDetailSamparikshadForm";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+    int i = 1;
+}
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">अन्तिम सम्परीक्षण फाराम</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h3 class="h3 display">सम्परीक्षण फाराम</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            @ViewBag.ErrorMessage
+                        </div>
+
+                    }
+                        <div class="card-header d-flex align-items-center">
+                            <h3>कार्यालयको नाम : @Utilities.GetCurrentLoginOfficeName(Model.OfficeId)</h3>
+                        </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+                            <table class="table table-hover table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>आर्थिक वर्ष</th>
+                                        <th>बेरूजु दफा न</th>
+
+                                        @*<th>वजेट उपशिर्षक</th>
+                                            <th>खर्च शिर्षक</th>*@
+                                        <th>गोश्वारा भौचर नम्बर</th>
+                                        <th>भौचर मिति</th>
+                                        <th>बेरुजु रकम</th>
+                                        <th>बाँकि रकम</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <tr>
+
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.FiscalYearTitle</td>
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.BerujuNumber</td>
+                                        @*<td>@Model.BudgetSubTitle</td>
+                                            <td>@Model.ExpenseTItle</td>*@
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.JVNUMBER</td>
+                                        <td>@_4pix_Beruju.Utilities.GetNepaliDateFromEng(Model.ExternalBerujuForSamparikshadVMObj.VoucharDate)</td>
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.VoucharAmunt</td>
+                                        <td>@Model.ExternalBerujuForSamparikshadVMObj.RemainingAmount</td>
+
+
+                                    </tr>
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 form-group">
+                                    <label>चलानि नं</label>
+                                    @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.LetterNumber, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                                </div>
+                                <div class="col-md-4 col-sm-4 form-group">
+                                    <label>सम्परीक्षण रकम</label>
+                                    @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.ReviesedVoucherAmount, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                                </div>
+                                <div class="col-md-4 col-sm-4 form-group">
+                                    <label>सम्परीक्षण मिति</label>
+                                    @Html.TextBoxFor(m => m.ObjExternalSamparikshadViewModel.RevisedDateStr, new { @class = "form-control form-control-sm MaskDate", @readonly = "readonly", @id = "VoucharDateNeplai" })
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 form-group">
+                                    <label>विवरण</label>
+                                    @Html.TextAreaFor(m => m.ObjExternalSamparikshadViewModel.RevisedRemarks, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(Model.ObjExternalSamparikshadViewModel.UploadFileDetails))
+                                {
+
+                                    FileInfo fi = new FileInfo(Model.ObjExternalSamparikshadViewModel.UploadFileDetails);
+                                    string extn = fi.Extension;
+                                    string imgPath = @"~/RequiredDocs/" + Model.ObjExternalSamparikshadViewModel.UploadFileDetails;
+
+                                    if (extn == ".jpg" || extn == ".JPG" || extn == ".jpeg" || extn == ".JPEG" || extn == ".PNG" || extn == ".png" || extn == ".pdf" || extn == ".PDF")
+                                    {
+                                        <div class="col-md-4 col-sm-4 form-group">
+                                            <label>अपलोड गरिएको कागजात</label><br />
+                                            <a target="_blank" href='@Url.Content(imgPath)'>
+                                                <text><i class="fa fa-eye"></i> हेर्नुहोस</text>
+                                            </a>
+                                        </div>
+                                    }
+
+                                    else
+                                    {
+                                        <div class="col-md-4 col-sm-4 form-group">
+                                            <label>अपलोड गरिएको कागजात</label><br />
+                                            @Html.ActionLink(" Download", "Download", "LocalLevelHome", new { @FileName = Model.ObjExternalSamparikshadViewModel.UploadFileDetails }, new { @class = "fa fa-download" })
+                                        </div>
+                                    }
+
+
+                                }
+
+
+                            </div>
+
+                            <div class="row">
+                                <table class="table table-responsive-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                नाम
+                                            </th>
+                                            <th>
+                                                प्यान नं
+                                            </th>
+                                            <th>
+                                                मोबाईल
+                                            </th>
+                                            <th>
+                                                बेरुजु रकम
+                                            </th>
+                                            <th>
+                                                सम्परीक्षण रकम
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    @for (int j = 0; j < Model.SamparikshadTowhomDetailVMListMain.Count; j++)
+                                    {
+                                        <tr>
+                                            @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].OfficeId)
+                                            @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].PersonName)
+                                            @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].PanNumber)
+                                            @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].MobielNumber)
+                                            @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].EBToWhomId)
+                                            @Html.HiddenFor(model => Model.SamparikshadTowhomDetailVMListMain[j].BerujuAmount)
+                                            <td>
+                                                @Model.SamparikshadTowhomDetailVMListMain[j].PersonName
+                                            </td>
+
+
+                                            <td>
+                                                @Model.SamparikshadTowhomDetailVMListMain[j].PanNumber
+                                            </td>
+                                            <td>
+                                                @Model.SamparikshadTowhomDetailVMListMain[j].MobielNumber
+                                            </td>
+                                            <td>
+                                                @Model.SamparikshadTowhomDetailVMListMain[j].IndividualAmount
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.SamparikshadTowhomDetailVMListMain[j].RevisedAmount, new { @value = Model.SamparikshadTowhomDetailVMListMain[j].RevisedAmount, @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+
+                                    }
+
+
+                                </table>
+                            </div>
+
+
+                            
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+@*<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>*@
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+       
+        $j('.MaskDate').inputmask('9999/99/99', { 'placeholder': 'yyyy/mm/dd' })
+    });
+
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+

@@ -1,0 +1,193 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+    int i = 1;
+}
+<style>
+    @@media print {
+        #header, #footer, #nav {
+            display: none !important;
+        }
+        /*@@page {margin:0 -6cm}
+        html {margin:0 6cm}*/
+        .myDivToPrintsdfsdfs {
+            z-index: 100 !important;
+            visibility: visible !important;
+            position: relative !important;
+            display: block !important;
+            background-color: lightgray !important;
+            height: 297mm !important;
+            width: 211mm !important;
+            position: relative !important;
+            padding: 0px;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 0 !important;
+            orphans: 0 !important;
+            widows: 0 !important;
+            overflow: visible !important;
+            page-break-after: always;
+        }
+
+        #double-scroll {
+            width: 1200px !important;
+            overflow: hidden !important;
+        }
+
+        .doubleScroll-scroll-wrapper {
+            overflow: hidden !important;
+        }
+    }
+</style>
+<style>
+
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            text-align: right !important;
+        }
+</style>
+
+
+<div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:20px !important;">
+
+    <div class="row">
+
+
+        <div class="col-md-4 logoImg">
+            <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+        </div>
+
+
+        <div id="Headtitle" class="col-md-4" style="text-align:center;">
+            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+            @if (Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+
+
+
+
+
+    <table class="table table-bordered my-table" id="exporttopdf">
+        <thead>
+            <tr>
+                <th rowspan="3">सि.नं.</th>
+                <th rowspan="3">कार्यालयको नाम</th>
+                <th rowspan="3">कार्यालयको कोड</th>
+                <th rowspan="3">कायम बेरुजु रकम</th>
+
+                <th colspan="7">फर्छ्यौटको लागि पेश</th>
+                <th colspan="5">सम्परीक्षण / लगत कट्टाको लागि पेश</th>
+            </tr>
+
+            <tr>
+                <!-- Furcheut -->
+                <th rowspan="2">विभाग</th>
+                <th rowspan="2">मन्त्रालय</th>
+                <th rowspan="2">महालेखापरिक्षकको कार्यालय</th>
+                <th rowspan="2">बैरुजु फर्छ्यौट समिति</th>
+                <th rowspan="2">कुमारीचोक तथा केन्द्रीय तहसिल</th>
+                <th rowspan="2">अन्य</th>
+                <th rowspan="2">जम्मा</th>
+                <th rowspan="2">प्रतिशत</th>
+
+                <!-- Sampa -->
+                <th rowspan="2">नियमित</th>
+                <th rowspan="2">असुल उपर</th>
+                <th rowspan="2">पेश्की</th>
+                <th rowspan="2">जम्मा</th>
+                <th rowspan="2">प्रतिशत</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null && Model.BerujuFurcheutSampaReportModelVMList.Any())
+            {
+                var sn = 1;
+                foreach (var item in Model.BerujuFurcheutSampaReportModelVMList)
+                {
+                    <tr>
+                        <td>@sn</td>
+                        <td>@item.OfficeName</td>
+                        <td>@item.OfficeCode</td>
+                        <td>@item.Kayam_Beruju.ToString("N2")</td>
+
+                        <!-- Furcheut -->
+                        <td>@item.Furcheut_Bivag_Amount.ToString("N2")</td>
+                        <td>@item.Furcheut_Ministry_Amount.ToString("N2")</td>
+                        <td>@item.Furcheut_Malepa_Amount.ToString("N2")</td>
+                        <td>@item.Furcheut_Samiti_Amount.ToString("N2")</td>
+                        <td>@item.Furcheut_Kumari_Amount.ToString("N2")</td>
+                        <td>@item.Furcheut_Anye_Amount.ToString("N2")</td>
+                        <td><strong>@item.Sum_Furcheut.ToString("N2")</strong></td>
+                        <td>@item.Furcheut_Percentage.ToString("N2")%</td>
+
+                        <!-- Sampa -->
+                        <td>@item.Sampa_Niyamit.ToString("N2")</td>
+                        <td>@item.Sampa_Asul.ToString("N2")</td>
+                        <td>@item.Sampa_Peski.ToString("N2")</td>
+                        <td><strong>@item.Sum_Sampa.ToString("N2")</strong></td>
+                        <td>@item.Sampa_Percentage.ToString("N2")%</td>
+                    </tr>
+
+                    sn++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="15" class="text-center">डाटा उपलब्ध छैन</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,75 @@
+﻿@model _4pix_Beruju.Models.SetBerujuTargetValue
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SetBerujuTargetValue</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OfficeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OfficeId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FiscalYearId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FiscalYearId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IstQuardTargetVal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IstQuardTargetVal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IIndQuardTargetVal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IIndQuardTargetVal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IIIrdQuardTargetVal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IIIrdQuardTargetVal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreaatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreaatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BerujuTargetId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

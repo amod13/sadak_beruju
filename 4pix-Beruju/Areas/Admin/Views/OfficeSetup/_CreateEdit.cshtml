@@ -1,0 +1,68 @@
+﻿@model _4pix_Beruju.Areas.Admin.Models.OfficeSetup
+
+<div class="row">
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>Office Name</label>
+        @Html.TextBoxFor(m => m.OFficeName, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>Office Code</label>
+        @Html.TextBoxFor(m => m.OfficeCode, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>Address</label>
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control form-control-sm", @required = "required" })
+    </div>
+
+
+    @if (ViewBag.EditMode == "True")
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>Email</label>
+            @Html.TextBoxFor(m => m.OfficeEmail, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+        </div>
+
+    }
+    else
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>Email</label>
+            @Html.TextBoxFor(m => m.OfficeEmail, new { @class = "form-control form-control-sm", @required = "required" })
+        </div>
+    }
+
+
+
+
+    <div class="col-md-4 col-sm-4 form-group">
+            <label></label>
+            @Html.DropDownListFor(m => m.ProvinceId, _4pix_Beruju.Utilities.GetProvincesDD(), new { @class = "form-control form-control-sm", @id = "dll_province", @required = "required", @onchange = "GetDistrictListDD()" })
+        </div>
+
+    <div class="col-md-4 col-sm-4 form-group">
+        <label>District</label>
+        @Html.DropDownListFor(m => m.DistrictId, _4pix_Beruju.Utilities.GetDistrictByStateIdDD(Model.ProvinceId), new { @class = "form-control form-control-sm", @required = "required", @id = "dll_district", @onchange = "GetVDCMUNListDD()" })
+    </div>
+
+    @if (ViewBag.EditMode == "True")
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>VDCMUN</label>
+            @Html.DropDownListFor(m => m.VDCMUNID, _4pix_Beruju.Utilities.GetRuralMunicipalitybyDistrictDD(Model.DistrictId), new { @class = "form-control form-control-sm", @required = "required", id = "dll_vdcmun" })
+        </div>
+    }
+    else
+    {
+        <div class="col-md-4 col-sm-4 form-group">
+            <label>VDCMUN</label>
+            @Html.DropDownListFor(m => m.VDCMUNID, _4pix_Beruju.Utilities.GetRuralMunicipalitybyDistrictDD(0), new { @class = "form-control form-control-sm", @required = "required", id = "dll_vdcmun" })
+        </div>
+
+    }
+
+
+
+</div>

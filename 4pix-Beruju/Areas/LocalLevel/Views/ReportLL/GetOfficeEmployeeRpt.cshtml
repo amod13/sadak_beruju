@@ -1,0 +1,126 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+    ViewBag.Title = "AdminDashBoard";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+
+
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            margin-left: 50px;
+        }
+</style>
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">मलेप प्रतिवेदन-पूर्ण पाठ</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <div class="row">
+            <div class="col-lg-4"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-header">
+
+                    <div class="col-sm-12">
+                        @*<input type="button" id="btnExport" value="Export-Excel" class="btn btn-info btn-sm" />*@
+                        <input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
+                    </div>
+
+                </div>
+
+
+                <div class="card" id="exporttopdf">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="logoImg">
+                                <img src="~/AdminResources/img/nepalsarkarlogo.png" />
+                            </div>
+
+                        </div>
+                        <div id="Headtitle" class="col-md-4" style="text-align:center;">
+                            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+                            @*<p>
+                                @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeId)
+
+                            </p>*@
+
+                            <p>
+                                @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeId)
+
+                            </p>
+
+                            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeId)</p>
+
+
+
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div id="rptTitle" class="col-md-4" style="text-align:center;">
+                            <p style="font-weight:bold;">
+                                जिम्मेबार व्याक्तिको विवरण
+                            </p>
+
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="card-header">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>पद</th>
+                                        <th>नाम</th>
+                                        <th>कार्यकाल सुरु मिति</th>
+                                        <th>कार्यकाल समाप्त मिति</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OfficeChiefsDetailsVMList)
+                                    {
+                                        <tr>
+                                            <td>@item.EmpPost</td>
+                                            <td>@item.EmpName</td>
+                                            <td>@item.FromDuration</td>
+                                            <td>@item.ToDuration</td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <a href="@Url.Action("GetMalepaPurnaPath","ReportLL", null)" , class="btn btn-sm btn-success btnfixed">
+                            अर्को पृष्ठ &nbsp;<i class="fa fa-forward"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

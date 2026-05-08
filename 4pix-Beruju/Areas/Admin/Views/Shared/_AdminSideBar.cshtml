@@ -1,0 +1,49 @@
+﻿
+@{
+
+}
+
+
+<nav class="side-navbar">
+    <div class="side-navbar-wrapper">
+        <!-- Sidebar Header    -->
+        <div class="sidenav-header d-flex align-items-center justify-content-center">
+            <!-- User Info-->
+            <div class="sidenav-header-inner text-center">
+                <img src="~/AdminResources/img/photos/250px-Emblem_of_Nepal.svg.png" alt="Logo" class="img-fluid">
+                <!--<h2 class="h5">4pix Solutions</h2> <span>Smart Solutions</span>-->
+            </div>
+            <!-- Small Brand information, appears on minimized sidebar-->
+            <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>M</strong><strong class="text-primary">P</strong></a></div>
+        </div>
+        <!-- Sidebar Navigation Menus-->
+        <div class="main-menu">
+            <!--<h5 class="sidenav-heading">Main</h5>-->
+            <ul id="side-main-menu" class="side-menu list-unstyled">
+                <li><a href="~/Admin/AdminHome/Dashboard"> <i class="icon-home"></i>Home</a></li>
+
+                <li>
+                    <a href="#Resultlist" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>सेटअप</a>
+                    <ul id="Resultlist" class="collapse list-unstyled ">
+                        <li>@Html.ActionLink("मन्त्रालय", "ProvincesMinistry", "OfficeSetup", new { @area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("विभाग", "ListBivag", "OfficeSetup", new { @area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("निर्देशनालय", "ProvinceNirdeshnalaya", "OfficeSetup", new { @area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("कार्यलय", "ProvinceOffices", "OfficeSetup", new { @area = "Admin" }, null)</li>
+
+                    </ul>
+
+
+                </li>
+                <li><a href="~/Admin/SMSAction/Index"> <i class="icon-home"></i>SMS</a></li>
+
+
+            </ul>
+
+        </div>
+
+
+
+
+
+    </div>
+</nav>

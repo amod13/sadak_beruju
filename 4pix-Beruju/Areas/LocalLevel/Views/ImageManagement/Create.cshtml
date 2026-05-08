@@ -1,0 +1,160 @@
+﻿@model _4pix_Beruju.Models.BerujuFilesByDafaVM
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">बेरुजु दफा अनुसार फाईल थप्नुहोस्<</li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "ImageManagement",
+                        FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="row">
+
+
+
+                                <div class="col-md-3 col-sm-6 form-group">
+                                    <label>कार्यालय प्रकार</label>
+                                    @Html.DropDownListFor(m => m.OfficeTypeSearchId, Utilities.GetOfficeTypeDDWithDefaultForSuperAdmin(), new { @class = "form-control form-control sm", @id = "dll_OfficeType" })
+                                    @Html.ValidationMessageFor(m => m.OfficeTypeSearchId)
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 form-group" id="Div_Ministry">
+                                    <label>मन्त्रालय</label>
+                                    @Html.DropDownListFor(m => m.MininstrySearchId, Utilities.GetMinistryListWithDefaultForProvinceAdmin(0, 2), new { @class = "form-control form-control sm", @id = "dll_ministry" })
+
+                                </div>
+                                <div class="col-md-3 col-sm-6 form-group" id="Div_Bivag">
+                                    <label>विभाग</label>
+                                    @Html.DropDownListFor(m => m.BivagSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_bivag" })
+
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 form-group" id="Div_Nirdesha">
+                                    <label>निर्देशनालय</label>
+                                    @Html.DropDownListFor(m => m.NirdeshnalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_nirdesh" })
+
+                                </div>
+
+
+                                <div class="col-md-3 col-sm-6 form-group" id="Div_Office">
+                                    <label>कार्यालय/अन्य</label>
+                                    @Html.DropDownListFor(model => model.KaryalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                                </div>
+
+
+
+                                @*<div class="col-md-3">
+                                        <label>कार्यालय</label>
+                                        @Html.DropDownListFor(m => m.KaryalayaSearchId,
+                                            Utilities.GetNirdeshayalaDefault(),
+                                            new { @class = "form-control" })
+                                    </div>*@
+
+                                <div class="col-md-3">
+                                    <label>आर्थिक वर्ष</label>
+                                    @Html.DropDownListFor(m => m.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDDAll(), new { @class = "form-control form-control sm", @id = "dll_fyId" })
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>कुल बेरुजु दफा</label>
+                                    @Html.TextBoxFor(m => m.TotalBerujuDafa,
+                                        new { @class = "form-control", type = "number" })
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <h5>फाइल अपलोड</h5>
+
+                            <div id="fileContainer">
+                                <div class="file-row mb-2">
+                                    <input type="file" name="Files" class="form-control d-inline-block" style="width:85%" />
+                                    <button type="button" class="btn btn-success btn-add">+</button>
+                                </div>
+                            </div>
+
+                            <br />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> सेभ गर्नुहोस्
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script src="~/Scripts/SweetAlert.min.js"></script>
+
+
+<script src="~/Scripts/dropdown_helper.js"></script>
+
+<script>
+    const url_bivag = '@Url.Action("GetBivagFromMinistryDD", "AjaxRequest", new { area = "admin" })';
+    const url_nirdesh = '@Url.Action("GetNirdeshanalayaList", "AjaxRequest", new { area = "admin" })';
+    const url_office = '@Url.Action("GetOfficesList", "AjaxRequest", new { area = "admin" })';
+</script>
+
+
+
+
+<script>
+    jQuery(document).ready(function ($) {
+
+        $(document).on("click", ".btn-add", function () {
+            var row = `
+          <div class="file-row mb-2">
+              <input type="file" name="Files" class="form-control d-inline-block" style="width:85%" />
+              <button type="button" class="btn btn-danger btn-remove">-</button>
+          </div>`;
+            $("#fileContainer").append(row);
+        });
+
+        $(document).on("click", ".btn-remove", function () {
+            $(this).closest(".file-row").remove();
+        });
+
+    });
+
+
+
+
+
+
+</script>
+
+
+

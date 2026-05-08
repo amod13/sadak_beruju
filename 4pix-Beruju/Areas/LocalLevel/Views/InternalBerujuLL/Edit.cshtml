@@ -1,0 +1,265 @@
+﻿@model _4pix_Beruju.Models.InternalBeruju
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+
+<script src="~/vendor/CkStandar/ckeditor.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">आन्तरिक लेखापरीक्षण बेरूजु </li>
+        </ul>
+    </div>
+</div>
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h4>आन्तरिक लेखापरीक्षण बेरूजु (@_4pix_Beruju.Areas.Admin.functions.GetKoshTypeFromId(Model.KoshTypeId))</h4>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <div style="color:red;font-size:14px;font-style:italic;">@ViewBag.ErrorMessage</div>
+                        }
+
+                    </div>
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("Edit", "InternalBerujuLL", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+                        {
+
+                            @Html.HiddenFor(m => m.InternalBerujuId)
+                            @Html.HiddenFor(m => m.OfficeId)
+                            @Html.HiddenFor(m => m.WasMadeFinal)
+                            @Html.HiddenFor(m => m.KoshTypeId)
+                            @Html.ValidationSummary(true)
+                            <fieldset>
+                                @Html.Partial("_CreateEdit")
+
+
+                                <div class="well well-small" id="Add-Item" style="width: 990px;">
+
+                                    @Html.ActionLink("विवरण थप्नुहोस", "ToWhomeDetailsList", null, new { @id = "btns", @class = "addProductItem btn btn-primary" })
+
+                                    <table id="tblotm" style="width: 740px; margin-left: 0px !important;margin-top:10px;">
+                                        <tr>
+
+                                            <td style="width:320px;font-weight:bold;">सम्बन्धितको नाम</td>
+                                            <td style="width:160px;font-weight:bold;">प्यान नं</td>
+                                            <td style="width:180px;font-weight:bold;">मोबाईल नं</td>
+                                            <td style="width:150px;font-weight:bold;">रकम</td>
+
+                                        </tr>
+
+
+                                    </table>
+
+                                    @try
+                                    {
+                                        foreach (var item in Model.ToWhomDetailListVMList)
+                                        {
+
+                                            @Html.Partial("ToWhomeDetailsList", item)
+
+                                        }
+                                    }
+                                    catch { }
+
+                                </div>
+
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label>बेरूजु रकम</label>
+                                        @Html.TextBoxFor(m => m.VoucharAmunt, new { @id = "TTSamparikshadAmt", @class = "form-control form-control-sm", @required = "required", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <hr />
+
+
+                                <div class="form-group">
+                                    @*<button type="submit" class="btn btn-secondary"><i class="fa fa-angle-double-left">&nbsp;</i> Back</button> &nbsp; &nbsp; &nbsp;*@
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o">&nbsp;</i>सच्याउनुहोस्</button>
+                                    <a href="@Url.Action("Index","InternalBerujuLL", new { @id=Model.KoshTypeId})" , class="btn btn-sm btn-success">
+                                        <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                                    </a>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/AdminResources/js/inputmask/inputmask.js"></script>*@
+<script src="~/AdminResources/js/inputmask/jquery.inputmask.min.js"></script>
+@*<script src="~/AdminResources/plugins/select2/js/select2.full.min.js"></script>*@
+
+
+<script>
+    $j = jQuery.noConflict();
+    $j(function () {
+        //$j('.select2').select2();
+        //$("#MaskDate").mask("(999) 999-9999");
+        $j('.MaskDate').inputmask('9999/99/99', { 'placeholder': 'yyyy/mm/dd' })
+    });
+
+</script>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="@Url.Content("~/Scripts/OrderManagerScript.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    var kk = $.noConflict();
+    kk(document).ready(function () {
+        AddClickEvents();
+
+    });
+</script>
+<script>
+
+
+    function GetBudgetSubTitleByFYID() {
+
+        var FYIDVal = $("#DDFYID option:selected").val();
+        if (FYIDVal != null) {
+
+
+            $.ajax({
+                url: "@Url.Action("GetBudgetSubtitleFromOfficeIdFYID", "AjaxRequest", new { @area="admin"})",
+                data: { id: FYIDVal },
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+                    var items = "";
+                    $.each(data, function (i, item) {
+                        items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                    });
+
+                    $("#BSTID").html(items);
+                }
+            })
+        }
+
+    };
+
+    function GetTypeListDD() {
+
+        //var koshIdVal = $("#KoshTypeIdDD option:selected").val();
+        var koshIdVal = '@Model.KoshTypeId';
+        var ChaluOrIdVal = $("#ChaluOrPujiDD option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetTypeListDD", "AjaxRequest", new { @area="admin"})",
+            data: { id: koshIdVal, id1:ChaluOrIdVal},
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#KoshTypeListTitleDD").html(items);
+            }
+        })
+
+    };
+    function GetBerujuSubTitleDD() {
+        var value = $("#BerujuTypeIdDD option:selected").val();
+        $.ajax({
+            url: "@Url.Action("GetBerujuSubTitleDD", "AjaxRequest", new { @area="admin"})",
+            data: { id: value },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, item) {
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                $("#Berujusubtitleiddiv").html(items);
+            }
+        })
+    };
+</script>
+
+<script type="text/javascript">
+
+    kk("#Add-Item").on('click', '.row-button', function () {
+        kk(this).closest("div.row").remove();
+        var sum = 0;
+        kk('.ItemTotal').each(function () {
+            sum += Number(kk(this).val());
+        });
+
+        kk("#TTSamparikshadAmt").val(sum);
+
+    });
+</script>
+
+<script type="text/javascript">
+    function calAmt() {
+        var sum = 0;
+        $('.ItemTotal').each(function () {
+            sum += Number($(this).val());
+        });
+
+        $("#TTSamparikshadAmt").val(sum);
+    };
+</script>
+
+<script src="~/Scripts/SweetAlert.min.js"></script>
+<script type="text/javascript">
+
+    kk(function () {
+         var a = '@TempData["Success"]';
+         var b = '@TempData["Error"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else if (b != '')
+        {
+            sweetAlert(b, "Error", "error");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>
+
+
+
+
+

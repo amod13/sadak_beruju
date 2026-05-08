@@ -1,0 +1,130 @@
+﻿@model _4pix_Beruju.Models.BerujuNotDoneModel
+
+@{
+    ViewBag.Title = "ViewDetails";
+    Layout = "~/Areas/LocalLevel/Views/Shared/_LocalLevelLayout.cshtml";
+}
+<style>
+    .btn-toolbar {
+        display: inline !important;
+    }
+</style>
+<style>
+    .fake_fieldset {
+        border: 2px groove ButtonFace;
+        border-top-width: 0;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: .35em .625em .75em;
+        margin-top: 1em;
+        position: relative;
+    }
+
+    .fake_legend {
+        margin-top: -1em;
+    }
+
+        .fake_legend.test1::before {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 0.5em;
+        }
+
+        .fake_legend.test1::after {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            border-top: 2px groove ButtonFace;
+            content: " ";
+            width: 40%;
+        }
+</style>
+
+
+
+<section class="forms">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        <header>
+            <h1 class="h3 display">बेरुजु नभएको विवरण</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="clearfix"></div>
+                <hr />
+
+
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        @*<h4 style="color:#0991f3;">
+                                <i class="fa fa-check"></i>
+                                विवरण
+                            </h4>
+                            <br />*@
+                        <a href="@Url.Action("CreateBerujuNotDone","InternalBerujuLL", new { @id=Model.InternalOrExternal})" , class="btn btn-sm btn-success">
+                            <i class="fa fa-backward"></i>&nbsp;मूख्य मेनु
+                        </a>
+
+                    </div>
+                    <div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-body">
+                        <div class="fake_fieldset test1">
+                            <div class="fake_legend test1">विवरण:</div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b>आर्थिक वर्ष :</b></div>
+                                <div class="col-lg-3 col-md-9 form-group">@_4pix_Beruju.Areas.Admin.functions.GetFiscalyearTitleFromId(Model.FiscalYearId)</div>
+
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form-group"><b> विवरण :</b></div>
+                                <div class="col-lg-9 col-md-9 form-group">@Html.Raw(Model.NotDoneRemarks)</div>
+                                </div>
+                            <div class="row">
+                                @if (Model.UploadFileUrl != "")
+                                {
+                                    FileInfo fi = new FileInfo(Model.UploadFileUrl);
+                                    string extn = fi.Extension;
+                                    string imgPath = @"~/RequiredDocs/" + Model.UploadFileUrl;
+
+
+
+                                    if (extn == ".jpg" || extn == ".JPG" || extn == ".jpeg" || extn == ".JPEG" || extn == ".PNG" || extn == ".png" || extn == ".pdf" || extn == ".PDF")
+                                    {
+                                        <div class="col-lg-3 col-md-3 form-group">
+                                            <a target="_blank" href='@Url.Content(imgPath)'>
+                                                <text> अपलोड गरेको कागजात हेर्नुहोस</text>
+
+                                            </a>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-3 col-md-3 form-group">
+
+                                            @Html.ActionLink(" Download", "Download", "LocalLevelHome", new { @FileName = Model.UploadFileUrl }, new { @class = "fa fa-download" })
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

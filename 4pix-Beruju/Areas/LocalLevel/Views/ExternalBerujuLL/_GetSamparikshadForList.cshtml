@@ -1,0 +1,54 @@
+﻿@model _4pix_Beruju.Models.ExternalBeruju
+@{
+    int i = 1;
+}
+
+<div class="table-responsive table-sm shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-hover table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>क्रम</th>
+                <th>आर्थिक वर्ष</th>
+                <th>गोश्वारा भौचर नम्बर</th>
+                <th>चलानी नं</th>
+
+                <th>बेरुजु दफा न</th>
+                <th>बेरूजु रकम</th>
+                <th>सम्परीक्षण रकम</th>
+                <th>पूर्ण विवरण</th>
+                @*<th>सच्चाउनुहोस</th>*@
+                @*<th>हटाउनुहोस</th>*@
+                @*<th>सम्परिक्षण</th>*@
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.SamparikhadListViewModelForReportList)
+            {
+
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@item.FiscalYearTitle</td>
+                    <td>@item.JVNUMBER</td>
+                    <td>@item.LetterNumber</td>
+                    <td>@item.BerujuNumber</td>
+                    <td>@item.VoucharAmunt</td>
+                    <td>@item.ReviesedVoucherAmount</td>
+                    @**@
+                    <td>
+                        @Html.ActionLink(" ", "ViewDetailSamparikshadForm", new { @id = item.SamparishadId, @id1 = item.ExternalBerujuId }, new { @class = "edits fa fa-eye" })
+                    </td>
+                    @*<td>
+                        @Html.ActionLink(" ", "EditSamparikshadForm", new { @id = item.SamparishadId, @id1 = item.ExternalBerujuId }, new { @class = "edits fa fa-edit" })
+                    </td>*@
+                    @*<td>
+                        @Html.ActionLink(" ", "DeleteSamparikshad", new { @id = item.SamparishadId }, new { @class = "edits fa fa-trash" })
+                    </td>*@
+                </tr>
+                ++i;
+            }
+
+
+        </tbody>
+    </table>
+</div>
