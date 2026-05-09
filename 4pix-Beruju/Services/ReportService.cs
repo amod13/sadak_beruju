@@ -89,6 +89,19 @@ namespace _4pix_Beruju.Services
         }
 
 
+        public List<BerujuSampaReportModel> BerujuSampaJistReportAdmin(int OfficeId, int OfficeTypeId, int FiscalYearId)
+        {
+            List<BerujuSampaReportModel> returnList = new List<BerujuSampaReportModel>();
+            using (BerujuEntities db = new BerujuEntities())
+            {
+                returnList = db.Database.SqlQuery<BerujuSampaReportModel>("Rpt_GetBerujuSampaJistReportAdmin {0},{1},{2}", OfficeId, OfficeTypeId, FiscalYearId).ToList();
+
+            }
+            return returnList;
+        }
+
+        // sp_FindExternalBerujuByAmount
+
         public List<BerujuFurcheutSampaReportModel> BerujuFurcheutToOfficeAndSampaJistReport(int OfficeId, int OfficeTypeId, int FiscalYearId)
         {
             List<BerujuFurcheutSampaReportModel> returnList = new List<BerujuFurcheutSampaReportModel>();
@@ -107,6 +120,17 @@ namespace _4pix_Beruju.Services
             using (BerujuEntities db = new BerujuEntities())
             {
                 returnList = db.Database.SqlQuery<BerujuSampaReportModel>("Rpt_GetBerujuFurcheutJistReport {0},{1},{2}", OfficeId, OfficeTypeId, FiscalYearId).ToList();
+
+            }
+            return returnList;
+        }
+
+        public List<BerujuSampaReportModel> BerujuFurcheutJistReportAdmin(int OfficeId, int OfficeTypeId, int FiscalYearId)
+        {
+            List<BerujuSampaReportModel> returnList = new List<BerujuSampaReportModel>();
+            using (BerujuEntities db = new BerujuEntities())
+            {
+                returnList = db.Database.SqlQuery<BerujuSampaReportModel>("Rpt_GetBerujuFurcheutJistReportAdmin {0},{1},{2}", OfficeId, OfficeTypeId, FiscalYearId).ToList();
 
             }
             return returnList;
@@ -659,6 +683,7 @@ namespace _4pix_Beruju.Services
             EB.BerujuTypeId,
             EB.ExternalBerujuId,
             EB.BerujuNumber,
+            EB.BerujuDetails,
             EB.VoucharAmunt BerujuAmount,
             BT.TypeName,
             FY.FiscalYearTitle,
@@ -719,7 +744,7 @@ namespace _4pix_Beruju.Services
         ORDER BY EB.ExternalBerujuId DESC
     ";
 
-            var parameters = new List<SqlParameter>
+    var parameters = new List<SqlParameter>
     {
         new SqlParameter("@OfficeId", (object)model.OfficeId ?? DBNull.Value),
         new SqlParameter("@FiscalYearId", (object)model.FiscalYearId ?? DBNull.Value),
@@ -731,14 +756,14 @@ namespace _4pix_Beruju.Services
 
             var headers = new List<string>
     {
-        "कार्यालयको नाम", "कार्यालय कोड", "बेरुजु दफा", "रकम",
+        "कार्यालयको नाम", "कार्यालय कोड", "बेरुजु दफा", "व्यहोरा", "रकम",
         "बेरुजु प्रकार", "आ.ब.", "उप-प्रकार", "उप-उप प्रकार",
         "PAN", "व्यक्ति वा फर्मको नाम", "मर्ज भई आएको"
     };
 
             var fields = new List<string>
     {
-        "OfficeName", "OfficeCode", "BerujuNumber", "BerujuAmount",
+        "OfficeName", "OfficeCode", "BerujuNumber", "BerujuDetails", "BerujuAmount",
         "TypeName", "FiscalYearTitle", "SubTitle", "SubTitleChild",
         "PanNo", "FirmName", "MergedFromOfficeCode"
     };
@@ -753,6 +778,166 @@ namespace _4pix_Beruju.Services
                 fields
             );
         }
+
+
+        public void ExportExternalBerujuHierarchyToExcel(HttpResponseBase response, ReportVIewModel model)
+        {
+            string query = @"
+
+;WITH OfficeHierarchy AS
+(
+    SELECT 
+        OfficeDetailId,
+        MainOfficeId
+    FROM OfficeDetail
+    WHERE OfficeDetailId = @OfficeId
+
+    UNION ALL
+
+    SELECT 
+        od.OfficeDetailId,
+        od.MainOfficeId
+    FROM OfficeDetail od
+    INNER JOIN OfficeHierarchy oh
+        ON od.MainOfficeId = oh.OfficeDetailId
+)
+
+SELECT 
+    EB.OfficeId,
+    OFC.OfficeName,
+    OFC.OfficeCode,
+    EB.BerujuTypeId,
+    EB.ExternalBerujuId,
+    EB.BerujuNumber,
+    EB.BerujuDetails,
+
+    EB.VoucharAmunt AS BerujuAmount,
+
+    -- OFFICE TOTAL
+    SUM(EB.VoucharAmunt) OVER(PARTITION BY EB.OfficeId) AS OfficeTotal,
+
+    BT.TypeName,
+    FY.FiscalYearTitle,
+    BST.SubTitle,
+    BSCT.SubTitleChild,
+
+    STUFF(
+        (SELECT ',' + TWD.PanNumber
+         FROM ToWhomDetails TWD
+         WHERE TWD.InternalOrExternalId = EB.ExternalBerujuId
+         AND TWD.PanNumber IS NOT NULL
+         AND LTRIM(RTRIM(TWD.PanNumber)) <> ''
+         FOR XML PATH(''), TYPE
+        ).value('.', 'NVARCHAR(MAX)'), 1, 1, '') AS PanNo,
+
+    STUFF(
+        (SELECT ',' + TWD.PersonName
+         FROM ToWhomDetails TWD
+         WHERE TWD.InternalOrExternalId = EB.ExternalBerujuId
+         AND TWD.PersonName IS NOT NULL
+         AND LTRIM(RTRIM(TWD.PersonName)) <> ''
+         FOR XML PATH(''), TYPE
+        ).value('.', 'NVARCHAR(MAX)'), 1, 1, '') AS FirmName,
+
+    STUFF(
+        (SELECT ',' + OD.OfficeCode + '-' + OD.OfficeName
+         FROM ExternalBerujuTransfer EBT
+         INNER JOIN dbo.OfficeDetail OD 
+            ON OD.OfficeDetailId = EBT.ToOffice
+         WHERE EBT.ExternalBerujuId = EB.ExternalBerujuId
+         AND EBT.TransferStatus = 1
+         FOR XML PATH(''), TYPE
+        ).value('.', 'NVARCHAR(MAX)'), 1, 1, '') AS MergedFromOfficeCode
+
+FROM ExternalBeruju EB
+INNER JOIN BerujuType BT 
+    ON EB.BerujuTypeId = BT.BerujuTypeId
+INNER JOIN dbo.OfficeDetail OFC 
+    ON EB.OfficeId = OFC.OfficeDetailId
+INNER JOIN FiscalYearRecord FY 
+    ON FY.FiscalYearId = EB.FiscalYearId
+INNER JOIN dbo.BerujuSubTitle BST 
+    ON BST.BerujuSubTitleId = EB.BerujuSubTitleId
+LEFT JOIN dbo.BerujuSubTitleChild BSCT 
+    ON BSCT.BerujuSubTitleChildId = EB.BerujuSubTitleChildId
+
+WHERE 
+    (@FiscalYearId IS NULL OR @FiscalYearId = 0 OR EB.FiscalYearId = @FiscalYearId)
+
+    AND (@BerujuTypeId IS NULL OR @BerujuTypeId = 0 OR EB.BerujuTypeId = @BerujuTypeId)
+
+    AND (@BerujuSubTitleId IS NULL OR @BerujuSubTitleId = 0 OR EB.BerujuSubTitleId = @BerujuSubTitleId)
+
+    AND (@BerujuSubTitleChildId IS NULL OR @BerujuSubTitleChildId = 0 OR EB.BerujuSubTitleChildId = @BerujuSubTitleChildId)
+
+    AND (
+        (@OfficeId IS NULL OR @OfficeId = 0)
+        OR (EB.OfficeId = @OfficeId)
+        OR (
+            EB.OfficeId IN (
+                SELECT OfficeDetailId 
+                FROM OfficeHierarchy
+            )
+        )
+    )
+
+    AND (
+        @PanNo IS NULL 
+        OR LTRIM(RTRIM(@PanNo)) = ''
+        OR EXISTS (
+            SELECT 1 
+            FROM ToWhomDetails TWD
+            WHERE TWD.InternalOrExternalId = EB.ExternalBerujuId
+            AND (
+                LTRIM(RTRIM(TWD.PanNumber)) 
+                    LIKE LTRIM(RTRIM(@PanNo)) + '%'
+
+                OR LTRIM(RTRIM(TWD.PersonName)) 
+                    LIKE LTRIM(RTRIM(@PanNo)) + '%'
+            )
+        )
+    )
+
+ORDER BY EB.ExternalBerujuId DESC
+
+";
+
+            var parameters = new List<SqlParameter>
+    {
+        new SqlParameter("@OfficeId", (object)model.OfficeId ?? DBNull.Value),
+        new SqlParameter("@FiscalYearId", (object)model.FiscalYearId ?? DBNull.Value),
+        new SqlParameter("@BerujuTypeId", (object)model.BerujuTypeId ?? DBNull.Value),
+        new SqlParameter("@BerujuSubTitleId", (object)model.BerujuSubTitleId ?? DBNull.Value),
+        new SqlParameter("@BerujuSubTitleChildId", (object)model.BerujuSubTitleChildId ?? DBNull.Value),
+        new SqlParameter("@PanNo", (object)model.PanNo ?? DBNull.Value)
+    };
+
+            var headers = new List<string>
+    {
+        "कार्यालयको नाम", "कार्यालय कोड", "बेरुजु दफा", "व्यहोरा",  "कार्यालय कुल रकम", "रकम",
+        "बेरुजु प्रकार", "आ.ब.", "उप-प्रकार", "उप-उप प्रकार",
+        "PAN", "व्यक्ति वा फर्मको नाम", "मर्ज भई आएको"
+    };
+
+            var fields = new List<string>
+    {
+        "OfficeName", "OfficeCode", "BerujuNumber", "BerujuDetails", "OfficeTotal",  "BerujuAmount",
+        "TypeName", "FiscalYearTitle", "SubTitle", "SubTitleChild",
+        "PanNo", "FirmName", "MergedFromOfficeCode"
+    };
+
+            ExcelStreamExporter.ExportToExcel(
+                response,
+                "BerujuReport.xlsx",
+                ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,
+                query,
+                parameters,
+                headers,
+                fields
+            );
+        }
+
+
 
         public (List<ExternalBerujuRptByTypeViewModel>, int) Report_PopulateExternalBerujuByReportFilter(ReportVIewModel model)
         {
@@ -834,7 +1019,81 @@ namespace _4pix_Beruju.Services
         }
 
 
-  
+
+        public (List<ExternalBerujuRptByTypeViewModel>, int) FindExternalBerujuByAmount(ReportVIewModel model)
+        {
+            List<ExternalBerujuRptByTypeViewModel> list = new List<ExternalBerujuRptByTypeViewModel>();
+            int totalRecords = 0;
+
+            using (BerujuEntities db = new BerujuEntities())
+            {
+                var conn = db.Database.Connection;
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "sp_FindExternalBerujuByAmount";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@OfficeId", model.OfficeId));
+                    cmd.Parameters.Add(new SqlParameter("@Amount", model.BerujuAmount));
+                    cmd.Parameters.Add(new SqlParameter("@PageNumber", model.PageNumber));
+                    cmd.Parameters.Add(new SqlParameter("@PageSize", model.PageSize));
+
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // FIRST RESULT SET (Paged Data)
+                        while (reader.Read())
+                        {
+                            var item = new ExternalBerujuRptByTypeViewModel
+                            {
+                                OfficeId = reader["OfficeId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["OfficeId"]),
+                                OfficeName = reader["OfficeName"]?.ToString(),
+                                OfficeCode = reader["OfficeCode"]?.ToString(),
+                                BerujuTypeId = reader["BerujuTypeId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BerujuTypeId"]),
+                                ExternalBerujuId = reader["ExternalBerujuId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ExternalBerujuId"]),
+                                BerujuNumber = reader["BerujuNumber"]?.ToString(),
+                                BerujuAmount = reader["BerujuAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["BerujuAmount"]),
+                                FiscalYearTitle = reader["FiscalYearTitle"]?.ToString(),
+                                PanNo = reader["PanNo"]?.ToString(),
+                                FirmName = reader["FirmName"]?.ToString(),
+                                Amount = reader["TotalAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["TotalAmount"]),
+                        
+
+                            };
+
+                            list.Add(item);
+                        }
+
+                        // SECOND RESULT SET (TotalRecords)
+                        if (reader.NextResult())
+                        {
+                            if (reader.Read())
+                            {
+                                totalRecords = Convert.ToInt32(reader["TotalRecords"]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return (list, totalRecords);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public (List<ExternalBerujuRptByTypeViewModel>, int) Report_ExternalBeruju_Hierarchy_Final(ReportVIewModel model)
         {
@@ -895,17 +1154,21 @@ namespace _4pix_Beruju.Services
                                 PanNo = reader["PanNo"]?.ToString(),
                                 FirmName = reader["FirmName"]?.ToString(),
                                 MergedFromOfficeCode = reader["MergedFromOfficeCode"]?.ToString(),
-                                TotalRecords = reader["TotalRecords"] == DBNull.Value ? 0 : Convert.ToInt32(reader["OfficeId"]),
+                              
                                 OfficeTotal = reader["OfficeTotal"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["OfficeTotal"]),
                             };
 
                             list.Add(item);
                         }
 
+
                         // SECOND RESULT SET (TotalRecords)
-                        if (list.Count > 0)
+                        if (reader.NextResult())
                         {
-                            totalRecords = list[0].TotalRecords; // add property in VM
+                            if (reader.Read())
+                            {
+                                totalRecords = Convert.ToInt32(reader["TotalRecords"]);
+                            }
                         }
                     }
                 }

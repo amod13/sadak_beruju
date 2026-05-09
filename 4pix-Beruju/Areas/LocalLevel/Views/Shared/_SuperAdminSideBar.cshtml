@@ -300,14 +300,33 @@
 
 
                 <li>
-                    <a href="#ReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>प्रतिवेदन</a>
+                    <a href="#ReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>म.ले.प. प्रतिवेदन</a>
                     <ul id="ReportLists" class="@ReportDivShowHide ">
 
-                        <li class="@BerujuLagatClass">@Html.ActionLink("बेरूजु लगत खाता", "BerujuLagatKhataAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-                        <li class="@BerujuOfficeWiseAdminClass">@Html.ActionLink("कार्यालयगत प्रतिवेदन", "BerujuOfficeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-                        <li class="@CentralOfficeWiseAdminClass">@Html.ActionLink("केन्द्रीय कार्यालयगत लगत", "CentralOfficeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-                        <li class="@OfficialWiseCentralReportAdminClass">@Html.ActionLink("कार्यालयगत केन्द्रीय प्रतिवेदन", "OfficialWiseCentralReportAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-                        <li class="@SamparikshadVoucharLedgerAdminClass">@Html.ActionLink("सम्परीक्षण गोश्वारा अभिलेख खाता", "SamparikshadVoucharLedgerAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@BerujuLagatClass">@Html.ActionLink("बेरूजु लगत खाता - ८०१", "BerujuLagatKhataAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@BerujuOfficeWiseAdminClass">@Html.ActionLink("कार्यालयगत प्रतिवेदन - ८०२", "BerujuOfficeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@CentralOfficeWiseAdminClass">@Html.ActionLink("केन्द्रीय कार्यालयगत लगत - ८०३", "CentralOfficeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@OfficialWiseCentralReportAdminClass">@Html.ActionLink("कार्यालयगत केन्द्रीय प्रतिवेदन - ८०४", "OfficialWiseCentralReportAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@SamparikshadVoucharLedgerAdminClass">@Html.ActionLink("सम्परीक्षण गोश्वारा अभिलेख खाता - ८०५", "SamparikshadVoucharLedgerAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#ExtraReportListsBisesh" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>विशेष प्रतिवेदन</a>
+                    <ul id="ExtraReportListsBisesh" class="@AnyaPratibedanShowHideDiv ">
+                        <li class="">@Html.ActionLink("अन्तिम बेरुजु-प्रकार अनुसार", "ExternalReportTypeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन", "ParameterFilterReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन (मातहत)", "ParameterFilterOfficeJistReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन (रकम अनुसार)", "FilterByAmountReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+
+
+                        <li class="">@Html.ActionLink("बेरूजु फर्छ्यौट कार्यलयगत विवरण", "BerujuFurcheutJistReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("बेरूजु सम्परीक्षणको कार्यलयगत  विवरण", "BerujuSampaJistReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("बेरूजु फर्छ्यौट तथा सम्परीक्षणको पेश कार्यलयगत विवरण", "BerujuFurcheutToOfficeAndSampaJistReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+
+                        <li class="">@Html.ActionLink("बेरूजु फर्छ्यौट कार्यलयगत विवरण (मातहत)", "BerujuFurcheutJistReportAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="">@Html.ActionLink("बेरूजु सम्परीक्षणको कार्यलयगत विवरण (मातहत)", "BerujuSampaJistReportAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
 
                     </ul>
                 </li>
@@ -315,9 +334,9 @@
                 <li>
                     <a href="#ExtraReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>अन्य प्रतिवेदन</a>
                     <ul id="ExtraReportLists" class="@AnyaPratibedanShowHideDiv ">
-                        <li class="@ExternalReportTypeWiseAdminClass">@Html.ActionLink("अन्तिम बेरुजु-प्रकार अनुसार", "ExternalReportTypeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        @*<li class="@ExternalReportTypeWiseAdminClass">@Html.ActionLink("अन्तिम बेरुजु-प्रकार अनुसार", "ExternalReportTypeWiseAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                         <li class="@ExternalReportTypeWiseAdminClass">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन", "ParameterFilterReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-                        <li class="@ExternalReportTypeWiseAdminClass">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन (तहगत)", "ParameterFilterOfficeJistReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                        <li class="@ExternalReportTypeWiseAdminClass">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन (तहगत)", "ParameterFilterOfficeJistReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>*@
 
                         <li class="@AntimBerujuDetailRptAdminClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन", "AntimBerujuDetailRptAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                         <li class="@FinalBerujuDetailByTowhomTypeRptAdminClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-सम्बन्धित अनुसार", "FinalBerujuDetailByTowhomTypeRptAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>

@@ -218,14 +218,14 @@
             <!--<h5 class="sidenav-heading">Main</h5>-->
             <ul id="side-main-menu" class="side-menu list-unstyled">
 
-           
-                    <li><a href="~/LocalLevel/LocalLevelHome/BivagAdminDashboard"><i class="icon-home"></i>गृह पृष्ठ</a></li>
-               
+
+                <li><a href="~/LocalLevel/LocalLevelHome/BivagAdminDashboard"><i class="icon-home"></i>गृह पृष्ठ</a></li>
+
 
 
 
                 <li>
-                    <a href="#ReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>प्रतिवेदन</a>
+                    <a href="#ReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>म.ले.प. प्रतिवेदन</a>
                     <ul id="ReportLists" class="@ReportDivShowHide ">
 
                         <li class="@BerujuLagatClass">@Html.ActionLink("बेरूजु लगत खाता", "BerujuLagatKhataAdmin", "ReportLL", new { @area = "LocalLevel" }, null)</li>
@@ -237,6 +237,9 @@
 
                     </ul>
                 </li>
+
+             
+
 
                 <li>
                     <a href="#ExtraReportLists" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>अन्य प्रतिवेदन</a>
@@ -254,15 +257,15 @@
 
                     </ul>
                 </li>
+
+
                 <li>
                     <a href="#AnusuchiReports" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>अनुसूची-प्रतिवेदनहरू</a>
                     <ul id="AnusuchiReports" class="@AnusuchiRptShowHideDiv">
-
                         <li class="@Anusuchi12Class">@Html.ActionLink("अनुसूची-१२", "Anusuchi12", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                         <li class="@Anusuchi13Class">@Html.ActionLink("अनुसूची-१३", "Anusuchi13", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                         <li class="@Anusuchi14Class">@Html.ActionLink("अनुसूची-१४", "Anusuchi14", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                         <li class="@Anusuchi16Class">@Html.ActionLink("अनुसूची-१६", "Anusuchi16", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-
                     </ul>
                 </li>
 

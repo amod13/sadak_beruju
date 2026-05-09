@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <!-- Page Header-->
         <header>
-            <h1 class="h3 display">बेरुजु वृस्तित प्रतिवेदन</h1>
+            <h1 class="h3 display">बेरुजु वृस्तित प्रतिवेदन (रकम अनुसार)</h1>
         </header>
 
         <div class="row">
@@ -27,33 +27,14 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="col-sm-12">
-                        
-                            <form method="post" action="/ReportLL/ExportExternalBeruju" id="exportForm">
 
-                                <!-- Hidden fields -->
-                                <input type="hidden" name="OfficeTypeSearchId" id="export_OfficeTypeSearchId" />
-                                <input type="hidden" name="MininstrySearchId" id="export_MininstrySearchId" />
-                                <input type="hidden" name="BivagSearchId" id="export_BivagSearchId" />
-                                <input type="hidden" name="NirdeshnalayaSearchId" id="export_NirdeshnalayaSearchId" />
-                                <input type="hidden" name="KaryalayaSearchId" id="export_KaryalayaSearchId" />
-
-                                <input type="hidden" name="FiscalYearId" id="export_FiscalYearId" />
-                                <input type="hidden" name="BerujuTypeId" id="export_BerujuTypeId" />
-                                <input type="hidden" name="BerujuSubTitleId" id="export_BerujuSubTitleId" />
-                                <input type="hidden" name="BerujuSubTitleChildId" id="export_BerujuSubTitleChildId" />
-                                <input type="hidden" name="PanNo" id="export_PanNo" />
-                                @Html.HiddenFor(x=>x.SumamryOrDetailsId)
-
-                                <button type="submit" class="btn btn-info btn-sm" onclick="setExportFilters()">
-                                    Export Excel
-                                </button>
-                            </form>
+                 
                         </div>
 
                     </div>
                     <div class="card-body">
 
-                        @using (Ajax.BeginForm("ParameterFilterReport", "ReportLL", new AjaxOptions
+                        @using (Ajax.BeginForm("FilterByAmountReport", "ReportLL", new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
@@ -61,22 +42,18 @@
                             LoadingElementId = "loader"
                         }, new { id = "reportFilterForm" }))
                         {
-                        
 
                             <fieldset>
+
 
                                 @Html.HiddenFor(m => m.PageNumber, new { id = "PageNumber" })
                                 @Html.HiddenFor(m => m.PageSize, new { id = "PageSize" })
 
                                 @if (Model.CurrentLoginUserTypeviewModel == 2 || Model.CurrentLoginUserTypeviewModel == 8 || Model.CurrentLoginUserTypeviewModel == 9 || Model.CurrentLoginUserTypeviewModel == 12)
                                 {
-                                    <div class="row">
+                                    @*<div class="row">
 
-                                        @*<div class="col-md-3 col-sm-6 form-group">
-                                            <label>सारांश/विस्तार</label>
-                                            @Html.DropDownListFor(model => model.SumamryOrDetailsId, _4pix_Beruju.Areas.Admin.functions.GetOfficeOrDetailsDD(), new { @class = "form-control form-control-sm", id = "dll_towhome" })
 
-                                        </div>*@
 
                                         <div class="col-md-3 col-sm-6 form-group">
                                             <label>कार्यालय प्रकार</label>
@@ -110,7 +87,7 @@
 
 
 
-                                    </div>
+                                    </div>*@
                                 }
 
 
@@ -118,38 +95,13 @@
 
                                 <div class="row">
 
-                                    <div class="col-md-3 col-sm-4 form-group">
-                                        <label>आर्थिक वर्ष</label>
-                                        @Html.DropDownListFor(model => model.FiscalYearId, _4pix_Beruju.Areas.Admin.functions.GetFiscalYearListWithDefaultDD(), new { @class = "form-control form-control-sm", id = "dll_FYID", onchange = "GetBaushiNumberByFiscalYearWise()" })
+                                 
 
-                                    </div>
-
-
-
-                                    <div class="col-md-3 col-sm-4 form-group">
-                                        <label>बेरुजु प्रकार</label>
-                                        @Html.DropDownListFor(m => m.BerujuTypeId, _4pix_Beruju.Areas.Admin.functions.GetBerujuTypeDefaultDD(), new { @id = "BerujuTypeIdDD", @class = "form-control form-control-sm", @onChange = "GetBerujuSubTitleDD()" })
-
-                                        @*@Html.DropDownListFor(model => model.BerujuTypeId, _4pix_Beruju.Areas.Admin.functions.GetBerujuTypeDD(), new { @class = "form-control form-control-sm", id = "dll_BerujuType", @onChange = "GetBerujuSubTitleDD()" })*@
-
-                                    </div>
+                                 
 
                                     <div class="col-md-4 col-sm-4 form-group">
-                                        <label>बेरूजुको उपप्रकार</label>
-                                        @*@Html.DropDownListFor(m => m.BerujuSubTitleId, _4pix_Beruju.Utilities.GetBerujuSubtitleDefaultDD(), new { @Id = "Berujusubtitleiddiv", Berujuubtitleiddiv BerujuSubtitleChildiddiv @class = "form-control form-control-sm", @required = "required" })*@
-
-                                        @Html.DropDownListFor(m => m.BerujuSubTitleId, _4pix_Beruju.Utilities.GetBerujuSubtitleDD(Model.BerujuTypeId), new { @Id = "Berujusubtitleiddiv", @class = "form-control form-control-sm", @onChange = "GetBerujuSubTitleChildDD()" })
-
-                                    </div>
-
-                                    <div class="col-md-4 col-sm-4 form-group">
-                                        <label>बेरूजुको उप उप प्रकार</label>
-                                        @Html.DropDownListFor(m => m.BerujuSubTitleChildId, _4pix_Beruju.Utilities.GetBerujuSubtitleChildDD(Model.BerujuSubTitleId), new { @Id = "BerujuSubtitleChildiddiv", @class = "form-control form-control-sm" })
-                                    </div>
-
-                                    <div class="col-md-4 col-sm-4 form-group">
-                                        <label>पान न / नाम</label>
-                                        @Html.TextBoxFor(m => m.PanNo, new { @Id = "BerujuPan", @class = "form-control form-control-sm" })
+                                        <label>रकम</label>
+                                        @Html.TextBoxFor(m => m.BerujuAmount, new { @Id = "BerujuPan", @class = "form-control form-control-sm" })
                                     </div>
 
 
@@ -253,9 +205,7 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="~/AdminResources/js/table2excel.js"></script>
-<script type="text/javascript">
-
-    function PrintElem(elem) {
+<script type="text/javascript">function PrintElem(elem) {
         var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
         mywindow.document.write('<html><head><title>' + ' ' + '</title>');
@@ -270,8 +220,7 @@
         mywindow.close();
 
         return true;
-    }
-</script>
+    }</script>
 
 
 
@@ -291,8 +240,7 @@
     </script>*@
 
 
-<script type="text/javascript">
-    $("body").on("click", "#btnExportPDF", function () {
+<script type="text/javascript">$("body").on("click", "#btnExportPDF", function () {
         $("#DetailsReportsID").css("width", "1500px");
         $("#DetailsReportsID").css("text-align", "left");
         $("#Headtitle").css("text-align", "left");
@@ -316,8 +264,7 @@
 
             }
         });
-    });
-</script>
+    });</script>
 
 <script>
 
@@ -377,8 +324,7 @@
 
 </script>
 
-<script>
-    function LoadPage(page) {
+<script>function LoadPage(page) {
         $("#PageNumber").val(page);
 
         $.ajax({
@@ -402,26 +348,4 @@
 
     function ResetToFirstPage() {
         $("#PageNumber").val(1);
-    }
-</script>
-
-
-<script>
-
-    function setExportFilters() {
-
-        $('#export_OfficeTypeSearchId').val($('#dll_OfficeType').val());
-        $('#export_MininstrySearchId').val($('#dll_ministry').val());
-        $('#export_BivagSearchId').val($('#dll_bivag').val());
-        $('#export_NirdeshnalayaSearchId').val($('#dll_nirdesh').val());
-        $('#export_KaryalayaSearchId').val($('#dll_office').val());
-
-        $('#export_FiscalYearId').val($('#dll_FYID').val());
-        $('#export_BerujuTypeId').val($('#BerujuTypeIdDD').val());
-        $('#export_BerujuSubTitleId').val($('#Berujusubtitleiddiv').val());
-        $('#export_BerujuSubTitleChildId').val($('#BerujuSubtitleChildiddiv').val());
-
-        $('#export_PanNo').val($('#BerujuPan').val());
-    }
-
-</script>
+    }</script>

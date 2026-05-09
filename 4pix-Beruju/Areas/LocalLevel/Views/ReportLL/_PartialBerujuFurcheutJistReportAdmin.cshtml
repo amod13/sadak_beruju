@@ -1,0 +1,255 @@
+﻿@model _4pix_Beruju.Models.ReportVIewModel
+@{
+    int i = 1;
+}
+<style>
+    @@media print {
+        #header, #footer, #nav {
+            display: none !important;
+        }
+        /*@@page {margin:0 -6cm}
+        html {margin:0 6cm}*/
+        .myDivToPrintsdfsdfs {
+            z-index: 100 !important;
+            visibility: visible !important;
+            position: relative !important;
+            display: block !important;
+            background-color: lightgray !important;
+            height: 297mm !important;
+            width: 211mm !important;
+            position: relative !important;
+            padding: 0px;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 0 !important;
+            orphans: 0 !important;
+            widows: 0 !important;
+            overflow: visible !important;
+            page-break-after: always;
+        }
+
+        #double-scroll {
+            width: 1200px !important;
+            overflow: hidden !important;
+        }
+
+        .doubleScroll-scroll-wrapper {
+            overflow: hidden !important;
+        }
+    }
+</style>
+<style>
+
+
+    #double-scroll {
+        width: 980px;
+    }
+
+    #sample2 {
+        width: 100%;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px !important;
+        color: black !important;
+        /*line-height: 1.4em;*/
+    }
+</style>
+<style>
+    .logoImg {
+    }
+
+        .logoImg img {
+            height: 80px;
+            width: 80px;
+            text-align: right !important;
+        }
+</style>
+
+
+<div class="table-responsive m_table" id="DetailsReportsID" style="margin-top:20px !important;">
+
+    <div class="row">
+
+
+        <div class="col-md-4 logoImg">
+            <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
+        </div>
+
+
+        <div id="Headtitle" class="col-md-4" style="text-align:center;">
+            <p>@_4pix_Beruju.Utilities.GetCurrentLoginOfficeHeadingTitle(Model.OfficeId)</p>
+
+            @if (Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMinistryName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            @if (Model.OfficeTypeForReportHeader == 4 || Model.OfficeTypeForReportHeader == 5)
+            {
+                <p>
+                    @_4pix_Beruju.Utilities.GetCurrentLoginOfficeMainOfficenName(Model.OfficeIdForReportHeader)
+
+                </p>
+
+
+            }
+
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeName(Model.OfficeIdForReportHeader)</p>
+            <p style="font-weight:bold;">@_4pix_Beruju.Utilities.GetCurrentLoginOfficeAddress(Model.OfficeIdForReportHeader)</p>
+
+
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+
+
+    <div class="row makeFloatright">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+ 
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+     
+
+
+        </div>
+        <div class="col-md-4">
+            @*कार्यालय*@
+        </div>
+    </div>
+
+
+    <table class="table table-bordered my-table" id="exporttopdf">
+
+        <thead>
+            <tr>
+                <th rowspan="2">सि.नं.</th>
+                <th rowspan="2">कार्यालयको नाम</th>
+                <th rowspan="2">कार्यालयको कोड</th>
+
+                <th colspan="4" class="text-center">अल्या बेरुजु</th>
+                <th colspan="4" class="text-center">चालु आ.ब. मा थप</th>
+                <th colspan="4" class="text-center">जम्मा कायम बेरुजु</th>
+
+                <th colspan="4" class="text-center">फर्छ्यौट (विगत आ.ब. सम्मको बेरुजुमा) </th>
+                <th colspan="4" class="text-center">फर्छ्यौट (चालु आ.ब.)</th>
+
+                <th colspan="4" class="text-center">जम्मा फर्छ्यौट</th>
+                <th colspan="4" class="text-center">बाँकी बेरुजु</th>
+
+                <th rowspan="2">प्रतिशत</th>
+            </tr>
+
+            <tr>
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+
+                <th>नियमित</th>
+                <th>असुल</th>
+                <th>पेश्की</th>
+                <th>जम्मा</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        
+
+            @foreach (var item in Model.BerujuSampaReportVMList)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@item.OfficeName </td>
+                    <td>@item.OfficeCode</td>
+
+                    <!-- ================= ALYA ================= -->
+                    <td>@item.Alya_Niyamit</td>
+                    <td>@item.Alya_Asul</td>
+                    <td>@item.Alya_Peshki</td>
+                    <td>@item.Alya_Total</td>
+
+                    <!-- ================= CURRENT ================= -->
+                    <td>@item.Cur_Niyamit</td>
+                    <td>@item.Cur_Asul</td>
+                    <td>@item.Cur_Peshki</td>
+                    <td>@item.Current_Total</td>
+
+                    <!-- ================= TOTAL ================= -->
+                    <td>@item.Total_Niyamit</td>
+                    <td>@item.Total_Asul</td>
+                    <td>@item.Total_Peshki</td>
+                    <td>@item.Grand_Total</td>
+
+                    <!-- ================= AUDIT PREV ================= -->
+                    <td>@item.Audit_Niyamit_bigat_fy</td>
+                    <td>@item.Audit_Asul_bigat_fy</td>
+                    <td>@item.Audit_Peshki_bigat_fy</td>
+                    <td>@item.total_audit_bigat_fy</td>
+
+                    <!-- ================= AUDIT CUR ================= -->
+                    <td>@item.Audit_Niyamit_Chalu_fy</td>
+                    <td>@item.Audit_Asul_chalu_fy</td>
+                    <td>@item.Audit_Peshki_chalu_fy</td>
+                    <td>@item.total_audit_chalu_fy</td>
+
+                    <!-- ================= TOTAL AUDIT ================= -->
+                    <td>@item.Audit_Niyamit_Total</td>
+                    <td>@item.Audit_Asul_Total</td>
+                    <td>@item.Audit_Peshki_Total</td>
+                    <td>@item.Audit_Total</td>
+
+                    <!-- ================= REMAINING ================= -->
+                    <td>@item.Rem_Niyamit</td>
+                    <td>@item.Rem_Asul</td>
+                    <td>@item.Rem_Peshki</td>
+                    <td>@item.Remaining_Total</td>
+
+                    <!-- ================= PERCENT ================= -->
+                    <td>@item.Percentage</td>
+                </tr>
+
+                i++;
+            }
+        </tbody>
+
+    </table>
+
+
+</div>

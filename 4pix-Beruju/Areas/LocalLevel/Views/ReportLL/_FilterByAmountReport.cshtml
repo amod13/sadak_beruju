@@ -39,11 +39,7 @@
 
         <!-- ================= HEADER ================= -->
         <div class="row myDivToPrint">
-            <div class="col-md-4">
-                <div class="logoImg">
-                    <img src="~/AdminResources/img/nepalsarkarlogoprint.png" />
-                </div>
-            </div>
+        
 
             <div class="col-md-4" style="text-align:center;">
                 @if (Model.OfficeTypeForReportHeader == 5)
@@ -70,8 +66,8 @@
         <div class="row" style="margin:20px 0;">
             <div class="col-md-12 text-center">
                 <p>
-                    बेरूजु वृष्तित प्रतिवेदन (मातहत) 
-                  
+                    बेरुजु वृस्तित प्रतिवेदन (रकम अनुसार)
+
                 </p>
             </div>
         </div>
@@ -87,37 +83,23 @@
                         <th>कार्यालयको नाम</th>
                         <th>आ.व.</th>
                         <th>बेरुजु दफा नं.</th>
-                        <th>बेरुजु प्रकार</th>
-                        <th>बेरुजु उप-प्रकार</th>
-                        <th>बेरुजु उप-उपप्रकार</th>
-                        <th>बेरुजु रकम</th>
+
+                        <th>बेरुजु कुल रकम</th>
                         <th>पान नं</th>
                         <th>फर्म/व्यक्तिको नाम</th>
-                        <th>मर्ज भई आएको</th>
+                        <th> फर्म  व्यक्तिको रकम</th>
+                     
                     </tr>
                 </thead>
 
                 <tbody>
 
                     @foreach (var item in Model.ExternalBerujuRptByTypeViewModelList
-                        .OrderBy(x => x.OfficeId)
+                        .OrderBy(x => x.OfficeCode)
                         .ThenBy(x => x.FiscalYearTitle))
                     {
-                        // ================= OFFICE TOTAL ROW =================
-                        if (currentOffice != item.OfficeCode && item.OfficeTotal != null)
-                        {
-                            currentOffice = item.OfficeCode;
-
-                            <tr style="background:#f2f2f2;font-weight:bold;">
-                                <td colspan="8" style="text-align:right;">
-                                    कार्यालय कुल (@item.OfficeName)
-                                </td>
-                                <td>
-                                    @item.OfficeTotal
-                                </td>
-                                <td colspan="3"></td>
-                            </tr>
-                        }
+                      
+                     
 
                         // ================= DETAIL ROW =================
                         <tr>
@@ -134,13 +116,11 @@
                                 </a>
                             </td>
 
-                            <td>@item.TypeName</td>
-                            <td>@item.SubTitle</td>
-                            <td>@item.SubTitleChild</td>
+                     
                             <td>@item.BerujuAmount</td>
                             <td>@item.PanNo</td>
                             <td>@item.FirmName</td>
-                            <td>@item.MergedFromOfficeCode</td>
+                            <td>@item.Amount</td>
                         </tr>
 
                         i++;

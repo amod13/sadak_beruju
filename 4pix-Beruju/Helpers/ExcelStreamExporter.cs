@@ -3,15 +3,32 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
+using System.Configuration;
 
 namespace _4pix_Beruju.Helpers
 {
     public static class ExcelStreamExporter
     {
+
+        private static readonly HashSet<string> HtmlFields;
+        static ExcelStreamExporter()
+        {
+            var htmlFieldsConfig = ConfigurationManager.AppSettings["HtmlStripFields"];
+
+            HtmlFields = new HashSet<string>(
+                (htmlFieldsConfig ?? "")
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.Trim()),
+                StringComparer.OrdinalIgnoreCase
+            );
+        }
+
         public static void ExportToExcel(
             HttpResponseBase response,
             string fileName,
@@ -69,7 +86,14 @@ namespace _4pix_Beruju.Helpers
 
                                         foreach (var field in fieldMappings)
                                         {
-                                            rowValues.Add(reader[field]?.ToString());
+                                            var value = reader[field]?.ToString();
+
+                                            if (HtmlFields.Contains(field))
+                                            {
+                                                value = StripHtml(value);
+                                            }
+
+                                            rowValues.Add(value);
                                         }
 
                                         WriteRow(writer, rowValues);
@@ -132,6 +156,17 @@ namespace _4pix_Beruju.Helpers
             }
 
             writer.WriteEndElement();
+        }
+
+
+        private static string StripHtml(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return "";
+
+            string text = Regex.Replace(input, "<.*?>", string.Empty);
+
+            return HttpUtility.HtmlDecode(text).Trim();
         }
     }
 }

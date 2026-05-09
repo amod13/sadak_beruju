@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <!-- Page Header-->
         <header>
-            <h1 class="h3 display">कार्यालयगत बेरुजु सम्परिक्षण प्रतिवेदन</h1>
+            <h1 class="h3 display">कार्यालयगत बेरुजु सम्परिक्षण प्रतिवेदन (मातहत)</h1>
         </header>
 
         <div class="row">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="card-body">
 
-                        @using (Ajax.BeginForm("BerujuSampaJistReport", "ReportLL", new AjaxOptions
+                        @using (Ajax.BeginForm("BerujuSampaJistReportAdmin", "ReportLL", new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,

@@ -2861,6 +2861,12 @@
     <Content Include="Areas\LocalLevel\Views\ExternalBerujuLL\GetSamparikshadRequestOfOffice.cshtml" />
     <Content Include="Areas\LocalLevel\Views\ExternalBerujuLL\_GetSamparikshadRequestOfOffice .cshtml" />
     <Content Include="Areas\LocalLevel\Views\ExternalBerujuLL\SamparikchanTo.cshtml" />
+    <Content Include="Areas\LocalLevel\Views\ReportLL\FilterByAmountReport.cshtml" />
+    <Content Include="Areas\LocalLevel\Views\ReportLL\_FilterByAmountReport.cshtml" />
+    <Content Include="Areas\LocalLevel\Views\ReportLL\BerujuFurcheutJistReportAdmin.cshtml" />
+    <Content Include="Areas\LocalLevel\Views\ReportLL\_PartialBerujuFurcheutJistReportAdmin.cshtml" />
+    <Content Include="Areas\LocalLevel\Views\ReportLL\BerujuSampaJistReportAdmin.cshtml" />
+    <Content Include="Areas\LocalLevel\Views\ReportLL\_PartialBerujuSampaJistReportAdmin.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

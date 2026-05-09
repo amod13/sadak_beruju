@@ -96,34 +96,34 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
             //}
 
 
-            if (model.KoshID <= 0)
-            {
-                model.ProvinceIdSearch = CurrentLoginUserProvinceId;
-                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
-                model.OfficeId = CurrentLoginOfficeId;
-                model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
-                model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
-                ViewBag.ErrorMessage = @"कृपया कोषको प्रकार छान्नुहोस ।";
-                return PartialView("_ErrorViews", model);
-            }
-            else
-            {
-                if (model.KoshID == 1)//biniyojana....
-                {
-                    if (model.BaushiNumberId <= 0)
-                    {
-                        model.ProvinceIdSearch = CurrentLoginUserProvinceId;
-                        model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
-                        model.OfficeId = CurrentLoginOfficeId;
-                        model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
-                        model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
-                        ViewBag.ErrorMessage = @"कृपया बउशि नम्बर छान्नुहोस ।";
-                        return PartialView("_ErrorViews", model);
+            //if (model.KoshID <= 0)
+            //{
+            //    model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+            //    model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            //    model.OfficeId = CurrentLoginOfficeId;
+            //    model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+            //    model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+            //    ViewBag.ErrorMessage = @"कृपया कोषको प्रकार छान्नुहोस ।";
+            //    return PartialView("_ErrorViews", model);
+            //}
+            //else
+            //{
+            //    if (model.KoshID == 1)//biniyojana....
+            //    {
+            //        if (model.BaushiNumberId <= 0)
+            //        {
+            //            model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+            //            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            //            model.OfficeId = CurrentLoginOfficeId;
+            //            model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+            //            model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+            //            ViewBag.ErrorMessage = @"कृपया बउशि नम्बर छान्नुहोस ।";
+            //            return PartialView("_ErrorViews", model);
 
-                    }
+            //        }
 
-                }
-            }
+            //    }
+            //}
 
 
 
@@ -318,8 +318,39 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         }
 
 
+        public ActionResult BerujuSampaJistReportAdmin()
+        {
+            ReportVIewModel model = new ReportVIewModel();
+            model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            model.OfficeId = CurrentLoginOfficeId;
+            model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+            model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
 
-        public ActionResult BerujuFurcheutToOfficeAndSampaJistReport()
+            return View(model);
+        }
+
+        [HttpPost]
+        public PartialViewResult BerujuSampaJistReportAdmin(ReportVIewModel model)
+        {
+            var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
+            model.BaushiNumberId = 0;
+            int SearchUserOfficeId = officeFilter.OfficeId;
+            model.OfficeId = SearchUserOfficeId;
+            model.OfficeTypeSearchId = officeFilter.OfficeTypeId;
+            model.BerujuSampaReportVMList = RS.BerujuSampaJistReportAdmin(SearchUserOfficeId, model.OfficeTypeSearchId, model.FiscalYearId);
+            model.OfficeId = CurrentLoginOfficeId;
+            model.OfficeIdForReportHeader = SearchUserOfficeId;
+            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            model.OfficeTypeForReportHeader = CurrentLoginUserTypeId;
+            return PartialView("_PartialBerujuSampaJistReport", model);
+
+        }
+
+
+
+
+        public ActionResult BerujuFurcheutToOfficeAndSampaJistReportAdmin()
         {
             ReportVIewModel model = new ReportVIewModel();
             model.ProvinceIdSearch = CurrentLoginUserProvinceId;
@@ -379,6 +410,35 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
         }
 
+
+        public ActionResult BerujuFurcheutJistReportAdmin()
+        {
+            ReportVIewModel model = new ReportVIewModel();
+            model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            model.OfficeId = CurrentLoginOfficeId;
+            model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+            model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public PartialViewResult BerujuFurcheutJistReportAdmin(ReportVIewModel model)
+        {
+            var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
+            model.BaushiNumberId = 0;
+            int SearchUserOfficeId = officeFilter.OfficeId;
+            model.OfficeId = SearchUserOfficeId;
+            model.OfficeTypeSearchId = officeFilter.OfficeTypeId;
+            model.BerujuSampaReportVMList = RS.BerujuFurcheutJistReportAdmin(SearchUserOfficeId, model.OfficeTypeSearchId, model.FiscalYearId);
+            model.OfficeId = CurrentLoginOfficeId;
+            model.OfficeIdForReportHeader = SearchUserOfficeId;
+            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            model.OfficeTypeForReportHeader = CurrentLoginUserTypeId;
+            return PartialView("_PartialBerujuFurcheutJistReportAdmin", model);
+
+        }
 
 
         public ActionResult BerujuOfficeWise()
@@ -1998,7 +2058,7 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         }
 
 
-        public ActionResult ParameterFilterOfficeJistReport()
+        public ActionResult FilterByAmountReport()
         {
 
             ReportVIewModel model = new ReportVIewModel();
@@ -2012,9 +2072,47 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
 
         [HttpPost]
-        public PartialViewResult ParameterFilterOfficeJistReport(ReportVIewModel model)
+        public PartialViewResult FilterByAmountReport(ReportVIewModel model)
         {
 
+
+            model.ExternalBerujuRptByTypeViewModelList = new List<ExternalBerujuRptByTypeViewModel>();
+            var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
+            model.BaushiNumberId = 0;
+            int SearchUserOfficeId = officeFilter.OfficeId;
+            model.OfficeId = SearchUserOfficeId;
+            model.OfficeTypeSearchId = officeFilter.OfficeTypeId;
+            model.MainOfficeId = officeFilter.MainOfficeId;
+            var result = RS.FindExternalBerujuByAmount(model);
+            model.ExternalBerujuRptByTypeViewModelList = result.Item1;
+            model.TotalRecords = result.Item2;
+            model.TotalPages = (int)Math.Ceiling((double)model.TotalRecords / model.PageSize);
+            model.OfficeIdForReportHeader = SearchUserOfficeId;
+            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            model.OfficeTypeForReportHeader = CurrentLoginUserTypeId;
+            return PartialView("_FilterByAmountReport", model);
+
+
+        }
+
+
+
+        public ActionResult ParameterFilterOfficeJistReport()
+        {
+            ReportVIewModel model = new ReportVIewModel();
+            model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+            model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+            model.OfficeId = CurrentLoginOfficeId;
+            model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+            model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+            model.SumamryOrDetailsId = 2;
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public PartialViewResult ParameterFilterOfficeJistReport(ReportVIewModel model)
+        {
 
                 model.ExternalBerujuRptByTypeViewModelList = new List<ExternalBerujuRptByTypeViewModel>();
                 var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
@@ -2045,6 +2143,7 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
             model.OfficeId = CurrentLoginOfficeId;
             model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
             model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+            model.SumamryOrDetailsId = 1;
             return View(model);
         }
 
@@ -2055,15 +2154,11 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
                 model.ExternalBerujuRptByTypeViewModelList = new List<ExternalBerujuRptByTypeViewModel>();
                 var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
-       
                 model.BaushiNumberId = 0;
                 int SearchUserOfficeId = officeFilter.OfficeId;
                 model.OfficeId = SearchUserOfficeId;
                 model.OfficeTypeSearchId = officeFilter.OfficeTypeId;
                 model.MainOfficeId = officeFilter.MainOfficeId;
-
-                if(model.SumamryOrDetailsId == 1)
-                {
                 var result = RS.Report_PopulateExternalBerujuByReportFilter(model);
                 model.ExternalBerujuRptByTypeViewModelList = result.Item1;
                 model.TotalRecords = result.Item2;
@@ -2071,23 +2166,9 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
                 model.OfficeIdForReportHeader = SearchUserOfficeId;
                 model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
                 model.OfficeTypeForReportHeader = CurrentLoginUserTypeId;
-
                 return PartialView("_ExternalReportFilterTypeWise", model);
 
-                }
-                else
-                {
-
-                var result = RS.Report_ExternalBeruju_Hierarchy_Final(model);
-                model.ExternalBerujuRptByTypeViewModelList = result.Item1;
-                model.TotalRecords = result.Item2;
-                model.TotalPages = (int)Math.Ceiling((double)model.TotalRecords / model.PageSize);
-                model.OfficeIdForReportHeader = SearchUserOfficeId;
-                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
-                model.OfficeTypeForReportHeader = CurrentLoginUserTypeId;
-                return PartialView("_ExternalReportFilterTypeOfficeTotalWise", model);
-
-            }
+               
 
                
 
@@ -2096,11 +2177,26 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
         public ActionResult ExportExternalBeruju(ReportVIewModel model)
         {
-            // Call service → it will directly write to Response
-            RS.ExportExternalBerujuToExcel(Response, model);
+            var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
+            model.BaushiNumberId = 0;
+            int SearchUserOfficeId = officeFilter.OfficeId;
+            model.OfficeId = SearchUserOfficeId;
+            model.OfficeTypeSearchId = officeFilter.OfficeTypeId;
+            model.MainOfficeId = officeFilter.MainOfficeId;
+            if (model.SumamryOrDetailsId == 1)
+            {
+                RS.ExportExternalBerujuToExcel(Response, model);
+            }
+            else
+            {
+                RS.ExportExternalBerujuHierarchyToExcel(Response, model);
+            }
+       
 
             return new EmptyResult(); // response already handled
         }
+
+
 
 
         public ActionResult ViewExternalBerujuDetail(int id, int id1)//externalberujuid, officeid

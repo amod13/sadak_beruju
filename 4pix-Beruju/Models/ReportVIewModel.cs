@@ -55,6 +55,7 @@ namespace _4pix_Beruju.Models
         public string DateFromStr { get; set; }
         public string DateToStr { get; set; }
 
+        public decimal BerujuAmount { get; set; }
 
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 25;
@@ -328,6 +329,9 @@ namespace _4pix_Beruju.Models
         public string OfficeName { get; set; }
         public string OfficeCode { get; set; }
         public decimal BerujuAmount { get; set; }
+
+
+        public decimal Amount { get; set; }  // for individual amount person or firm
         public string TypeName { get; set; }
         public string FiscalYearTitle { get; set; }
         public string BerujuDetails { get; set; }

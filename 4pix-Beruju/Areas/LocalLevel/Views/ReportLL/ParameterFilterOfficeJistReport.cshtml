@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <!-- Page Header-->
         <header>
-            <h1 class="h3 display">अन्तिम बेरूजु-प्रकार अनुसार (तहगत)</h1>
+            <h1 class="h3 display"> बेरूजु वृष्तित प्रतिवेदन (मातहत)</h1>
         </header>
 
         <div class="row">
@@ -28,12 +28,27 @@
                     <div class="card-header">
                         <div class="col-sm-12">
 
-                            <form method="post" action="/ReportLL/ExportExternalBeruju">
-                                <!-- include your filters -->
-                                <button type="submit" class="btn btn-info btn-sm">Export Excel</button>
+                            <form method="post" action="/ReportLL/ExportExternalBeruju" id="exportForm">
+
+                                <!-- Hidden fields -->
+                                <input type="hidden" name="OfficeTypeSearchId" id="export_OfficeTypeSearchId" />
+                                <input type="hidden" name="MininstrySearchId" id="export_MininstrySearchId" />
+                                <input type="hidden" name="BivagSearchId" id="export_BivagSearchId" />
+                                <input type="hidden" name="NirdeshnalayaSearchId" id="export_NirdeshnalayaSearchId" />
+                                <input type="hidden" name="KaryalayaSearchId" id="export_KaryalayaSearchId" />
+
+                                <input type="hidden" name="FiscalYearId" id="export_FiscalYearId" />
+                                <input type="hidden" name="BerujuTypeId" id="export_BerujuTypeId" />
+                                <input type="hidden" name="BerujuSubTitleId" id="export_BerujuSubTitleId" />
+                                <input type="hidden" name="BerujuSubTitleChildId" id="export_BerujuSubTitleChildId" />
+                                <input type="hidden" name="PanNo" id="export_PanNo" />
+                                @Html.HiddenFor(x => x.SumamryOrDetailsId)
+
+                                <button type="submit" class="btn btn-info btn-sm" onclick="setExportFilters()">
+                                    Export Excel
+                                </button>
                             </form>
-                            @*<input type="button" id="btnExportPDF" value="Export-PDF" class="btn btn-info btn-sm" />
-                                <input type="button" id="print" onclick="PrintElem('DetailsReportsID');" value="Print" class="btn btn-info btn-sm" />*@
+                 
                         </div>
 
                     </div>
@@ -379,3 +394,23 @@
     function ResetToFirstPage() {
         $("#PageNumber").val(1);
     }</script>
+
+<script>
+
+    function setExportFilters() {
+
+        $('#export_OfficeTypeSearchId').val($('#dll_OfficeType').val());
+        $('#export_MininstrySearchId').val($('#dll_ministry').val());
+        $('#export_BivagSearchId').val($('#dll_bivag').val());
+        $('#export_NirdeshnalayaSearchId').val($('#dll_nirdesh').val());
+        $('#export_KaryalayaSearchId').val($('#dll_office').val());
+
+        $('#export_FiscalYearId').val($('#dll_FYID').val());
+        $('#export_BerujuTypeId').val($('#BerujuTypeIdDD').val());
+        $('#export_BerujuSubTitleId').val($('#Berujusubtitleiddiv').val());
+        $('#export_BerujuSubTitleChildId').val($('#BerujuSubtitleChildiddiv').val());
+
+        $('#export_PanNo').val($('#BerujuPan').val());
+    }
+
+</script>
