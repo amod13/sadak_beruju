@@ -822,7 +822,7 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
             if (rms.ReturnMessage == "SUCCESS")
             {
                 TempData["Success"] = "तपाँईको विवरण सुरक्षित भयो । ";
-                return RedirectToAction("GetSamparikshadRequestFromOffice");
+                return RedirectToAction("GetSamparikshadRequestOfOffice");
             }
             else
             {

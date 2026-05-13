@@ -1347,7 +1347,15 @@ Where ProvinceId='" + ProvinceId + "' and UserTypeId in (7)").ToList();
                 ).FirstOrDefault();
 
                 // ✅ Fix: conditional logic
-                int toselectofficetype = officeType > 2 ? 3 : 2;
+                int toselectofficetype = 0;
+                if(officeType == 2 || officeType == 3)
+                {
+                    toselectofficetype = 2;
+                }
+                else if (officeType > 3)
+                {
+                    toselectofficetype = 3;
+                }
 
                 List<SelectListItem> ddlList = new List<SelectListItem>();
                 List<SelectListModelFunctionClass> collection;
@@ -1360,9 +1368,8 @@ Where ProvinceId='" + ProvinceId + "' and UserTypeId in (7)").ToList();
                   FROM SamparikshadLetterSetup
                   WHERE SetupStatus = 1 
                   AND (
-                        (@p0 = 3 AND OfficeType = 2)
-                        OR
-                        (@p0 = 2)
+                         OfficeType = @p0
+                   
                     )
                  
                     ",

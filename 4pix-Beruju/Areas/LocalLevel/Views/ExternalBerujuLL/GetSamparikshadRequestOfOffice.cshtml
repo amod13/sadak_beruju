@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <!-- Page Header-->
         <header>
-             कार्यालयबाट सम्परिक्षण अनुरोध (फर्छयौट) का लागी  विवरणहरु
+            कार्यालयबाट सम्परिक्षण अनुरोध (फर्छयौट) का लागी  विवरणहरु
         </header>
 
         <div class="row">
@@ -88,14 +88,12 @@
                                             <th>बेरुजु रकम</th>
                                             <th>सम्परिक्षण अनुरोध (फर्छयौट) रकम</th>
                                             <th>सम्परीक्षण अनुरोध मिती</th>
-                                         
-                                            @*<th>पत्र</th>*@
-                                            @if (ViewBag.OfficeType > 2 )
+
+                                            @if (ViewBag.OfficeType > 2)
                                             {
                                                 <th>मलेप / कुमारी चोक / समिती अनुरोध</th>
                                             }
 
-                                            @*<th>हटाउनुहोस</th>*@
 
                                         </tr>
                                     </thead>
@@ -103,7 +101,7 @@
 
                                         @foreach (var item in Model.SamparikhadRequestListViewModelForReportList.OrderByDescending(x => x.SamparikshadReqMasterId).Take(5))
                                         {
-                                           // int isSentToMinistry = _4pix_Beruju.Areas.Admin.functions.CheckIfBerujuSentToUpperOffice(item.SamparikshadReqOfficeId);
+                                            // int isSentToMinistry = _4pix_Beruju.Areas.Admin.functions.CheckIfBerujuSentToUpperOffice(item.SamparikshadReqOfficeId);
 
                                             var values = _4pix_Beruju.Areas.Admin.functions.GetRequestToMinistryValues(item.SamparikshadReqMasterId);
                                             <tr>
@@ -125,26 +123,53 @@
 
                                                 @if (ViewBag.OfficeType > 2)
                                                 {
-                                                    if (values.Contains(2))
+
+                                                    if (
+                                                        values.Contains(0) &&
+                                                        values.Contains(1) &&
+                                                        !values.Contains(2) &&
+                                                        !values.Contains(3) &&
+                                                        !values.Contains(4)
+                                                        )
                                                     {
-                                                        <td>@_4pix_Beruju.Areas.Admin.functions.GetSampaToText(2)</td>
+                                                        <td>
+                                                            @Html.ActionLink(
+                                                                "मन्त्रालय पठाएको",
+                                                                "SamparikchanTo",
+                                                                new { @id = item.SamparikshadReqMasterId },
+                                                                new { @class = "edits fa fa-edit" }
+                                                            )
+                                                        </td>
                                                     }
-                                                    else if (values.Contains(3))
+                                                    else if (
+                                                        values.Contains(2) ||
+                                                        values.Contains(3) ||
+                                                        values.Contains(4)
+                                                    )
                                                     {
-                                                        <td>@_4pix_Beruju.Areas.Admin.functions.GetSampaToText(3)</td>
+                                                        if (values.Contains(2))
+                                                        {
+                                                            <td>@_4pix_Beruju.Areas.Admin.functions.GetSampaToText(2)</td>
+                                                        }
+                                                        else if (values.Contains(3))
+                                                        {
+                                                            <td>@_4pix_Beruju.Areas.Admin.functions.GetSampaToText(3)</td>
+                                                        }
+                                                        else if (values.Contains(4))
+                                                        {
+                                                            <td>@_4pix_Beruju.Areas.Admin.functions.GetSampaToText(4)</td>
+                                                        }
                                                     }
-                                                    else if (values.Contains(4))
+                                                    else if (values.Contains(0))
                                                     {
-                                                        <td>@_4pix_Beruju.Areas.Admin.functions.GetSampaToText(4)</td>
+                                                        <td>विभागमा पठाईएको</td>
                                                     }
                                                     else
                                                     {
-                                                        <td>
-                                                            @Html.ActionLink(" ", "SamparikchanTo",
-                                                                new { @id = item.SamparikshadReqMasterId },
-                                                                new { @class = "edits fa fa-edit" })
-                                                        </td>
+                                                        <td></td>
                                                     }
+
+
                                                 }
 
 
@@ -167,7 +192,8 @@
         </div>
     </div>
 </section>
-@*<link href="~/Content/SweetAlert.css" rel="stylesheet" />*@
+
+
 <link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/SweetAlert.min.js"></script>
@@ -197,7 +223,7 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="~/AdminResources/js/table2excel.js"></script>
 <script type="text/javascript">
-var tte = $.noConflict();
+    var tte = $.noConflict();
     tte(function () {
         tte("#btnExport").click(function () {
             tte("#DetailsReportsID").table2excel({
@@ -230,7 +256,7 @@ var tte = $.noConflict();
 
 
 <script type="text/javascript">
-$("body").on("click", "#btnExportPDF", function () {
+    $("body").on("click", "#btnExportPDF", function () {
         html2canvas($('#exporttopdf')[0], {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
