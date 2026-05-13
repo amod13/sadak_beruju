@@ -303,6 +303,16 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public PartialViewResult BerujuSampaJistReport(ReportVIewModel model)
         {
+            if (model.FiscalYearId == 0)
+            {
+                model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+                model.OfficeId = CurrentLoginOfficeId;
+                model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+                model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+                ViewBag.ErrorMessage = @"कृपया आर्थिक बर्ष छान्नुहोस";
+                return PartialView("_ErrorViews", model);
+            }
             var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
             model.BaushiNumberId = 0;
             int SearchUserOfficeId = officeFilter.OfficeId;
@@ -333,6 +343,16 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public PartialViewResult BerujuSampaJistReportAdmin(ReportVIewModel model)
         {
+            if (model.FiscalYearId == 0)
+            {
+                model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+                model.OfficeId = CurrentLoginOfficeId;
+                model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+                model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+                ViewBag.ErrorMessage = @"कृपया आर्थिक बर्ष छान्नुहोस";
+                return PartialView("_ErrorViews", model);
+            }
             var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
             model.BaushiNumberId = 0;
             int SearchUserOfficeId = officeFilter.OfficeId;
@@ -350,7 +370,7 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
 
 
-        public ActionResult BerujuFurcheutToOfficeAndSampaJistReportAdmin()
+        public ActionResult BerujuFurcheutToOfficeAndSampaJistReport()
         {
             ReportVIewModel model = new ReportVIewModel();
             model.ProvinceIdSearch = CurrentLoginUserProvinceId;
@@ -365,6 +385,18 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public PartialViewResult BerujuFurcheutToOfficeAndSampaJistReport(ReportVIewModel model)
         {
+
+
+            if (model.FiscalYearId == 0)
+            {
+                model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+                model.OfficeId = CurrentLoginOfficeId;
+                model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+                model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+                ViewBag.ErrorMessage = @"कृपया आर्थिक बर्ष छान्नुहोस";
+                return PartialView("_ErrorViews", model);
+            }
             var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
             model.BaushiNumberId = 0;
             int SearchUserOfficeId = officeFilter.OfficeId;
@@ -396,6 +428,17 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public PartialViewResult BerujuFurcheutJistReport(ReportVIewModel model)
         {
+
+            if (model.FiscalYearId == 0)
+            {
+                model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+                model.OfficeId = CurrentLoginOfficeId;
+                model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+                model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+                ViewBag.ErrorMessage = @"कृपया आर्थिक बर्ष छान्नुहोस";
+                return PartialView("_ErrorViews", model);
+            }
             var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
             model.BaushiNumberId = 0;
             int SearchUserOfficeId = officeFilter.OfficeId;
@@ -426,6 +469,17 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public PartialViewResult BerujuFurcheutJistReportAdmin(ReportVIewModel model)
         {
+
+            if (model.FiscalYearId == 0)
+            {
+                model.ProvinceIdSearch = CurrentLoginUserProvinceId;
+                model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
+                model.OfficeId = CurrentLoginOfficeId;
+                model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
+                model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
+                ViewBag.ErrorMessage = @"कृपया आर्थिक बर्ष छान्नुहोस";
+                return PartialView("_ErrorViews", model);
+            }
             var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
             model.BaushiNumberId = 0;
             int SearchUserOfficeId = officeFilter.OfficeId;
@@ -713,19 +767,19 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
             model.OfficeId = CurrentLoginOfficeId;
             model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
             model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
-
             return View(model);
         }
         public ActionResult OfficialWiseCentralReport()
         {
+
             ReportVIewModel model = new ReportVIewModel();
             model.ProvinceIdSearch = CurrentLoginUserProvinceId;
             model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
             model.OfficeId = CurrentLoginOfficeId;
             model.CurrentLoginUserofficeTypeID = CurrentLoginuserOfficeTypeForDistrict;//static code for district
             model.CurrentLoginUserDistrictId = CurrentDistrictId;//District Users
-
             return View(model);
+
         }
 
 

@@ -240,6 +240,8 @@ namespace _4pix_Beruju.Models
     public class KendriyaKaralayagtLaagatViewModel
     {
         public string FiscalYearTitle { get; set; }
+
+        public string OfficeName { get; set; }
         public int FiscalYearId { get; set; }
         public decimal? StypeOne { get; set; }
         public decimal? StypeTwo { get; set; }

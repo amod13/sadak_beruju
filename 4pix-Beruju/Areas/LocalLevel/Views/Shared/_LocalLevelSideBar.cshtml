@@ -665,9 +665,9 @@
                         <a href="#BerujuImageSetupDiv" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>बेरुजु फाईल</a>
                         <ul id="BerujuImageSetupDiv" class="list-unstylediceDeitails ">
 
-                            <li class="BerujuSetupClass">@Html.ActionLink("फाईल व्यवस्थापन", "GetOfficeFiles", "ImageManagement", new { @area = "LocalLevel" }, null)</li>
-                            <li class="BerujuSetupClass">@Html.ActionLink("आ.ब. अनुसार बेरुजु फाईल", "ListFy", "ImageManagement", new { @area = "LocalLevel" }, null)</li>
-                            <li class="BerujuSetupClass">@Html.ActionLink(" सम्परिक्षण लगत कट्टा फाईल", "LagatDocumentTree", "ImageManagement", new { @area = "LocalLevel" }, null)</li>
+                            <li class="BerujuSetupClass1">@Html.ActionLink("फाईल व्यवस्थापन", "GetOfficeFiles", "ImageManagement", new { @area = "LocalLevel" }, null)</li>
+                            <li class="BerujuSetupClass2">@Html.ActionLink("आ.ब. अनुसार बेरुजु फाईल", "ListFy", "ImageManagement", new { @area = "LocalLevel" }, null)</li>
+                            <li class="BerujuSetupClass3">@Html.ActionLink(" सम्परिक्षण लगत कट्टा फाईल", "LagatDocumentTree", "ImageManagement", new { @area = "LocalLevel" }, null)</li>
 
 
 
@@ -706,7 +706,15 @@
                             <li class="@GetSamparikshadRequestListClass">@Html.ActionLink("सम्परीक्षण अनुरोध फाराम", "GetSamparikshadRequestList", "ExternalBerujuLL", new { @area = "LocalLevel" }, null)</li>
                             <li class="@GetSamparikshadListClass">@Html.ActionLink("सम्परीक्षण कार्य", "GetSamparikshadList", "ExternalBerujuLL", new { @area = "LocalLevel" }, null)</li>
                             <li class="">@Html.ActionLink("बेरूजु फस्यैाट तथा सम्परीक्षणको अधावधिक विवरण", "BerujuDetailsTillDate", "ReportLL", new { @area = "LocalLevel" }, null)</li>
-                            <li class="">@Html.ActionLink("सम्परीक्षण नियमितताका लागि आएका बेरुजु", "GetSamparikshadRequestFromOffice", "externalBerujuLL", new { @area = "LocalLevel" }, null)</li>
+
+                            @if (CurrentLoginUserOFficeType == 3)
+                            {
+                                <li class="">@Html.ActionLink("सम्परीक्षण नियमितताका लागि आएका बेरुजु", "GetSamparikshadRequestFromOffice", "externalBerujuLL", new { @area = "LocalLevel" }, null)</li>
+
+                            }
+
+                            <li class="">@Html.ActionLink("सम्परीक्षण नियमितता लागि पठाउने बेरुजु", "GetSamparikshadRequestOfOffice", "externalBerujuLL", new { @area = "LocalLevel" }, null)</li>
+
 
                         </ul>
 

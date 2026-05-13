@@ -1359,7 +1359,13 @@ Where ProvinceId='" + ProvinceId + "' and UserTypeId in (7)").ToList();
                          CONCAT(OfficeName, ' , ', OfficeAddress) AS Title
                   FROM SamparikshadLetterSetup
                   WHERE SetupStatus = 1 
-                  AND ( OfficeType = @p0)",
+                  AND (
+                        (@p0 = 3 AND OfficeType = 2)
+                        OR
+                        (@p0 = 2)
+                    )
+                 
+                    ",
                         toselectofficetype
                     ).ToList();
                 }
