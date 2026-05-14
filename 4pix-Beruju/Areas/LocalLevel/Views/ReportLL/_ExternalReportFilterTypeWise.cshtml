@@ -114,7 +114,7 @@
                         <th>पान नं</th>
                         <th>फर्म/व्यक्तिको नाम</th>
                         <th>मर्ज भई आएको</th>
-                        @*<th>पूर्ण विवरण</th>*@
+                        <th> हटाउने कार्य</th>
 
                     </tr>
 
@@ -145,7 +145,22 @@
                             <td style="width:10% !important;"> @item.PanNo</td>
                             <td style="width:10% !important;"> @item.FirmName</td>
                             <td style="width:10% !important;">@item.MergedFromOfficeCode</td>
-                            @*<td style="width:70% !important;">@Html.Raw(item.BerujuDetails)</td>*@
+
+                            <td>
+                                @*@Html.ActionLink(
+            "Delete",
+            "DeleteBerujuAndSampa",
+            "ExternalBerujuLL",
+            new { id = item.ExternalBerujuId },
+            new { @class = "btn btn-danger btn-sm" }
+        )*@
+
+                                <button type="button"
+                                        class="btn btn-danger btn-sm btnDelete"
+                                        data-id="@item.ExternalBerujuId">
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                         i++;
                     }
@@ -195,4 +210,42 @@
 else
 {
     <div style="font-size:12px;font-weight:bold;margin-top:20px;text-align:center;">विवरण उपलब्ध हुन सकेन ।</div>
+
+
+
 }
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $(".btnDelete").click(function () {
+
+            if (!confirm("Are you sure you want to delete?")) {
+                return;
+            }
+
+            var button = $(this);
+            var id = button.data("id");
+
+            $.ajax({
+                url: '@Url.Action("DeleteBerujuAndSampa", "ExternalBerujuLL")',
+                type: 'POST',
+                data: { id: id },
+                success: function (response) {
+
+                    // remove row without page refresh
+                    button.closest("tr").remove();
+
+                    alert("Deleted Successfully");
+                },
+                error: function () {
+                    alert("Delete Failed");
+                }
+            });
+
+        });
+
+    });
+</script>

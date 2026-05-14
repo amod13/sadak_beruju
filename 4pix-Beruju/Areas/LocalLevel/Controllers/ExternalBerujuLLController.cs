@@ -1248,6 +1248,64 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
             return RedirectToAction("GetSamparikshadList");
         }
+
+
+
+
+        public ActionResult DeleteBerujuAndSampa(int id)
+        {
+            ReturnMessageViewModel delmsg = new ReturnMessageViewModel();
+            SamparikshadDataIdModel rms = new SamparikshadDataIdModel();
+            rms = IBS.GetSamparikshadDataByExternalBerujuId(id);
+
+            string message = "";
+
+            // Delete External Beruju
+            if (rms.ExternalBerujuId > 0)
+            {
+                delmsg = IBS.DeleteExternalBeruju(rms.ExternalBerujuId);
+
+                if (delmsg.ReturnMessage == "Deleted Successfully")
+                {
+                    message += "Beruju Deleted Successfully. ";
+                }
+            }
+
+            // Delete Samparikshad Req Master
+            if (rms.SamparikshadReqMasterId > 0)
+            {
+                delmsg = IBS.SPDeleteSamparikshadReqMasterDetail(
+                    CurrentUserOfficeId,
+                    rms.SamparikshadReqMasterId
+                );
+
+                if (delmsg.ReturnMessage == "Deleted Successfully")
+                {
+                    message += "Samparikshad Request Deleted Successfully. ";
+                }
+            }
+
+            // Delete Samparishad Detail
+            if (rms.SamparishadId > 0)
+            {
+                delmsg = IBS.DeleteSamparikshadDetail(rms.SamparishadId);
+
+                if (delmsg.ReturnMessage == "Deleted Successfully")
+                {
+                    message += "Samparishad Detail Deleted Successfully.";
+                }
+            }
+
+            // If nothing deleted
+            if (string.IsNullOrEmpty(message))
+            {
+                message = "No Record Found.";
+            }
+
+            TempData["Success"] = message;
+
+            return RedirectToAction("ParameterFilterReport", "ReportLL");
+        }
         #endregion Samparikshad Work
 
 

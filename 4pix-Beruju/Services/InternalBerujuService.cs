@@ -1854,6 +1854,22 @@ namespace _4pix_Beruju.Services
             }
         }
 
+
+        public SamparikshadDataIdModel GetSamparikshadDataByExternalBerujuId(int externalBerujuId)
+        {
+            using (BerujuEntities db = new BerujuEntities())
+            {
+                var data = db.Database
+                    .SqlQuery<SamparikshadDataIdModel>(
+                        "usp_GetSamparikshadDataIdByExternalBerujuId {0}",
+                        externalBerujuId
+                    )
+                    .FirstOrDefault();
+
+                return data;
+            }
+        }
+
         public decimal GetSamparikshadRemainingAmountForRequest(int ExternalBerujuId)
         {
             using (BerujuEntities db = new BerujuEntities())

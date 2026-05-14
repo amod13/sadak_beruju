@@ -282,6 +282,13 @@ namespace _4pix_Beruju.Models
         public string UploadedFileUrl { get; set; }
     }
 
+    public class SamparikshadDataIdModel
+    {
+        public int ExternalBerujuId { get; set; }
+        public int SamparikshadReqMasterId { get; set; }
+
+        public int SamparishadId { get; set; }
+    }
 
     public class InternalSamparikshadTowhomDetailVM
     {

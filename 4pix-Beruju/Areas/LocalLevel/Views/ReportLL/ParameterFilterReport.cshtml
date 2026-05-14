@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="col-sm-12">
-                        
+
                             <form method="post" action="/ReportLL/ExportExternalBeruju" id="exportForm">
 
                                 <!-- Hidden fields -->
@@ -42,7 +42,7 @@
                                 <input type="hidden" name="BerujuSubTitleId" id="export_BerujuSubTitleId" />
                                 <input type="hidden" name="BerujuSubTitleChildId" id="export_BerujuSubTitleChildId" />
                                 <input type="hidden" name="PanNo" id="export_PanNo" />
-                                @Html.HiddenFor(x=>x.SumamryOrDetailsId)
+                                @Html.HiddenFor(x => x.SumamryOrDetailsId)
 
                                 <button type="submit" class="btn btn-info btn-sm" onclick="setExportFilters()">
                                     Export Excel
@@ -61,7 +61,7 @@
                             LoadingElementId = "loader"
                         }, new { id = "reportFilterForm" }))
                         {
-                        
+
 
                             <fieldset>
 
@@ -73,10 +73,10 @@
                                     <div class="row">
 
                                         @*<div class="col-md-3 col-sm-6 form-group">
-                                            <label>सारांश/विस्तार</label>
-                                            @Html.DropDownListFor(model => model.SumamryOrDetailsId, _4pix_Beruju.Areas.Admin.functions.GetOfficeOrDetailsDD(), new { @class = "form-control form-control-sm", id = "dll_towhome" })
+                                                <label>सारांश/विस्तार</label>
+                                                @Html.DropDownListFor(model => model.SumamryOrDetailsId, _4pix_Beruju.Areas.Admin.functions.GetOfficeOrDetailsDD(), new { @class = "form-control form-control-sm", id = "dll_towhome" })
 
-                                        </div>*@
+                                            </div>*@
 
                                         <div class="col-md-3 col-sm-6 form-group">
                                             <label>कार्यालय प्रकार</label>
@@ -172,7 +172,12 @@
         </div>
     </div>
 </section>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
+
+<script src="~/Scripts/SweetAlert.min.js"></script>
 
 <script src="~/Scripts/dropdown_helper.js"></script>
 
@@ -181,6 +186,26 @@
     const url_nirdesh = '@Url.Action("GetNirdeshanalayaList", "AjaxRequest", new { area = "admin" })';
     const url_office = '@Url.Action("GetOfficesList", "AjaxRequest", new { area = "admin" })';
 </script>
+<script>
+    var ll = jQuery.noConflict();
+  
+</script>
+<script type="text/javascript">
+    ll(function () {
+        var a = '@TempData["Success"]';
+        if (a != '') {
+            sweetAlert(a, "success", "success");
+        }
+        else {
+
+        }
+
+
+    });
+
+
+</script>
+
 
 
 
@@ -275,20 +300,6 @@
 
 
 
-
-
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-<script src="~/Scripts/pdfmake-unicode.js"></script>
-@*<script type="text/javascript">
-        $(function () {
-            $("#btnSubmit").click(function () {
-                $("input[name='ExportData']").val($("#double-scroll").html());
-            });
-        });
-    </script>*@
 
 
 <script type="text/javascript">
@@ -425,3 +436,8 @@
     }
 
 </script>
+
+
+
+
+
