@@ -92,12 +92,12 @@
                     @*<div class="col-sm-12" style="margin-bottom:20px;">
 
 
-                        <a href="/LocalLevel/LocalLevelHome/OfficeWiseDashBoard" ,="" class="btn btn-sm btn-warning">
-                            <i class="fa fa-backward"></i>&nbsp;कार्यालयगत ड्यासबोर्ड हेर्नुहोस
-                        </a>
+            <a href="/LocalLevel/LocalLevelHome/OfficeWiseDashBoard" ,="" class="btn btn-sm btn-warning">
+                <i class="fa fa-backward"></i>&nbsp;कार्यालयगत ड्यासबोर्ड हेर्नुहोस
+            </a>
 
 
-                    </div>*@
+        </div>*@
 
                     <div class="col-md-2 col-sm-6 form-group">
                         <label>कार्यालय तह छन्नुहोस्</label>
@@ -121,6 +121,14 @@
                         @Html.DropDownListFor(m => m.NirdeshnalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control sm", @id = "dll_nirdesh" })
 
                     </div>
+
+
+                    @*<div class="col-md-3 col-sm-6 form-group" id="Div_Office">
+                        <label>कार्यालय</label>
+                        @Html.DropDownListFor(model => model.KaryalayaSearchId, Utilities.GetNirdeshayalaDefault(), new { @class = "form-control form-control-sm", id = "dll_office" })
+
+                    </div>*@
+
                     <!-- Submit Button -->
                     <div class="col-md-2 col-sm-6 form-group" style="margin-top:25px;">
                         <button type="button" id="btnSubmit" class="btn btn-primary btn-sm mt-1 ">

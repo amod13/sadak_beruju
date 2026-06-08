@@ -682,7 +682,7 @@ namespace _4pix_Beruju.Areas.Admin
                 try
                 {
                     model = db.Database.SqlQuery<OfficeNameAndCodeReturnModel>("select OfficeName, OfficeCode as OfficeCode From OfficeDetail where OfficeDetailId=@id", new SqlParameter("@id", CurrentloginOfficeId)).FirstOrDefault();
-                   OfficeName = model.OfficeName;
+                    OfficeName = model.OfficeName;
                     OfficeCode = model.OfficeCode;
 
                 }

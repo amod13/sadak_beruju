@@ -2204,8 +2204,6 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public PartialViewResult ParameterFilterReport(ReportVIewModel model)
         {
-           
-
                 model.ExternalBerujuRptByTypeViewModelList = new List<ExternalBerujuRptByTypeViewModel>();
                 var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
                 model.BaushiNumberId = 0;
@@ -2221,10 +2219,6 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
                 model.CurrentLoginUserTypeviewModel = CurrentLoginUserTypeId;
                 model.OfficeTypeForReportHeader = CurrentLoginUserTypeId;
                 return PartialView("_ExternalReportFilterTypeWise", model);
-
-               
-
-               
 
         }
 

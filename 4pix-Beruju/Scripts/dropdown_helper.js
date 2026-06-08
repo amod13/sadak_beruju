@@ -28,7 +28,7 @@ tte(function () {
 
         hideAllDivs(); // hide all and reset
 
-        if (type === 2) tte("#Div_Ministry").show();
+        if (type === 2)     tte("#Div_Ministry").show();
         else if (type === 3) tte("#Div_Ministry, #Div_Bivag").show();
         else if (type === 4) tte("#Div_Ministry, #Div_Bivag, #Div_Nirdesha").show();
         else if (type === 5) tte("#Div_Ministry, #Div_Bivag, #Div_Nirdesha, #Div_Office").show();
