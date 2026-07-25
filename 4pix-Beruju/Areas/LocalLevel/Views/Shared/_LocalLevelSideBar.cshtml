@@ -750,6 +750,8 @@
                             <a href="#OthersRptForm" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>अन्य प्रतिवेदन</a>
                             <ul id="OthersRptForm" class="@ShowHideExtraReports ">
                                 <li class="@ExternalReportTypeWiseClass">@Html.ActionLink("अन्तिम बेरुजु-प्रकार अनुसार", "ExternalReportTypeWise", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+                                <li class="">@Html.ActionLink("बेरुजु वृस्तित प्रतिवेदन", "ParameterFilterReport", "ReportLL", new { @area = "LocalLevel" }, null)</li>
+
                                 <li class="@AntimBerujuDetailRptClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन", "AntimBerujuDetailRpt", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                                 <li class="@FinalBerujuDetailByTowhomTypeRptClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-सम्बन्धित अनुसार", "FinalBerujuDetailByTowhomTypeRpt", "ReportLL", new { @area = "LocalLevel" }, null)</li>
                                 <li class="@FinalBerujuDetailByChiefWiseRptClass">@Html.ActionLink("अन्तिम बेरुजु संक्षिप्त प्रतिवेदन-कार्यालय प्रमुख अनुसार", "FinalBerujuDetailByChiefWiseRpt", "ReportLL", new { @area = "LocalLevel" }, null)</li>

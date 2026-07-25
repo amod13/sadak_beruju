@@ -2170,6 +2170,12 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
                 model.ExternalBerujuRptByTypeViewModelList = new List<ExternalBerujuRptByTypeViewModel>();
                 var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
+
+                if (CurrentLoginUserTypeId > 2)
+                {
+                officeFilter.OfficeId = CurrentLoginOfficeId;
+                }
+
                 model.BaushiNumberId = 0;
                 int SearchUserOfficeId = officeFilter.OfficeId;
                 model.OfficeId = SearchUserOfficeId;
@@ -2206,6 +2212,10 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         {
                 model.ExternalBerujuRptByTypeViewModelList = new List<ExternalBerujuRptByTypeViewModel>();
                 var officeFilter = OfficeFilterHelper.ResolveOfficeFilter(model);
+                if (CurrentLoginUserTypeId > 2)
+                {
+                    officeFilter.OfficeId = CurrentLoginOfficeId;
+                }
                 model.BaushiNumberId = 0;
                 int SearchUserOfficeId = officeFilter.OfficeId;
                 model.OfficeId = SearchUserOfficeId;
@@ -2233,6 +2243,10 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
             model.MainOfficeId = officeFilter.MainOfficeId;
             if (model.SumamryOrDetailsId == 1)
             {
+                if (CurrentLoginUserTypeId > 2)
+                {
+                   model.OfficeId = CurrentLoginOfficeId;
+                }
                 RS.ExportExternalBerujuToExcel(Response, model);
             }
             else

@@ -1597,6 +1597,21 @@ Where ProvinceId='" + ProvinceId + "' and UserTypeId in (7)").ToList();
             }
         }
 
+
+        public static int GetFiscalYearIdFromDate(DateTime date)
+        {
+            using (BerujuEntities db = new BerujuEntities())
+            {
+                var fiscalYearId = db.Database.SqlQuery<int>(@"
+            SELECT FiscalYearId
+            FROM FiscalYearRecord
+            WHERE @p0 BETWEEN StartFrom AND EndDate", date)
+                    .FirstOrDefault();
+
+                return fiscalYearId;
+            }
+        }
+
         public static string GetBerujuDafaNumberAndShortDescByBerujuId(int BerujuID)
         {
             string shortDesc = string.Empty;

@@ -41,7 +41,7 @@ namespace _4pix_Beruju.Areas.Admin
             using (BerujuEntities ent = new BerujuEntities())
             {
                 List<SelectListItem> ddlList = new List<SelectListItem>();
-                return new SelectList(ent.Database.SqlQuery<SelectListModelFunctionClass>(@"select FiscalYearId as ID,FiscalYearTitle as Title from FiscalYearRecord where ShowHide=1 order by DisplayOrder").ToList(), "Id", "Title");
+                return new SelectList(ent.Database.SqlQuery<SelectListModelFunctionClass>(@"select FiscalYearId as ID,FiscalYearTitle as Title from FiscalYearRecord  order by DisplayOrder").ToList(), "Id", "Title");
             }
 
         }

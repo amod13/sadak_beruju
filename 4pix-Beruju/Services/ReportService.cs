@@ -689,6 +689,8 @@ namespace _4pix_Beruju.Services
             FY.FiscalYearTitle,
             BST.SubTitle,
             BSCT.SubTitleChild,
+            EB.BudgetSubTitle,
+            CP.TItlle as KharchaSirsak,
 
             STUFF(
                 (SELECT ',' + TWD.PanNumber
@@ -722,6 +724,7 @@ namespace _4pix_Beruju.Services
         INNER JOIN dbo.OfficeDetail OFC ON EB.OfficeId = OFC.OfficeDetailId
         INNER JOIN FiscalYearRecord FY ON FY.FiscalYearId = EB.FiscalYearId
         INNER JOIN dbo.BerujuSubTitle BST ON BST.BerujuSubTitleId = EB.BerujuSubTitleId
+        INNER JOIN dbo.ChaluPujigat CP on EB.ChaluOrPujigatTitleId = CP.ChaluPujigatId
         LEFT JOIN dbo.BerujuSubTitleChild BSCT ON BSCT.BerujuSubTitleChildId = EB.BerujuSubTitleChildId
 
         WHERE (@OfficeId IS NULL OR @OfficeId = 0 OR EB.OfficeId = @OfficeId)
@@ -756,15 +759,15 @@ namespace _4pix_Beruju.Services
 
             var headers = new List<string>
     {
-        "कार्यालयको नाम", "कार्यालय कोड", "बेरुजु दफा", "व्यहोरा", "रकम",
-        "बेरुजु प्रकार", "आ.ब.", "उप-प्रकार", "उप-उप प्रकार",
+        "कार्यालयको नाम", "कार्यालय कोड", "बेरुजु दफा","ब.उ.शि.नं", "व्यहोरा", "रकम",
+        "बेरुजु प्रकार","खर्च शिर्षक", "आ.ब.", "उप-प्रकार", "उप-उप प्रकार",
         "PAN", "व्यक्ति वा फर्मको नाम", "मर्ज भई आएको"
     };
 
             var fields = new List<string>
     {
-        "OfficeName", "OfficeCode", "BerujuNumber", "BerujuDetails", "BerujuAmount",
-        "TypeName", "FiscalYearTitle", "SubTitle", "SubTitleChild",
+        "OfficeName", "OfficeCode", "BerujuNumber", "BudgetSubTitle", "BerujuDetails", "BerujuAmount",
+        "TypeName","KharchaSirsak", "FiscalYearTitle", "SubTitle", "SubTitleChild",
         "PanNo", "FirmName", "MergedFromOfficeCode"
     };
 

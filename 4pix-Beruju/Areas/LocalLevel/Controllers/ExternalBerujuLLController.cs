@@ -103,12 +103,10 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
             ToWhomDetailListVM newObj = new ToWhomDetailListVM();
             model.ToWhomDetailListVMList = new List<ToWhomDetailListVM>();
             model.ToWhomDetailListVMList.Add(newObj);
-
             model.ChaluOrPujigatId = 2;
             model.BerujuTypeId = 2;
             model.ToWhomID = 5;
             model.BerujuSubTitleId = 7;
-
             model.ExternalBerujuListTopFive = new List<ExternalBeruju>();
             model.ExternalBerujuListTopFive = IBS.ListExternalBerujuTopFive(CurrentUserOfficeId, model.KoshTypeId).ToList();
             return View(model);
@@ -673,7 +671,9 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public ActionResult MakeSamparikshadRequestForm(ExternalBeruju model, IEnumerable<HttpPostedFileBase> files)
         {
-
+            var entereddate = Utilities.GetEnglishDateFromNP(model.ObjSamparikshadReqMasterViewModel.RequestedDateNep);
+            var fid = Utilities.GetFiscalYearIdFromDate(entereddate);
+            model.ObjSamparikshadReqMasterViewModel.FYID = fid;
             if (model.ObjSamparikshadReqMasterViewModel.TotalAmount <= 0)
             {
                 ViewBag.ErrorMessage = "सम्परिक्षण अनुरोध रकम लेख्नुहोस ।";
@@ -685,9 +685,9 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
                 model.OfficeId = CurrentUserOfficeId;
                 model.SamparikshadTowhomDetailVMListMain = new List<SamparikshadTowhomDetailVM>();
                 model.SamparikshadTowhomDetailVMListMain = IBS.ListSamparikshadTowhomDetails(model.ObjSamparikshadReqMasterViewModel.ExternalBerujuId, CurrentUserOfficeId, 0);
-
                 return View(model);
             }
+
             if (model.ExternalBerujuForSamparikshadVMObj.RemainingAmount < model.ObjSamparikshadReqMasterViewModel.TotalAmount)
             {
                 ViewBag.ErrorMessage = "सम्परिक्षण अनुरोध रकम बेरुजु रकम भन्दा धेरै भयो ।";
@@ -699,7 +699,6 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
                 model.OfficeId = CurrentUserOfficeId;
                 model.SamparikshadTowhomDetailVMListMain = new List<SamparikshadTowhomDetailVM>();
                 model.SamparikshadTowhomDetailVMListMain = IBS.ListSamparikshadTowhomDetails(model.ObjSamparikshadReqMasterViewModel.ExternalBerujuId, CurrentUserOfficeId, 0);
-
                 return View(model);
 
             }
@@ -758,14 +757,14 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
 
             }
 
-
-
-
             ReturnMessageViewModel rms = new ReturnMessageViewModel();
             model.ObjSamparikshadReqMasterViewModel.RequestedDateEng = _4pix_Beruju.Utilities.GetEnglishDateFromNP(model.ObjSamparikshadReqMasterViewModel.RequestedDateNep);
             //model.ObjExternalSamparikshadViewModel.SamparikshadTowhomDetailVMList = model.SamparikshadTowhomDetailVMListMain.ToList();
             model.ObjSamparikshadReqMasterViewModel.SamparikshadTowhomDetailVMList = model.SamparikshadTowhomDetailVMListMain.ToList();
             rms = IBS.InsertSamparikshadReqDetail(model.ObjSamparikshadReqMasterViewModel);
+
+            
+
             //rms.PrimaryId = 0;
             if (rms.PrimaryId > 0)
             {
@@ -882,6 +881,9 @@ namespace _4pix_Beruju.Areas.LocalLevel.Controllers
         [HttpPost]
         public ActionResult EditSamparikshadRequestForm(ExternalBeruju model)
         {
+            var entereddate = Utilities.GetEnglishDateFromNP(model.ObjSamparikshadReqMasterViewModel.RequestedDateNep);
+            var fid = Utilities.GetFiscalYearIdFromDate(entereddate);
+            model.ObjSamparikshadReqMasterViewModel.FYID = fid;
             string FileNameVal = model.ObjSamparikshadReqMasterViewModel.UploadFileDetailsFileType == null ? string.Empty : model.ObjSamparikshadReqMasterViewModel.UploadFileDetailsFileType.FileName;
             if (string.IsNullOrEmpty(FileNameVal) == false)
             {

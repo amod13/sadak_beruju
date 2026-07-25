@@ -114,9 +114,11 @@
                         <th>पान नं</th>
                         <th>फर्म/व्यक्तिको नाम</th>
                         <th>मर्ज भई आएको</th>
-                        <th> हटाउने कार्य</th>
-
-                    </tr>
+                        @if (Model.CurrentLoginUserTypeviewModel == 2 || Model.CurrentLoginUserTypeviewModel == 8 || Model.CurrentLoginUserTypeviewModel == 9 || Model.CurrentLoginUserTypeviewModel == 12)
+                        {
+                            <th> हटाउने कार्य</th>
+                        }
+                        </tr>
 
 
                 </thead>
@@ -145,25 +147,21 @@
                             <td style="width:10% !important;"> @item.PanNo</td>
                             <td style="width:10% !important;"> @item.FirmName</td>
                             <td style="width:10% !important;">@item.MergedFromOfficeCode</td>
+                            @if (Model.CurrentLoginUserTypeviewModel == 2 || Model.CurrentLoginUserTypeviewModel == 8 || Model.CurrentLoginUserTypeviewModel == 9 || Model.CurrentLoginUserTypeviewModel == 12)
+                            {
+                                <td>
 
-                            <td>
-                                @*@Html.ActionLink(
-            "Delete",
-            "DeleteBerujuAndSampa",
-            "ExternalBerujuLL",
-            new { id = item.ExternalBerujuId },
-            new { @class = "btn btn-danger btn-sm" }
-        )*@
-
-                                <button type="button"
-                                        class="btn btn-danger btn-sm btnDelete"
-                                        data-id="@item.ExternalBerujuId">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm btnDelete"
+                                            data-id="@item.ExternalBerujuId">
+                                        Delete
+                                    </button>
+                                    
+                                </td>
+                            }
+                            </tr>
                         i++;
-                    }
+                      }
 
 
                 </tbody>
